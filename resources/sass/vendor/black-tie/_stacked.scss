@@ -1,0 +1,24 @@
+// Stacked Icons
+// -------------------------
+
+.#{$bt-css-prefix}-stack {
+  position: relative;
+  display: inline-block;
+  width: (18em/14);
+  height: 1em;
+  line-height: 1em;
+  vertical-align: baseline;
+}
+.#{$bt-css-prefix}-stack-sm {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: inherit;
+  font-size: .5em;
+}
+.#{$bt-css-prefix}-stack-1x, .#{$bt-css-prefix}-stack-sm {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+.#{$bt-css-prefix}-inverse { color: $bt-inverse; }

@@ -1,0 +1,28 @@
+.home {
+    min-height: 100vh;
+    color: #FFF;
+
+    .container-lg {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 0 15px;
+
+        .poster {
+            margin: 15px 20px;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 150px 0;
+        }
+
+        .empty-state {
+            padding: 50px 0;
+            text-align: center;
+            line-height: 2;
+        }
+    }
+}

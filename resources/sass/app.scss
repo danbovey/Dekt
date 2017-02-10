@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,300');
+
+@import "variables";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #000;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+    color: $primary;
+}
+
+$bt-font-path: '../../public/fonts';
+@import "vendor/black-tie/black-tie";
+
+@import "page-topper";

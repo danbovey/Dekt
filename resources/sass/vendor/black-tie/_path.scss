@@ -1,0 +1,67 @@
+/* FONT PATH
+ * -------------------------- */
+
+// @font-face {
+//   font-family: 'Black Tie';
+//   src: url('#{$bt-font-path}/solid/BlackTie-Solid-webfont.eot?v=#{$bt-version}');
+//   src: url('#{$bt-font-path}/solid/BlackTie-Solid-webfont.eot?#iefix&v=#{$bt-version}') format('embedded-opentype'),
+//     url('#{$bt-font-path}/solid/BlackTie-Solid-webfont.woff2?v=#{$bt-version}') format('woff2'),
+//     url('#{$bt-font-path}/solid/BlackTie-Solid-webfont.woff?v=#{$bt-version}') format('woff'),
+//     url('#{$bt-font-path}/solid/BlackTie-Solid-webfont.ttf?v=#{$bt-version}') format('truetype'),
+//     url('#{$bt-font-path}/solid/BlackTie-Solid-webfont.svg?v=#{$bt-version}#black_tiesolid') format('svg');
+// //  src: url('#{$bt-font-path}/solid/BlackTie-Solid.otf') format('opentype'); // used when developing fonts
+//   font-weight: 900;
+//   font-style: normal;
+// }
+
+@font-face {
+  font-family: 'Black Tie';
+  src: url('#{$bt-font-path}/bold/BlackTie-Bold-webfont.eot?v=#{$bt-version}');
+  src: url('#{$bt-font-path}/bold/BlackTie-Bold-webfont.eot?#iefix&v=#{$bt-version}') format('embedded-opentype'),
+    url('#{$bt-font-path}/bold/BlackTie-Bold-webfont.woff2?v=#{$bt-version}') format('woff2'),
+    url('#{$bt-font-path}/bold/BlackTie-Bold-webfont.woff?v=#{$bt-version}') format('woff'),
+    url('#{$bt-font-path}/bold/BlackTie-Bold-webfont.ttf?v=#{$bt-version}') format('truetype'),
+    url('#{$bt-font-path}/bold/BlackTie-Bold-webfont.svg?v=#{$bt-version}#black_tiebold') format('svg');
+//  src: url('#{$bt-font-path}/bold/BlackTie-Bold.otf') format('opentype'); // used when developing fonts
+  font-weight: 700;
+  font-style: normal;
+}
+
+// @font-face {
+//   font-family: 'Black Tie';
+//   src: url('#{$bt-font-path}/medium/BlackTie-Medium-webfont.eot?v=#{$bt-version}');
+//   src: url('#{$bt-font-path}/medium/BlackTie-Medium-webfont.eot?#iefix&v=#{$bt-version}') format('embedded-opentype'),
+//     url('#{$bt-font-path}/medium/BlackTie-Medium-webfont.woff2?v=#{$bt-version}') format('woff2'),
+//     url('#{$bt-font-path}/medium/BlackTie-Medium-webfont.woff?v=#{$bt-version}') format('woff'),
+//     url('#{$bt-font-path}/medium/BlackTie-Medium-webfont.ttf?v=#{$bt-version}') format('truetype'),
+//     url('#{$bt-font-path}/medium/BlackTie-Medium-webfont.svg?v=#{$bt-version}#black_tiemedium') format('svg');
+// //  src: url('#{$bt-font-path}/medium/BlackTie-Medium.otf') format('opentype'); // used when developing fonts
+//   font-weight: 400;
+//   font-style: normal;
+// }
+
+// @font-face {
+//   font-family: 'Black Tie';
+//   src: url('#{$bt-font-path}/light/BlackTie-Light-webfont.eot?v=#{$bt-version}');
+//   src: url('#{$bt-font-path}/light/BlackTie-Light-webfont.eot?#iefix&v=#{$bt-version}') format('embedded-opentype'),
+//     url('#{$bt-font-path}/light/BlackTie-Light-webfont.woff2?v=#{$bt-version}') format('woff2'),
+//     url('#{$bt-font-path}/light/BlackTie-Light-webfont.woff?v=#{$bt-version}') format('woff'),
+//     url('#{$bt-font-path}/light/BlackTie-Light-webfont.ttf?v=#{$bt-version}') format('truetype'),
+//     url('#{$bt-font-path}/light/BlackTie-Light-webfont.svg?v=#{$bt-version}#black_tielight') format('svg');
+// //  src: url('#{$bt-font-path}/light/BlackTie-Light.otf') format('opentype'); // used when developing fonts
+//   font-weight: 200;
+//   font-style: normal;
+// }
+
+@font-face {
+  font-family: 'Font Awesome Brands';
+  src: url('#{$bt-font-path}/brands/FontAwesomeBrands-Regular-webfont.eot?v=#{$bt-version}');
+  src: url('#{$bt-font-path}/brands/FontAwesomeBrands-Regular-webfont.eot?#iefix&v=#{$bt-version}') format('embedded-opentype'),
+    url('#{$bt-font-path}/brands/FontAwesomeBrands-Regular-webfont.woff2?v=#{$bt-version}') format('woff2'),
+    url('#{$bt-font-path}/brands/FontAwesomeBrands-Regular-webfont.woff?v=#{$bt-version}') format('woff'),
+    url('#{$bt-font-path}/brands/FontAwesomeBrands-Regular-webfont.ttf?v=#{$bt-version}') format('truetype'),
+    url('#{$bt-font-path}/brands/FontAwesomeBrands-Regular-webfont.svg?v=#{$bt-version}#font_awesome_brandsregular') format('svg');
+//  src: url('#{$bt-font-path}/brands/FontAwesomeBrands-Regular.otf') format('opentype'); // used when developing fonts
+  font-weight: normal;
+  font-style: normal;
+}

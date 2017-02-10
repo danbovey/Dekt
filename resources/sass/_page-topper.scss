@@ -1,0 +1,22 @@
+.page-topper {
+    position: relative;
+    min-height: 300px;
+    padding: 90px 0 30px;
+
+    .page-topper__bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+
+        &.repeat {
+            background-size: 240px 240px;
+        }
+        &.blur {
+            opacity: .3;
+            filter: blur(4px);
+        }
+    }
+}

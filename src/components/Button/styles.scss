@@ -1,0 +1,40 @@
+@import "variables";
+
+.btn {
+    display: inline-block;
+    padding: 8px 15px;
+    border: none;
+    outline: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+
+    &--primary {
+        background: $primary;
+        color: #FFF;
+
+        &:hover, &:focus {
+            background: darken(desaturate($primary, 6%), 3%);
+        }
+    }
+
+    &--clear {
+        background: none;
+    }
+
+    &--small {
+        padding: 4px 8px;
+    }
+
+    &--large {
+        padding: 10px 18px;
+        font-size: 1.1em;
+    }
+
+    &--disabled, &--disabled:hover, &--disabled:focus {
+        background: #F7F7F7;
+        color: rgba(0, 0, 0, 0.25);
+        cursor: not-allowed;
+    }
+}

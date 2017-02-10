@@ -1,0 +1,116 @@
+.poster {
+    display: inline-block;
+    position: relative;
+    width: 173px;
+    transition: transform 0.3s ease-in-out;
+
+    &--progressing {
+        transform: scale(0.95);
+    }
+
+    .poster__images {
+        position: relative;
+
+        img {
+            display: block;
+            width: 100%;
+        }
+
+        .real {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-height: 100%;
+        }
+
+        .updating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    .poster__actions {
+        height: 35px;
+        background: #1D1D1D;
+        color: #FFF;
+
+        button {
+            display: inline-block;
+            position: relative;
+            width: 28px;
+            height: 34px;
+            padding: 6px;
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 16px;
+            text-align: center;
+            line-height: 20px;
+            cursor: pointer;
+            transition: all 0.5s;
+
+            &:hover, &.active {
+                color: #FFF !important;
+            }
+
+            &.history {
+                font-size: 14px;
+                color: #8E44AD;
+
+                &:hover, &.active {
+                    background: #8E44AD;
+                }
+            }
+            &.collect {
+                color: #16A085;
+
+                &:hover, &.active {
+                    background: #16A085;
+                }
+            }
+            &.list {
+                color: #2B678F;
+
+                &:hover, &.active {
+                    background: #2B678F;
+                }
+            }
+            &.watch-now {
+                color: #AAA;
+
+                &:hover, &.active {
+                    background: #555;
+                }
+            }
+        }
+    }
+
+    .poster__titles {
+        margin-top: 10px;
+        font-weight: 200;
+        text-align: center;
+
+        p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .titles__number {
+            display: inline-block;
+            margin-right: 5px;
+            font-weight: bold;
+        }
+        .titles__show {
+            margin-top: 7px;
+            font-size: 12px;
+        }
+    }
+}
