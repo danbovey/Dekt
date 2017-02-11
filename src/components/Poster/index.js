@@ -92,9 +92,9 @@ export default class Poster extends Component {
                         <button className="history" onClick={this.history.bind(this)}>
                             <Icon name="check" />
                         </button>
-                        <button className="collect">
+                        {/*<button className="collect">
                             <Icon name="book" />
-                        </button>
+                        </button>*/}
                         <button
                             onClick={this.watchlist.bind(this)}
                             className={classNames('list', {
@@ -103,17 +103,23 @@ export default class Poster extends Component {
                         >
                             <Icon name="align-left" />
                         </button>
-                        <button className="watch-now">
+                        {/*<button className="watch-now">
                             <Icon name="play" />
-                        </button>
+                        </button>*/}
                     </div>
                 ) : null}
                 <div className="poster__titles">
                     <p>
                         <span className="titles__number">{item.next_episode.season + 'x' + item.next_episode.number}</span>
-                        <span className="titles__name">{item.next_episode.title}</span>
+                        <span
+                            className="titles__name"
+                            dangerouslySetInnerHTML={{__html: item.next_episode.title }}
+                        />
                     </p>
-                    <p className="titles__show">{item.show.title}</p>
+                    <p
+                        className="titles__show"
+                        dangerouslySetInnerHTML={{__html: item.show.title }}
+                    />
                 </div>
             </div>
         );

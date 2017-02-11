@@ -1,15 +1,76 @@
+@import "variables";
+
 .home {
     min-height: 100vh;
     color: #FFF;
+
+    .watching-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 38px;
+        background: $primary;
+
+        .elapsed, .duration {
+            position: relative;
+            z-index: 5;
+            font-size: 26px;
+            line-height: 36px;
+        }
+        .elapsed {
+            float: left;
+            padding-left: 15px;
+            color: rgba(#FFF, 0.5);
+        }
+        .duration {
+            float: right;
+            padding-right: 15px;
+            color: rgba(#FFF, 0.5);
+        }
+
+        .content {
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 7px 0;
+            text-align: center;
+
+            a {
+                color: #FFF;
+            }
+        }
+
+        .bar {
+            position: absolute;
+            height: 38px;
+            background: #951716;
+            transition: all 0.5s;
+
+            .percentage {
+                float: right;
+                padding-left: 80px;
+                padding-right: 15px;
+                background-image: linear-gradient(to right, rgba(#951716, 0) 0%, #951716 40%);
+                background-repeat: repeat-x;
+                font-size: 26px;
+                line-height: 36px;
+                color: rgba(#FFF, 0.15)
+            }
+        }
+    }
 
     .container-lg {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
-        padding: 0 15px;
+        padding: 30px 15px;
 
         .poster {
-            margin: 15px 20px;
+            margin: 20px;
         }
 
         .loading {
