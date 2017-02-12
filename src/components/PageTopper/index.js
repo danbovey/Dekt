@@ -124,7 +124,7 @@ export default class PageTopper extends Component {
         let link = null;
         let itemTitle = null;
 
-        if(topperItem) {
+        if(topperItem && topperItem.item) {
             if(topperItem.itemType == 'episode') {
                 link = `https://trakt.tv/shows/${topperItem.item.slug}/seasons/${topperItem.item.season}/episodes/${topperItem.item.number}`;
                 itemTitle = `${topperItem.item.show_title} ${topperItem.item.season}x${topperItem.item.number} "${topperItem.item.title}"`;

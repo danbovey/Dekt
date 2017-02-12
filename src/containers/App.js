@@ -27,8 +27,8 @@ export default class App extends Component {
         }
     }
 
-    toggleLighting() {
-        this.props.lightActions.toggle();
+    lightsOff() {
+        this.props.lightActions.off();
     }
 
     render() {
@@ -59,7 +59,7 @@ export default class App extends Component {
                 <Navbar />
                 <div
                     className="cinematic-lighting-bg"
-                    onClick={this.toggleLighting.bind(this)}
+                    onClick={this.lightsOff.bind(this)}
                 />
                 {children}
             </div>

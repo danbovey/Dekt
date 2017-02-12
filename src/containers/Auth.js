@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Popout from 'react-popout';
 
 import * as authActions from 'actions/auth';
 import Spinner from 'components/Spinner';
@@ -21,6 +20,19 @@ export default class App extends Component {
         this.checkAuth();
     }
 
+    componentDidUpdate() {
+        if(this.props.auth.oauthStarted && !this._popoutWindow) {
+            this._popoutWindow = window.open(api.getAuthUrl(), this.props.title, 'width=450,height=600');
+            this._popoutWindow.onbeforeunload = this.popoutClosed.bind(this);
+            window.addEventListener('unload', this.closeWindow);
+        }
+    }
+
+    closeWindow() {
+        this._popoutWindow && this._popoutWindow.close();
+        window.removeEventListener('unload', this.closeWindow);
+    }
+
     checkAuth() {
         const {
             auth,
@@ -33,7 +45,7 @@ export default class App extends Component {
         }
     }
 
-    popupClosed() {
+    popoutClosed() {
         window.setTimeout(() => {
             this.checkAuth();
         }, 1000);
@@ -49,14 +61,6 @@ export default class App extends Component {
             return (
                 <div>
                     <p>Opening popup to authenticate with Trakt.tv</p>
-                    <Popout
-                        url={api.getAuthUrl()}
-                        title="Dekt OAuth"
-                        onClosing={this.popupClosed.bind(this)}
-                        options={{width: '450px', height: '600px'}}
-                    >
-                        <p>Loading Trakt.tv...</p>
-                    </Popout>
                 </div>
             );
         }
@@ -78,3 +82,12 @@ export default class App extends Component {
         return children;
     }
 }
+
+// <Popout
+//                         url={api.getAuthUrl()}
+//                         title="Dekt OAuth"
+//                         onClosing={this.popupClosed.bind(this)}
+//                         options={{width: '450px', height: '600px'}}
+//                     >
+//                         <p>Loading Trakt.tv...</p>
+//                     </Popout>
