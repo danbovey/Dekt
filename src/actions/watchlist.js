@@ -1,5 +1,5 @@
 import api from 'helpers/api';
-import { loadPoster } from 'helpers/image';
+import { loadImages } from 'helpers/image';
 
 export const WATCHLIST_LOADED = 'WATCHLIST_LOADED';
 
@@ -32,9 +32,10 @@ export function load() {
             .then(watchlist => Promise.all(watchlist.map(show => {
                 if(show.show.ids.tmdb) {
                     // Load the show poster from TMDB
-                    return loadPoster(show.show)
+                    return loadImages(show.show)
                         .then(tmdbShow => {
                             show.poster_path = tmdbShow.poster_path;
+                            show.backdrop_path = tmdbShow.backdrop_path;
                             return show;
                         })
                         .catch(() => show);

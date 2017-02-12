@@ -110,10 +110,16 @@ export default class PageTopper extends Component {
         const {
             abstract,
             background,
-            title
+            item,
+            title,
+            watching
         } = this.props;
 
-        const topperItem = this.props.item || this.props.watching;
+        let topperItem = watching;
+        if(item) {
+            topperItem = item;
+            topperItem.item = topperItem.show;
+        }
 
         let link = null;
         let itemTitle = null;
@@ -136,24 +142,26 @@ export default class PageTopper extends Component {
             >
                 {topperItem && topperItem.item ? (
                     <div>
-                        <div className="page-topper__bg" style={{backgroundImage: `url(${topperItem.item.backdrop_path})`}} />
-                        <div className="watching-bar">
-                            <div className="bar" style={{ width: this.state.percentage + '%' }}>
-                                <p className="percentage">{Math.round(this.state.percentage)}%</p>
+                        <div className="page-topper__bg" style={{backgroundImage: `url(${topperItem.backdrop_path})`}} />
+                        {watching && watching.item ? (
+                            <div className="watching-bar">
+                                <div className="bar" style={{ width: this.state.percentage + '%' }}>
+                                    <p className="percentage">{Math.round(this.state.percentage)}%</p>
+                                </div>
+                                <div className="content">
+                                    <p>
+                                        <a
+                                            href={link || '#'}
+                                            target="_blank"
+                                            rel="noopener"
+                                            dangerouslySetInnerHTML={{__html: itemTitle}}
+                                        />
+                                    </p>
+                                </div>
+                                <p className="elapsed">{toHHMM(this.state.elapsed)}</p>
+                                <p className="duration">{toHHMM(this.state.duration)}</p>
                             </div>
-                            <div className="content">
-                                <p>
-                                    <a
-                                        href={link || '#'}
-                                        target="_blank"
-                                        rel="noopener"
-                                        dangerouslySetInnerHTML={{__html: itemTitle}}
-                                    />
-                                </p>
-                            </div>
-                            <p className="elapsed">{toHHMM(this.state.elapsed)}</p>
-                            <p className="duration">{toHHMM(this.state.duration)}</p>
-                        </div>
+                        ) : null}
                         <h2>{title}</h2>
                     </div>
                 ): (

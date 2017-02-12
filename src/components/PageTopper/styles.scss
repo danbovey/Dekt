@@ -4,13 +4,19 @@
     position: relative;
     min-height: 150px;
     padding: 90px 0 35px;
+    transition: min-height 0.5s ease-in-out;
+
+    > div {
+        display: flex;
+        align-items: center;
+        height: 20px;
+        transition: height 0.5s ease-in-out;
+    }
 
     &--banner {
         min-height: 300px;
 
         > div {
-            display: flex;
-            align-items: center;
             height: 125px;
         }
     }

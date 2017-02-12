@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import api from 'helpers/api';
-import { loadPoster } from 'helpers/image';
+import { loadImages } from 'helpers/image';
 
 export const UPNEXT_LOADED = 'UPNEXT_LOADED';
 
@@ -59,7 +59,7 @@ export function load() {
             .then(watched => Promise.all(watched.map(item => {
                 if(item.show.ids.tmdb) {
                     // Load the show poster from TMDB
-                    return loadPoster(item.show)
+                    return loadImages(item.show)
                         .then(tmdbShow => {
                             item.poster_path = tmdbShow.poster_path;
                             return item;

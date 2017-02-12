@@ -1,5 +1,5 @@
 import api from 'helpers/api';
-import { loadBanner } from 'helpers/image';
+import { loadImages } from 'helpers/image';
 
 export const WATCHING_LOADED = 'WATCHING_LOADED';
 export const WATCHING_CLEAR = 'WATCHING_CLEAR';
@@ -39,11 +39,10 @@ export function load(currentWatching) {
             })
             .then(payload => {
                 if(payload) {
-                    return loadBanner(payload.item, payload.itemType == 'episode' ? 'tv' : 'movie')
+                    return loadImages(payload.item, payload.itemType == 'episode' ? 'tv' : 'movie')
                         .then(tmdbShow => {
-                            if(tmdbShow.backdrop_path) {
-                                payload.item.backdrop_path = tmdbShow.backdrop_path;
-                            }
+                            payload.poster_path = tmdbShow.poster_path;
+                            payload.backdrop_path = tmdbShow.backdrop_path;
 
                             dispatch({
                                 type: WATCHING_LOADED,
