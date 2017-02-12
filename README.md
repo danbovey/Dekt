@@ -9,4 +9,6 @@ Trakt.tv client in the style of TVShowTime.
 - View your watchlisted shows
 - Live watching information
 
-🚧 WIP - Here's what it looks like so far: [Screenshot](http://i.imgur.com/AtWOaCV.jpg)
+![Trakt API](http://i.imgur.com/BAodUPi.png)
+
+Uses the Trakt API but is not endorsed or affiliated by Trakt.tv.
