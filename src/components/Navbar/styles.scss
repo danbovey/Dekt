@@ -1,10 +1,12 @@
+$navbar-height: 50px;
+
 .navbar {
     position: fixed;
     z-index: 1500;
     top: 0;
     right: 0;
     left: 0;
-    height: 50px;
+    height: $navbar-height;
     background: rgba(0, 0, 0, 0.6);
     transition: background 0.5s;
 
@@ -16,6 +18,8 @@
         position: absolute;
         left: 50%;
         margin: 6px 0 0 -32.5px;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
 
         img {
             height: 65px;
@@ -41,37 +45,111 @@
         }
     }
 
+    .user {
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+    }
+    .user a {
+        display: flex;
+        align-items: center;
+        height: $navbar-height;
+        font-size: 13px;
+        color: #FFF;
+
+        .avatar {
+            display: inline-block;
+            height: 30px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+    }
+
     .nav {
         position: absolute;
         padding-left: 0;
         list-style: none;
 
         &.nav--left {
-            right: 50%;
-            margin-right: 40px;
+            display: none;
         }
         &.nav--right {
-            left: 50%;
-            margin-left: 40px;
+            display: none
+        }
+
+        &.nav--first {
+            left: 0;
+        }
+        &.nav--last {
+            right: 0;
         }
 
         li {
             position: relative;
             float: left;
 
-            a {
+            a, button {
                 display: block;
                 padding: 15px 20px;
-                font-size: 14px;
+                font-size: 13px;
                 font-weight: 200;
                 line-height: 20px;
                 text-decoration: none;
                 color: #FFF;
+                transition: opacity 0.5s ease-in-out;
 
-                &:hover, &:focus {
+                &:hover, &:focus, &.active {
                     color: #ED1C24;
                 }
+                &.active {
+                    font-weight: bold;
+                }
             }
+            button {
+                border: none;
+                outline: none;
+                background: none;
+                cursor: pointer;
+            }
+        }
+
+        @media(min-width: 768px) {
+            &.nav--left, &.nav--right {
+                display: block;
+            }
+            &.nav--left {
+                right: 50%;
+                margin-right: 40px;
+            }
+            &.nav--right {
+                left: 50%;
+                margin-left: 40px;
+            }
+            &.nav--first {
+                margin-left: 10px;
+            }
+            &.nav--last {
+                margin-right: 20px;
+            }
+        }
+    }
+}
+
+.cinematic-lighting .navbar {
+    .nav li a, .nav li button {
+        opacity: 0.5;
+        // color: rgba(#FFF, 0.5);
+
+        &:hover, &:focus {
+            // color: #FFF;
+            opacity: 1;
+        }
+    }
+
+    .logo, .user {
+        opacity: 0.3;
+
+        &:hover {
+            opacity: 0.5;
         }
     }
 }

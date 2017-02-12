@@ -1,8 +1,15 @@
 .poster {
     display: inline-block;
     position: relative;
-    width: 173px;
     transition: transform 0.3s ease-in-out;
+
+    @media(min-width: 320px) {
+        width: 50%;
+    }
+
+    @media(min-width: 768px) {
+        width: 173px;
+    }
 
     &--progressing {
         transform: scale(0.95);
@@ -111,6 +118,10 @@
         .titles__show {
             margin-top: 7px;
             font-size: 12px;
+        }
+
+        .titles--single {
+            margin-top: 1.9em;
         }
     }
 }

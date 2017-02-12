@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #000;
+    color: #FFF;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+    color: $primary;
+}

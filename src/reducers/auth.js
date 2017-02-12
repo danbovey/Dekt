@@ -1,6 +1,8 @@
 import {
     AUTH_LOADING,
-    AUTH_LOADED
+    AUTH_LOADED,
+    AUTH_OAUTH_START,
+    AUTH_OAUTH_END
 } from 'actions/auth';
 
 const initialState = {
@@ -19,9 +21,20 @@ export default function auth(state = initialState, action = {}) {
         case AUTH_LOADED:
             return {
                 ...state,
-                user: action.payload,
                 loaded: true,
-                loading: false
+                loading: false,
+                oauthStarted: false,
+                ...action.payload
+            };
+        case AUTH_OAUTH_START:
+            return {
+                ...state,
+                oauthStarted: true
+            };
+        case AUTH_OAUTH_END:
+            return {
+                ...state,
+                oauthStarted: false
             };
         default:
             return state;

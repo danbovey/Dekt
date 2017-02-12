@@ -1,0 +1,15 @@
+.cinematic-lighting-bg {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    transition: background 0.5s ease-in-out;
+}
+
+.cinematic-lighting .cinematic-lighting-bg {
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+}

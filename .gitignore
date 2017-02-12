@@ -1,3 +1,4 @@
 /node_modules
 /public/config.json
+/public/build
 npm-debug.log

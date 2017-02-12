@@ -1,54 +1,36 @@
-import qwest from 'qwest';
 import moment from 'moment';
 
 import api from 'helpers/api';
+import { loadPoster } from 'helpers/image';
 
 export const UPNEXT_LOADED = 'UPNEXT_LOADED';
 
-const tmdb_api_key = '67265207de2e82c26fd875e03b40c17d';
-
 export function load() {
     let timestamp = null;
-    const ondeck = [];
-    const onDeckWPosters = [];
-    let watched = [];
-    const hidden = [];
-    const temp = [];
+    // const ondeck = [];
+    // const onDeckWPosters = [];
 
     return dispatch => {
-        api.client.sync.last_activities()
-            .then(lastActivities => {
-                // Calculate the last time any show was watched
-                timestamp = findLargest([
-                    lastActivities.episodes.watched_at,
-                    lastActivities.seasons.watched_at,
-                    lastActivities.shows.watched_at
-                ]);
-            })
-            .then(() => api.client.sync.watched({
+        api.client.sync.watched({
                 type: 'shows',
                 extended: 'full,noseasons'
-            }))
-            .then(watchedShows => {
-                watched = watchedShows;
-
-                return api.client.users.hidden({
-                    section: 'progress_watched',
-                    type: 'show',
-                    limit: 100
-                });
             })
-            .then(hiddenItems => Promise.all(hiddenItems.map(item => hidden.push(item.show.ids.slug))))
-            .then(() => Promise.all(watched.map(show => {
-                if(hidden.indexOf(show.show.ids.slug) === -1) {
-                    temp.push(show); // store non-hidden shows in 'temp'
-                } else {
-                    console.log('Remove hidden show: ' + show.show.title);
-                }
-            })))
-            .then(() => Promise.all(temp.map(show => {
+            .then(watched => {
+                // Remove any hidden shows
+                return api.client.users.hidden({
+                        section: 'progress_watched',
+                        type: 'show',
+                        limit: 100
+                    })
+                    .then(hidden => {
+                        hidden = hidden.map(item => item.show.ids.slug);
+                        return watched.filter(show => hidden.indexOf(show.show.ids.slug) === -1)
+                    })
+                    .catch(() => watched);
+            })
+            .then(watched => Promise.all(watched.map(show => {
+                // Get watch progress for shows that have aired episodes
                 if(show.show.aired_episodes > 0 && show.show.aired_episodes !== show.plays) {
-                    console.log('Get shows/id/progress/watched for: ' + show.show.title);
                     return api.client.shows.progress.watched({
                             extended: 'full',
                             id: show.show.ids.slug,
@@ -56,102 +38,67 @@ export function load() {
                             specials: false
                         })
                         .then(progress => {
-                            if(progress.next_episode && progress.aired > progress.completed) {                    
-                                ondeck.push({
+                            const lastSeason = progress.seasons[progress.seasons.length - 1];
+                            const lastEpisodeWatched = lastSeason.episodes[lastSeason.episodes.length - 1].completed
+                            if(!lastEpisodeWatched && progress.next_episode && progress.aired > progress.completed) {
+                                return {
                                     show: show.show,
                                     next_episode: progress.next_episode,
                                     unseen: progress.aired - progress.completed,
                                     last_watched_at: progress.last_watched_at
-                                });
+                                };
                             }
+
+                            return null;
                         }).catch(function (err) {
-                            return {};
+                            return null;
                         });
-                } else {
-                    console.log('Ignoring: ' + show.show.title);
                 }
             })))
-            .then(() => {
-                console.log('Get watchlisted shows from sync/watchlist/shows');
-                return api.client.sync.watchlist.get({
-                    extended: 'full',
-                    type:'shows'
-                });
-            })
-            .then(watchlisted => Promise.all(watchlisted.map(show => {
-                console.log('Get details of s01e01 for: ' + show.show.title);
-                return api.client.episodes.summary({
-                        extended: 'full',
-                        id: show.show.ids.slug,
-                        season: 1,
-                        episode: 1
-                    })
-                    .then(episode => {
-                        ondeck.push({
-                            show: show.show,
-                            next_episode: episode,
-                            unseen: show.show.aired_episodes,
-                            user: {
-                                watchlist: true
-                            }
-                        });
-                    })
-                    .catch(err => {});
-            })))
-            .then(() => Promise.all(ondeck.map(show => {
-                if(show.show.ids.tmdb) {
+            .then(watched => watched.filter(item => item != null)) // Filter out any episodes above that are removed above
+            .then(watched => Promise.all(watched.map(item => {
+                if(item.show.ids.tmdb) {
                     // Load the show poster from TMDB
-                    return qwest.get('http://api.themoviedb.org/3/tv/' + show.show.ids.tmdb, {
-                            api_key: tmdb_api_key,
-                            language: 'en-US'
-                        }, {
-                            cache: true
+                    return loadPoster(item.show)
+                        .then(tmdbShow => {
+                            item.poster_path = tmdbShow.poster_path;
+                            return item;
                         })
-                        .then((xhr, tmdbShow) => {
-                            if(tmdbShow.poster_path) {
-                                onDeckWPosters.push({
-                                    ...show,
-                                    tmdbResp: tmdbShow,
-                                    poster_path: 'https://image.tmdb.org/t/p/w185' + tmdbShow.poster_path
-                                });
-                            }
-                        });
+                        .catch(() => item);
                 }
 
-                return show;
+                return item;
             })))
-            .then(() => {
-                onDeckWPosters.sort((a, b) => {
-                    if(b.next_episode && b.next_episode.first_aired && a.last_watched_at) {
-                        console.log('b episode, a watched');
-                        return moment(b.next_episode.first_aired).diff(a.last_watched_at);
+            .then(watched => {
+                watched.sort((a, b) => {
+                    const now = moment();
+                    const shows = [a, b];
+                    const dates = [a.last_watched_at, b.last_watched_at];
+
+                    for(let i in shows) {
+                        if(!shows.hasOwnProperty(i)) continue;
+                        const show = shows[i];
+                        if(!dates[i]) {
+                            if(show.next_episode) {
+                                if(now.isAfter(shows[i].next_episode.first_aired)) {
+                                    dates[i] = shows[i].next_episode.first_aired;
+                                } else {
+                                    dates[i] = 0;
+                                }
+                            } else {
+                                dates[i] = 0;
+                            }
+                        }
                     }
 
-                    // if(b.next_episode && b.next_episode.first_aired && a.last_watched_at) {
-                    //     console.log('b episode, a watched');
-                    //     return moment(b.next_episode.first_aired).diff(a.last_watched_at);
-                    // }
-
-                    if(!a.last_watched_at && !b.last_watched_at && a.next_episode.first_aired && b.next_episode.first_aired) {
-                        return moment(b.next_episode.first_aired).diff(a.next_episode.first_aired);
-                    }
-
-                    if(!a.last_watched_at) {
-                        return 1;
-                    }
-                    if(!b.last_watched_at) {
-                        return -1;
-                    }
-
-                    return moment(b.last_watched_at).diff(a.last_watched_at);
+                    return moment(dates[1]).diff(dates[0]);
                 });
+
+                return watched;
             })
-            .then(() => dispatch({
+            .then(watched => dispatch({
                 type: UPNEXT_LOADED,
-                payload: {
-                    list: onDeckWPosters,
-                    last_watched: timestamp
-                }
+                payload: watched
             }))
             .catch(err => {
                 console.error(err);

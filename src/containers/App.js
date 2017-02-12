@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import * as configActions from 'actions/config';
+import * as lightActions from 'actions/lights';
 import Navbar from 'components/Navbar';
 
 import 'app.scss';
 
 @connect(
     state => ({
-        config: state.config
+        config: state.config,
+        lights: state.lights.on
     }),
     dispatch => ({
-        configActions: bindActionCreators(configActions, dispatch)
+        configActions: bindActionCreators(configActions, dispatch),
+        lightActions: bindActionCreators(lightActions, dispatch)
     })
 )
 export default class App extends Component {
@@ -23,10 +27,15 @@ export default class App extends Component {
         }
     }
 
+    toggleLighting() {
+        this.props.lightActions.toggle();
+    }
+
     render() {
         const {
             children,
-            config
+            config,
+            lights
         } = this.props;
 
         if(config.failed) {
@@ -42,8 +51,16 @@ export default class App extends Component {
         }
 
         return (
-            <div>
+            <div
+                className={classNames({
+                    'cinematic-lighting': lights
+                })}
+            >
                 <Navbar />
+                <div
+                    className="cinematic-lighting-bg"
+                    onClick={this.toggleLighting.bind(this)}
+                />
                 {children}
             </div>
         );

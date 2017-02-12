@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const BabiliPlugin = require('babili-webpack-plugin');
 
 module.exports = {
     entry: [
@@ -78,11 +79,8 @@ module.exports = {
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
 
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            sourceMaps: false
+        new BabiliPlugin({
+            comments: false
         }),
 
         new ExtractTextPlugin('style.css')

@@ -1,8 +1,47 @@
 @import "variables";
 
-.home {
-    min-height: 100vh;
-    color: #FFF;
+.page-topper {
+    position: relative;
+    min-height: 150px;
+    padding: 90px 0 35px;
+
+    &--banner {
+        min-height: 300px;
+
+        > div {
+            display: flex;
+            align-items: center;
+            height: 125px;
+        }
+    }
+
+    .page-topper__bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-size: cover;
+        background-position: center 25%;
+
+        &.repeat {
+            background-size: 240px 240px;
+        }
+        &.blur {
+            opacity: .3;
+            filter: blur(4px);
+        }
+    }
+
+    h2 {
+        padding: 0 45px;
+        text-transform: uppercase;
+    }
+
+    .watching-bar + h2 {
+        display: none;
+    }
 
     .watching-bar {
         position: absolute;
@@ -36,8 +75,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 7px 0;
             text-align: center;
+            line-height: 37px;
 
             a {
                 color: #FFF;
@@ -60,30 +99,6 @@
                 line-height: 36px;
                 color: rgba(#FFF, 0.15)
             }
-        }
-    }
-
-    .container-lg {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        padding: 30px 15px;
-
-        .poster {
-            margin: 20px;
-        }
-
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 150px 0;
-        }
-
-        .empty-state {
-            padding: 50px 0;
-            text-align: center;
-            line-height: 2;
         }
     }
 }

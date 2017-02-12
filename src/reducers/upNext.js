@@ -19,7 +19,7 @@ export default function config(state = initialState, action = {}) {
             return {
                 ...state,
                 loaded: true,
-                ...action.payload
+                list: action.payload
             };
         case SHOW_PROGRESS_WATCHED:
             return {

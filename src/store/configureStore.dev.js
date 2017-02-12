@@ -8,7 +8,7 @@ const logger = createLogger({
     level: 'info',
     collapsed: true,
     timestamp: false,
-    // predicate: (getState, action) => action.type !== 'CRAZY_FREQUENT_ACTION'
+    predicate: (getState, action) => action.type !== 'IGNORE' && action.type !== 'WATCHING_CLEAR'
 });
 
 export default function configureStore(initialState, history) {

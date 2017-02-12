@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Popout from 'react-popout';
 
 import * as authActions from 'actions/auth';
+import Spinner from 'components/Spinner';
+import api from 'helpers/api';
 
 @connect(
     state => ({
@@ -15,6 +18,10 @@ import * as authActions from 'actions/auth';
 )
 export default class App extends Component {
     componentWillMount() {
+        this.checkAuth();
+    }
+
+    checkAuth() {
         const {
             auth,
             config
@@ -26,16 +33,38 @@ export default class App extends Component {
         }
     }
 
+    popupClosed() {
+        window.setTimeout(() => {
+            this.checkAuth();
+        }, 1000);
+    }
+
     render() {
         const {
             auth,
             children
         } = this.props;
 
+        if(auth.oauthStarted) {
+            return (
+                <div>
+                    <p>Opening popup to authenticate with Trakt.tv</p>
+                    <Popout
+                        url={api.getAuthUrl()}
+                        title="Dekt OAuth"
+                        onClosing={this.popupClosed.bind(this)}
+                        options={{width: '450px', height: '600px'}}
+                    >
+                        <p>Loading Trakt.tv...</p>
+                    </Popout>
+                </div>
+            );
+        }
+
         if(!auth.loaded) {
             return (
                 <div>
-                    Loading...
+                    <Spinner size="large" />
                 </div>
             );
         }

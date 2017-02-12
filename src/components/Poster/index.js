@@ -16,6 +16,11 @@ import './styles';
     })
 )
 export default class Poster extends Component {
+    static defaultProps = {
+        allowHistory: true,
+        allowWatchlist: true
+    };
+
     constructor(props) {
         super(props);
 
@@ -64,6 +69,8 @@ export default class Poster extends Component {
     render() {
         const {
             actions,
+            allowHistory,
+            allowWatchlist,
             item
         } = this.props;
 
@@ -80,7 +87,9 @@ export default class Poster extends Component {
             >
                 <div className="poster__images">
                     <img src="/img/poster.png" alt="Temporary Poster" className="base" />
-                    <img src={item.poster_path} alt="Poster" className="real" />
+                    {item.poster_path ? (
+                        <img src={item.poster_path} alt="Poster" className="real" />
+                    ) : null}
                     {updating ? (
                         <div className="updating">
                             <Spinner type="white" size="medium" />
@@ -89,35 +98,43 @@ export default class Poster extends Component {
                 </div>
                 {actions ? (
                     <div className="poster__actions">
-                        <button className="history" onClick={this.history.bind(this)}>
-                            <Icon name="check" />
-                        </button>
+                        {allowHistory ? (
+                            <button className="history" onClick={this.history.bind(this)}>
+                                <Icon name="check" />
+                            </button>
+                        ) : null}
                         {/*<button className="collect">
                             <Icon name="book" />
                         </button>*/}
-                        <button
-                            onClick={this.watchlist.bind(this)}
-                            className={classNames('list', {
-                                'active': item.user && item.user.watchlist
-                            })}
-                        >
-                            <Icon name="align-left" />
-                        </button>
+                        {allowWatchlist ? (
+                            <button
+                                onClick={this.watchlist.bind(this)}
+                                className={classNames('list', {
+                                    'active': item.inWatchlist
+                                })}
+                            >
+                                <Icon name="align-left" />
+                            </button>
+                        ) : null}
                         {/*<button className="watch-now">
                             <Icon name="play" />
                         </button>*/}
                     </div>
                 ) : null}
                 <div className="poster__titles">
-                    <p>
-                        <span className="titles__number">{item.next_episode.season + 'x' + item.next_episode.number}</span>
-                        <span
-                            className="titles__name"
-                            dangerouslySetInnerHTML={{__html: item.next_episode.title }}
-                        />
-                    </p>
+                    {item.next_episode ? (
+                        <p>
+                            <span className="titles__number">{item.next_episode.season + 'x' + item.next_episode.number}</span>
+                            <span
+                                className="titles__name"
+                                dangerouslySetInnerHTML={{__html: item.next_episode.title }}
+                            />
+                        </p>
+                    ) : null}
                     <p
-                        className="titles__show"
+                        className={classNames('titles__show', {
+                            'titles--single': !item.next_episode
+                        })}
                         dangerouslySetInnerHTML={{__html: item.show.title }}
                     />
                 </div>

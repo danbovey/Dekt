@@ -1,3 +1,3 @@
-# TraktShowTime
+# Dekt
 
 Trakt.tv client in the style of TVShowTime

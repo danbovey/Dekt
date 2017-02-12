@@ -9,7 +9,8 @@ const api = {
             client_id: config.client_id,
             client_secret: config.client_secret,
             redirect_uri: app_url + '/oauth/callback',
-            api_url: 'https://api-staging.trakt.tv'
+            // api_url: process.env.NODE_ENV === 'production' ? 'https://api.trakt.tv' : 'https://api-staging.trakt.tv'
+            api_url: 'https://api.trakt.tv'
         });
 
         const tokens = {
@@ -27,7 +28,7 @@ const api = {
             });
         }
     },
-    getAuthUrl: () => api.client.get_url().replace('trakt.tv', 'staging.trakt.tv'),
+    getAuthUrl: () => api.client.get_url(),
     exchange: (code) => {
         return api.client.exchange_code(code)
             .then(result => {
