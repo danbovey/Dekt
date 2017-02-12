@@ -18,7 +18,7 @@ export const loadImages = (show, type = 'tv') => {
 };
 
 const request = (tmdbId, type) => {
-    return qwest.get(`http://api.themoviedb.org/3/${type}/${tmdbId}`, {
+    return qwest.get(`https://api.themoviedb.org/3/${type}/${tmdbId}`, {
             api_key: tmdb_api_key,
             language: 'en-US'
         }, {

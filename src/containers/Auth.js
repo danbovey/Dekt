@@ -23,8 +23,10 @@ export default class App extends Component {
     componentDidUpdate() {
         if(this.props.auth.oauthStarted && !this._popoutWindow) {
             this._popoutWindow = window.open(api.getAuthUrl(), this.props.title, 'width=450,height=600');
-            this._popoutWindow.onbeforeunload = this.popoutClosed.bind(this);
-            window.addEventListener('unload', this.closeWindow);
+            if(this._popoutWindow) {
+                this._popoutWindow.onbeforeunload = this.popoutClosed.bind(this);
+                window.addEventListener('unload', this.closeWindow);
+            }
         }
     }
 
