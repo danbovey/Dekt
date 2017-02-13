@@ -69,33 +69,6 @@ export function load() {
 
                 return item;
             })))
-            .then(watched => {
-                watched.sort((a, b) => {
-                    const now = moment();
-                    const shows = [a, b];
-                    const dates = [a.last_watched_at, b.last_watched_at];
-
-                    for(let i in shows) {
-                        if(!shows.hasOwnProperty(i)) continue;
-                        const show = shows[i];
-                        if(!dates[i]) {
-                            if(show.next_episode) {
-                                if(now.isAfter(shows[i].next_episode.first_aired)) {
-                                    dates[i] = shows[i].next_episode.first_aired;
-                                } else {
-                                    dates[i] = 0;
-                                }
-                            } else {
-                                dates[i] = 0;
-                            }
-                        }
-                    }
-
-                    return moment(dates[1]).diff(dates[0]);
-                });
-
-                return watched;
-            })
             .then(watched => dispatch({
                 type: UPNEXT_LOADED,
                 payload: watched
@@ -106,11 +79,3 @@ export function load() {
             });
     };
 }
-
-const findLargest = (arr) => {
-    var largest = arr[0];
-    for (var i = 0; i < arr.length; i++) {
-        if (largest < arr[i] ) largest = arr[i];
-    }
-    return largest;
-};

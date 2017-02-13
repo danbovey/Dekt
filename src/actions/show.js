@@ -14,31 +14,35 @@ export function progressWatched(showItem, watched_at = null) {
         }];
         
         return api.client.sync.history.add({ episodes })
-            .then(() => {
-                api.client.shows.progress.watched({
-                        extended: 'full',
-                        id: showItem.show.ids.slug,
-                        hidden: false,
-                        specials: false
-                    })
-                    .then(progress => {
-                        if(progress.next_episode) {
-                            dispatch({
-                                type: SHOW_PROGRESS_WATCHED,
-                                payload: {
-                                    trakt_id: showItem.show.ids.trakt,
-                                    next_episode: progress.next_episode
-                                }
-                            });
-                        } else {
-                            dispatch({
-                                type: SHOW_REMOVE,
-                                payload: {
-                                    trakt_id: showItem.show.ids.trakt
-                                }
-                            });
+            .then(() => progress(showItem.show)(dispatch));
+    };
+}
+
+export function progress(show) {
+    return dispatch => {
+        return api.client.shows.progress.watched({
+                extended: 'full',
+                id: show.ids.slug,
+                hidden: false,
+                specials: false
+            })
+            .then(progress => {
+                if(progress.next_episode) {
+                    dispatch({
+                        type: SHOW_PROGRESS_WATCHED,
+                        payload: {
+                            trakt_id: show.ids.trakt,
+                            next_episode: progress.next_episode
                         }
                     });
+                } else {
+                    dispatch({
+                        type: SHOW_REMOVE,
+                        payload: {
+                            trakt_id: show.ids.trakt
+                        }
+                    });
+                }
             });
     };
 }
