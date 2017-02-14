@@ -1,3 +1,5 @@
+@import "variables";
+
 $navbar-height: 50px;
 
 .navbar {
@@ -43,6 +45,70 @@ $navbar-height: 50px;
                 border-radius: 50%;
             }
         }
+    }
+
+    .search {
+        &.active {
+            button {
+                background: $primary;
+                color: #FFF !important;
+            }
+            .search__input {
+                pointer-events: auto;
+                opacity: 1;
+                transition-duration: 0.5s;
+
+                input {
+                    transform: scale3d(1, 1, 1);
+                    transition-duration: 0.5s;
+                }
+            }
+        }
+
+        button {
+            position: relative;
+            z-index: 2000;
+            float: left;
+        }
+
+        .search__input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+
+            input {
+                width: 75%;
+                padding: 10px;
+                border: none;
+                border-bottom: 5px solid;
+                outline: none;
+                background: transparent;
+                font-size: 10vw;
+                color: $primary;
+                transform: scale3d(0, 1, 1);
+                transform-origin: 0% 50%;
+                transition: transform 0.3s;
+            }
+        }
+    }
+
+    .lights-toggle {
+        transition: opacity 0.3s;
+    }
+
+    // A fix for the lights toggle being above the search area when open
+    .search.active + .lights-toggle {
+        opacity: 0.2;
+        pointer-events: none;
     }
 
     .user {
@@ -98,7 +164,7 @@ $navbar-height: 50px;
                 transition: opacity 0.5s ease-in-out;
 
                 &:hover, &:focus, &.active {
-                    color: #ED1C24;
+                    color: $primary;
                 }
                 &.active {
                     font-weight: bold;
