@@ -95,6 +95,11 @@ export default class Poster extends Component {
                             <Spinner type="white" size="medium" />
                         </div>
                     ) : null}
+                    {item.is_new ? (
+                        <div className="new-tag">
+                            <div />
+                        </div>
+                    ) : null}
                 </div>
                 {actions ? (
                     <div className="poster__actions">

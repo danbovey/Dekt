@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 
 import auth from './auth';
 import config from './config';
+import deck from './deck';
 import lights from './lights';
-import upNext from './upNext';
 import watching from './watching';
 import watchlist from './watchlist';
 
@@ -13,8 +13,8 @@ import watchlist from './watchlist';
 const rootReducer = combineReducers({
     auth,
     config,
+    deck,
     lights,
-    upNext,
     watching,
     watchlist,
 });

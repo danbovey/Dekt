@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import classNames from 'classnames';
 
+import * as showActions from 'actions/show';
 import * as watchingActions from 'actions/watching';
 import { toHHMM } from 'helpers/formatTime';
 
@@ -46,13 +47,25 @@ export default class PageTopper extends Component {
         }
     }
 
-    componentDidUpdate() {
-        if(!this.props.item && this.props.watching.loaded && !this.state.progressBarTask) {
-            if(this.props.watching.item == null) {
+    componentDidUpdate(prevProps) {
+        // If this component isn't hardcoded to use an image as a background
+        if(!this.props.item) {
+            // If there is no longer an item and we're running the task
+            if(!this.props.watching.item && this.state.progressBarTask) {
                 this.stopProgressBar();
-                this.setState(initialState);
-            } else {
-                this.startProgressBar();
+            // If the current watching item is different from the last
+            } else if(prevProps.watching.item && this.props.watching.item && prevProps.watching.item.ids.trakt != this.props.watching.item.ids.trakt) {
+                this.stopProgressBar();
+                this.startProgressbar();
+                // Tell the deck that something may have changed with the previous show
+                this.props.showActions.progress(prevProps.watching.item);
+            // If there is a new item being watched and we haven't started the task
+            } else if(this.props.watching.loaded && !this.state.progressBarTask) {
+                if(this.props.watching.item == null) {
+                    this.stopProgressBar();
+                } else {
+                    this.startProgressBar();
+                }
             }
         }
     }
@@ -73,6 +86,7 @@ export default class PageTopper extends Component {
 
     stopProgressBar() {
         window.clearInterval(this.state.progressBarTask);
+        this.setState(initialState);
     }
 
     stopPollingWatching() {
