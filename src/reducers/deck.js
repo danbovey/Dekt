@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 import {
-    UPNEXT_LOADED
-} from 'actions/upNext';
+    DECK_LOADED
+} from 'actions/deck';
 
 import {
     SHOW_PROGRESS_WATCHED,
@@ -15,9 +15,9 @@ const initialState = {
     list: []
 };
 
-export default function config(state = initialState, action = {}) {
+export default function deck(state = initialState, action = {}) {
     switch(action.type) {
-        case UPNEXT_LOADED:
+        case DECK_LOADED:
             return {
                 ...state,
                 loaded: true,
@@ -37,7 +37,7 @@ export default function config(state = initialState, action = {}) {
                 }
                 return item;
             });
-            
+
             return {
                 ...state,
                 list: sortShows(list)
@@ -77,7 +77,11 @@ const sortShows = list => {
         for(let i in shows) {
             if(!shows.hasOwnProperty(i)) continue;
             const show = shows[i];
-            if(!dates[i]) {
+
+            if(show.is_new) {
+                // If the show is new make sure it's first, sorted with other new shows by air date
+                dates[i] = moment().add(moment(shows[i].next_episode.first_aired).valueOf(), 'milliseconds');
+            } else if(!dates[i]) {
                 if(show.next_episode) {
                     if(now.isAfter(shows[i].next_episode.first_aired)) {
                         dates[i] = shows[i].next_episode.first_aired;

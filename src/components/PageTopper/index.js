@@ -57,6 +57,8 @@ export default class PageTopper extends Component {
             } else if(prevProps.watching.item && this.props.watching.item && prevProps.watching.item.ids.trakt != this.props.watching.item.ids.trakt) {
                 this.stopProgressBar();
                 this.startProgressbar();
+                // Tell the deck that something may have changed with the previous show
+                this.props.showActions.progress(prevProps.watching.item);
             // If there is a new item being watched and we haven't started the task
             } else if(this.props.watching.loaded && !this.state.progressBarTask) {
                 if(this.props.watching.item == null) {

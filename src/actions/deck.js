@@ -3,13 +3,9 @@ import moment from 'moment';
 import api from 'helpers/api';
 import { loadImages } from 'helpers/image';
 
-export const UPNEXT_LOADED = 'UPNEXT_LOADED';
+export const DECK_LOADED = 'DECK_LOADED';
 
 export function load() {
-    let timestamp = null;
-    // const ondeck = [];
-    // const onDeckWPosters = [];
-
     return dispatch => {
         api.client.sync.watched({
                 type: 'shows',
@@ -39,7 +35,7 @@ export function load() {
                         })
                         .then(progress => {
                             const lastSeason = progress.seasons[progress.seasons.length - 1];
-                            const lastEpisodeWatched = lastSeason.episodes[lastSeason.episodes.length - 1].completed
+                            const lastEpisodeWatched = lastSeason.episodes[lastSeason.episodes.length - 1].completed;
                             if(!lastEpisodeWatched && progress.next_episode && progress.aired > progress.completed) {
                                 return {
                                     show: show.show,
@@ -50,12 +46,26 @@ export function load() {
                             }
 
                             return null;
-                        }).catch(function (err) {
-                            return null;
-                        });
+                        }).catch(() => null);
                 }
             })))
-            .then(watched => watched.filter(item => item != null)) // Filter out any episodes above that are removed above
+            // Filter out any episodes above that are removed above
+            .then(watched => watched.filter(item => item != null))
+            .then(watched => Promise.all(watched.map(item => {
+                // If the show is still running, check if the next episode is the latest episode
+                if(item.show.status != 'ended') {
+                    return api.client.shows.last_episode({
+                            id: item.show.ids.trakt
+                        })
+                        .then(lastEpisode => {
+                            item.is_new = lastEpisode.ids.trakt == item.next_episode.ids.trakt;
+                            return item;
+                        })
+                        .catch(() => item);
+                }
+
+                return item;
+            })))
             .then(watched => Promise.all(watched.map(item => {
                 if(item.show.ids.tmdb) {
                     // Load the show poster from TMDB
@@ -70,12 +80,12 @@ export function load() {
                 return item;
             })))
             .then(watched => dispatch({
-                type: UPNEXT_LOADED,
+                type: DECK_LOADED,
                 payload: watched
             }))
             .catch(err => {
                 console.error(err);
-                dispatch({ type: UPNEXT_LOADED, payload: [] });
+                dispatch({ type: DECK_LOADED, payload: [] });
             });
     };
 }
