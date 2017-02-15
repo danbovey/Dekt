@@ -26,7 +26,7 @@ export function load() {
             })
             .then(watched => Promise.all(watched.map(show => {
                 // Get watch progress for shows that have aired episodes
-                if(show.show.aired_episodes > 0 && show.show.aired_episodes !== show.plays) {
+                if(show.show.aired_episodes > 0) {
                     return api.client.shows.progress.watched({
                             extended: 'full',
                             id: show.show.ids.slug,
