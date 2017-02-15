@@ -31,7 +31,7 @@ export default class Watchlist extends Component {
         return (
             <main className="watchlist">
                 <PageTopper item={watchlist.list ? watchlist.list[0] : null} title="Watchlist" />
-                <div className="container-lg">
+                <div className="container--lg container--poster">
                     {watchlist.list.length > 0 ? watchlist.list.map((show, i) => (
                         <Poster item={show} actions={true} key={i} />
                     )) : watchlist.loaded && watchlist.list.length == 0 ? (

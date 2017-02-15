@@ -7,6 +7,7 @@ import {
     Home,
     Watchlist,
     Search,
+    Show,
     OAuthCallback
 } from 'containers';
 
@@ -14,6 +15,7 @@ export const schema = {
     'home': '/',
     'watchlist': '/watchlist',
     'search': '/search',
+    'shows.single': '/shows/{title}',
     'oauth.callback': '/oauth/callback'
 };
 
@@ -24,6 +26,7 @@ export default (store) => {
                 <Route path="/" component={Home} />
                 <Route path="/watchlist" component={Watchlist} />
                 <Route path="/search" component={Search} />
+                <Route path="/shows/:title" component={Show} />
             </Route>
             <Route path="/oauth/callback" component={OAuthCallback} />
         </Route>

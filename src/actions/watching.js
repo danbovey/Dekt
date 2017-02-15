@@ -18,17 +18,8 @@ export function load(currentWatching) {
 
                         // The payload
                         return {
-                            started_at: result.started_at,
-                            expires_at: result.expires_at,
-                            itemType,
-                            item: itemType == 'episode' ? ({
-                                ids: result.show.ids,
-                                season: result.episode.season,
-                                number: result.episode.number,
-                                title: result.episode.title,
-                                show_title: result.show.title,
-                                slug: result.show.ids.slug
-                            }) : result.movie
+                            ...result,
+                            itemType
                         };
                     } else {
                         dispatch({ type: 'IGNORE' });

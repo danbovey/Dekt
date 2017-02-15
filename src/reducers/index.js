@@ -4,6 +4,8 @@ import auth from './auth';
 import config from './config';
 import deck from './deck';
 import lights from './lights';
+import search from './search';
+import show from './show';
 import watching from './watching';
 import watchlist from './watchlist';
 
@@ -15,6 +17,8 @@ const rootReducer = combineReducers({
     config,
     deck,
     lights,
+    search,
+    show,
     watching,
     watchlist,
 });

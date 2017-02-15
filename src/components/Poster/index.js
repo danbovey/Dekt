@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import classNames from 'classnames';
 
 import * as showActions from 'actions/show';
 import Icon from 'components/Icon';
 import Spinner from 'components/Spinner';
+import route from 'helpers/route';
 
 import './styles';
 
@@ -79,6 +81,8 @@ export default class Poster extends Component {
             updating
         } = this.state;
 
+        const link = route('shows.single', { title: item[item.itemType].ids.slug });
+
         return (
             <div
                 className={classNames('poster', {
@@ -86,20 +90,22 @@ export default class Poster extends Component {
                 })}
             >
                 <div className="poster__images">
-                    <img src="/img/poster.png" alt="Temporary Poster" className="base" />
-                    {item.poster_path ? (
-                        <img src={item.poster_path} alt="Poster" className="real" />
-                    ) : null}
-                    {updating ? (
-                        <div className="updating">
-                            <Spinner type="white" size="medium" />
-                        </div>
-                    ) : null}
-                    {item.is_new ? (
-                        <div className="new-tag">
-                            <div />
-                        </div>
-                    ) : null}
+                    <Link to={link}>
+                        <img src="/img/poster.png" alt="Temporary Poster" className="base" />
+                        {item[item.itemType].poster_path ? (
+                            <img src={item[item.itemType].poster_path} alt="Poster" className="real" />
+                        ) : null}
+                        {updating ? (
+                            <div className="updating">
+                                <Spinner type="white" size="medium" />
+                            </div>
+                        ) : null}
+                        {item.is_new ? (
+                            <div className="new-tag">
+                                <div />
+                            </div>
+                        ) : null}
+                    </Link>
                 </div>
                 {actions ? (
                     <div className="poster__actions">
@@ -140,7 +146,7 @@ export default class Poster extends Component {
                         className={classNames('titles__show', {
                             'titles--single': !item.next_episode
                         })}
-                        dangerouslySetInnerHTML={{__html: item.show.title }}
+                        dangerouslySetInnerHTML={{__html: item[item.itemType].title }}
                     />
                 </div>
             </div>

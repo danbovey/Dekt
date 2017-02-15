@@ -9,39 +9,44 @@ export function load() {
                 extended: 'full',
                 type:'shows'
             })
-            .then(watchlist => Promise.all(watchlist.map(show => {
-                return api.client.episodes.summary({
-                        extended: 'full',
-                        id: show.show.ids.slug,
-                        season: 1,
-                        episode: 1
-                    })
-                    .then(episode => ({
-                        show: show.show,
-                        next_episode: episode,
-                        unseen: show.show.aired_episodes,
-                        inWatchlist: true
-                    }))
-                    .catch(() => ({
-                        show: show.show,
-                        next_episode: null,
-                        unseen: show.show.aired_episodes,
-                        inWatchlist: true
-                    }));
-            })))
-            .then(watchlist => Promise.all(watchlist.map(show => {
-                if(show.show.ids.tmdb) {
-                    // Load the show poster from TMDB
-                    return loadImages(show.show)
-                        .then(tmdbShow => {
-                            show.poster_path = tmdbShow.poster_path;
-                            show.backdrop_path = tmdbShow.backdrop_path;
-                            return show;
+            .then(watchlist => Promise.all(watchlist.map(item => {
+                item = {
+                    show: item.show,
+                    itemType: 'show',
+                    next_episode: null,
+                    unseen: item.show.aired_episodes,
+                    inWatchlist: true
+                };
+
+                if(item.show.aired_episodes > 0) {
+                    return api.client.episodes.summary({
+                            extended: 'full',
+                            id: item.show.ids.slug,
+                            season: 1,
+                            episode: 1
                         })
-                        .catch(() => show);
+                        .then(episode => {
+                            item.next_episode =  episode;
+                            return item;
+                        })
+                        .catch(() => item);
+                } else {
+                    return item;
+                }
+            })))
+            .then(watchlist => Promise.all(watchlist.map(item => {
+                if(item.show.ids.tmdb) {
+                    // Load the show poster from TMDB
+                    return loadImages(item.show)
+                        .then(tmdbShow => {
+                            item.show.poster_path = tmdbShow.poster_path;
+                            item.show.backdrop_path = tmdbShow.backdrop_path;
+                            return item;
+                        })
+                        .catch(() => item);
                 }
 
-                return show;
+                return item;
             })))
             .then(watchlist => {
                 dispatch({

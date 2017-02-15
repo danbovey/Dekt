@@ -1,19 +1,12 @@
-.container-lg {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    min-height: 100vh;
+.container--lg {
     padding: 30px 0;
     color: #FFF;
-
-    .poster {
-        padding: 20px;
-    }
 
     .loading {
         display: flex;
         justify-content: center;
         align-items: center;
+        min-height: 80vh;
         padding: 150px 0;
     }
 
@@ -26,12 +19,24 @@
     @media(min-width: 320px) {
         padding-left: 15px;
         padding-right: 15px;
+    }
+}
 
+
+.container--poster {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    
+    .poster {
+        padding: 20px;
+    }
+
+    @media(min-width: 320px) {
         .poster {
             margin: 0;
         }
     }
-
     @media(min-width: 768px) {
         .poster {
             padding: 0;
