@@ -37,7 +37,7 @@ export function load() {
             .then(watchlist => Promise.all(watchlist.map(item => {
                 if(item.show.ids.tmdb) {
                     // Load the show poster from TMDB
-                    return loadImages(item.show)
+                    return loadImages(item)
                         .then(tmdbShow => {
                             item.show.poster_path = tmdbShow.poster_path;
                             item.show.backdrop_path = tmdbShow.backdrop_path;

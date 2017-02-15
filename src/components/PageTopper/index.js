@@ -63,12 +63,8 @@ export default class PageTopper extends Component {
                 // Tell the deck that something may have changed with the previous show
                 this.props.showActions.progress(prevProps.watching.item);
             // If there is a new item being watched and we haven't started the task
-            } else if(this.props.watching.loaded && !this.state.progressBarTask) {
-                if(currItem == null) {
-                    this.stopProgressBar();
-                } else {
-                    this.startProgressBar();
-                }
+            } else if(this.props.watching.loaded && currItem && !this.state.progressBarTask) {
+                this.startProgressBar();
             }
         }
     }
@@ -105,8 +101,8 @@ export default class PageTopper extends Component {
         }
 
         const now = moment();
-        const started_at = moment(watching.started_at);
-        const expires_at = moment(watching.expires_at);
+        const started_at = moment(watching.item.started_at);
+        const expires_at = moment(watching.item.expires_at);
 
         if(now.isBetween(started_at, expires_at)) {
             let elapsed = now.diff(started_at, 'second');

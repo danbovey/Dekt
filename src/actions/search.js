@@ -26,7 +26,7 @@ export function search(query, type = 'show') {
 
                 // If we want to search movies, itemType here is future-proof
                 if(item[item.itemType].ids.tmdb) {
-                    return loadImages(item.show)
+                    return loadImages(item)
                         .then(tmdbShow => {
                             item[item.itemType].poster_path = tmdbShow.poster_path;
                             return item;

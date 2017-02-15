@@ -14,7 +14,7 @@ export default function config(state = initialState, action = {}) {
             return {
                 ...state,
                 loaded: true,
-                ...action.payload
+                item: action.payload
             };
         case WATCHING_CLEAR:
             return {

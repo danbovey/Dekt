@@ -70,7 +70,7 @@ export function load() {
             .then(watched => Promise.all(watched.map(item => {
                 if(item.show.ids.tmdb) {
                     // Load the show poster from TMDB
-                    return loadImages(item.show)
+                    return loadImages(item)
                         .then(tmdbShow => {
                             item.show.poster_path = tmdbShow.poster_path;
                             return item;

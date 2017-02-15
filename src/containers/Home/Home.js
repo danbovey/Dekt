@@ -36,7 +36,7 @@ export default class Home extends Component {
                 <PageTopper title="On deck" />
                 <div className="container--lg container--poster">
                     {deck.list.length > 0 ? deck.list.map((item, i) => {
-                        if(!watching.item || item.show.ids.trakt != watching.item.ids.trakt) {
+                        if(watching.item == null || item.show.ids.trakt != watching.item.show.ids.trakt) {
                             return <Poster item={item} actions={true} allowWatchlist={false} key={i} />;
                         }
                     }) : deck.loaded && deck.list.length == 0 ? (
