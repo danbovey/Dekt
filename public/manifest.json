@@ -3,22 +3,22 @@
   "name": "Dekt.tv",
   "icons": [
     {
-      "src": "/favicons/trakt-icon-192.png",
+      "src": "/favicons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/favicons/trakt-icon-256.png",
+      "src": "/favicons/icon-256.png",
       "sizes": "256x256",
       "type": "image/png"
     },
     {
-      "src": "/favicons/trakt-icon-384.png",
+      "src": "/favicons/icon-384.png",
       "sizes": "384x384",
       "type": "image/png"
     },
     {
-      "src": "/faviconstrakt-icon-512.png",
+      "src": "/favicons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
