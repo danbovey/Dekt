@@ -96,17 +96,17 @@ export function loadSeasons(trakt_id) {
 }
 
 export function loadProgress(trakt_id, deck) {
-    if(deck.loaded) {
-        deck.list.forEach(item => {
-            if(item.show.ids.slug == trakt_id) {
-                return {
-                    type: SHOW_PROGRESS_LOADED,
-                    payload: item.progress.seasons
-                };
-            }
-        });
-    } else {
-        return dispatch => {
+    return dispatch => {
+        if(deck.loaded) {
+            deck.list.forEach(item => {
+                if(item.show.ids.slug == trakt_id) {
+                    dispatch({
+                        type: SHOW_PROGRESS_LOADED,
+                        payload: item.progress.seasons
+                    });
+                }
+            });
+        } else {
             dispatch({ type: SHOW_PROGRESS_LOADING });
 
             return api.client.shows.progress.watched({
@@ -121,8 +121,8 @@ export function loadProgress(trakt_id, deck) {
                         payload: progress
                     });
                 });
-        };
-    }
+        }
+    };
 }
 
 // TODO: Move to history/sync reducer
