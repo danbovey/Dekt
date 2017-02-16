@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Tooltip from 'rc-tooltip';
 import moment from 'moment';
 import classNames from 'classnames';
 
 import * as showActions from 'actions/show';
 import PageTopper from 'components/PageTopper';
 import Poster from 'components/Poster';
+import Button from 'components/Button';
 import Spinner from 'components/Spinner';
 import Icon from 'components/Icon';
+import UsersWatching from 'components/UsersWatching';
+import EpisodeList from 'components/EpisodeList';
 
 import './styles';
 
@@ -26,36 +30,15 @@ export default class Show extends Component {
         const show = this.props.show;
         const title = this.props.params.title;
 
-        if((!show.item || title != show.item.title) && show.loading == false) {
+        // If the show has changed
+        if((!show.item || title.toLowerCase() != show.item[show.item.itemType].title.toLowerCase()) && show.loading == false) {
             this.props.showActions.load(title);
         }
     }
 
-    componentDidUpdate(prevProps) {
-        const title = this.props.params.title;
-        const show = this.props.show;
-        
-        if(show.item) {
-            if(show.seasons == null && show.seasons_loading == false) {
-                this.props.showActions.loadSeasons(title);
-            }
-            if(show.progress == null && show.progress_loading == false) {
-                this.props.showActions.loadProgress(title, this.props.deck);
-            }
-        }
-    }
-
     render() {
-        // const item = this.props.show.item;
-        // const seasons = this.props.show.seasons;
-        // const progress = this.props.show.progress;
-        const {
-            show: {
-                item,
-                seasons,
-                progress
-            }
-        } = this.props;
+        const show = this.props.show;
+        const item = show.item;
 
         let stats = [];
         if(item && item.show.stats) {
@@ -78,27 +61,6 @@ export default class Show extends Component {
             ];
         }
 
-        let currentSeason = null;
-        if(seasons && progress) {
-            // Find the furthest season that's been watched
-            currentSeason = progress.seasons.find(s => s.number == 1);
-            progress.seasons.forEach(season => {
-                if(season.completed > 0 && season.aired > season.completed) {
-                    currentSeason = season;
-                }
-            });
-            if(currentSeason) {
-                currentSeason.episodes = currentSeason.episodes.map(episode => {
-                    const episodeDetail = seasons.find(s => s.number == currentSeason.number)
-                        .episodes.find(e => e.number == episode.number);
-
-                    episodeDetail.completed = episode.completed;
-                    episodeDetail.last_watched_at = episode.last_watched_at;
-                    return episodeDetail;
-                });
-            }
-        }
-
         return (
             <main className="show">
                 {item ? (
@@ -113,6 +75,7 @@ export default class Show extends Component {
                                     {item.show.rating && item.show.votes ? (
                                         <div className="rating">
                                             <Icon name="heart" />
+                                            <span className="heart-solid" />
                                             <p>
                                                 {`${Math.round(item.show.rating * 10)}%`}
                                                 <span>{`${item.show.votes} votes`}</span>
@@ -144,39 +107,12 @@ export default class Show extends Component {
                                         </ul>
                                         <p>{item.show.overview}</p>
                                     </section>
-                                    {item.show.usersWatching ? (
-                                        <section className="watching-now">
-                                            <p>{item.show.usersWatching.length} watching now</p>
-                                            <div className="users">
-                                                {item.show.usersWatching.slice(0, item.show.usersWatching.length > 10 ? 9 : 10).map((user, i) => (
-                                                    <a href={`https://trakt.tv/users/${user.username}`} target="_blank" rel="noopener" key={i}>
-                                                        <img src={user.images ? user.images.avatar.full : null} alt={user.username} />
-                                                    </a>
-                                                ))}
-                                                {item.show.usersWatching.length > 10 ? (
-                                                    <a href="#" className="plus-more">+{item.show.usersWatching.length - 9} more</a>
-                                                ) : null}
-                                            </div>
-                                        </section>
-                                    ) : null}
-                                    {currentSeason ? (
-                                        <table className="table">
-                                            <tbody>
-                                                {currentSeason.episodes.map((episode, i) => (
-                                                    <tr key={i}>
-                                                        <td>{episode.number}</td>
-                                                        <td>{episode.title}</td>
-                                                        <td className="date">{moment(episode.first_aired).format('MMM DD, YYYY')}</td>
-                                                        <td>
-                                                            <button className="btn btn--history">
-                                                                <Icon name="check" />
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    ) : null}
+                                    <section className="watching-now">
+                                        <UsersWatching show={show} />
+                                    </section>
+                                    <section className="seasons">
+                                        <EpisodeList show={show} />
+                                    </section>
                                 </div>
                             </div>
                         </div>

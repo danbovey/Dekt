@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-const Icon = ({ name, size, spin, pulse, rotate, flip }) => (
+const Icon = ({ name, size, spin, pulse, rotate, flip, type = 'btb', prefix = 'bt' }) => (
     <span
-        className={classNames('btb', `bt-${name}`, {
+        className={classNames(type, `${prefix}-${name}`, {
             [`bt-${size}`]: size,
             'bt-spin': spin,
             'bt-pulse': pulse,

@@ -1,0 +1,54 @@
+@import "variables";
+
+.users-watching {
+    p, .users {
+        padding: 15px;
+        background: #FAFAFA;
+    }
+    p {
+        display: inline-block;
+    }
+    .users {
+        display: flex;
+        justify-content: space-around;
+        padding: 15px;
+        background: #FAFAFA;
+    }
+
+    a {
+        display: inline-block;
+        margin-right: 10px;
+        color: #FFF;
+
+        &.me img {
+            border-color: $primary;
+        }
+    }
+    img {
+        width: 64px;
+        height: 64px;
+        border: 3px solid #464646;
+        border-radius: 50%;
+        background: #464646;
+
+        @media(min-width: 768px) {
+            width: 72px;
+            height: 72px;
+        }
+    }
+    .plus-more {
+        display: flex;
+        align-items: center;
+        width: 64px;
+        height: 64px;
+        border: 3px solid #464646;
+        border-radius: 50%;
+        background: #464646;
+        text-align: center;
+
+        @media(min-width: 768px) {
+            width: 72px;
+            height: 72px;
+        }
+    }
+}
