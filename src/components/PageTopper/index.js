@@ -144,7 +144,7 @@ export default class PageTopper extends Component {
 
             if(topperItem.itemType == 'episode') {
                 link += `/seasons/${topperItem.episode.season}/episodes/${topperItem.episode.number}`;
-                itemTitle += ` ${topperItem.episode.season}x${topperItem.episode.number} "${topperItem.episode.title}"`;
+                itemTitle = `${topperItem.show.title} ${topperItem.episode.season}x${topperItem.episode.number} "${topperItem.episode.title}"`;
             }
 
             itemBackdrop = topperItem[topperItem.itemType].backdrop_path;

@@ -3,16 +3,22 @@ import moment from 'moment';
 import api from 'helpers/api';
 import { loadImages } from 'helpers/image';
 
-export const SHOW_LOADING = 'SHOW_LOADING';
-export const SHOW_LOADED = 'SHOW_LOADED';
-export const SHOW_SEASONS_LOADED = 'SHOW_SEASONS_LOADED';
-export const SHOW_SEASONS_LOADING = 'SHOW_SEASONS_LOADING';
-export const SHOW_PROGRESS_LOADING = 'SHOW_PROGRESS_LOADING';
-export const SHOW_PROGRESS_LOADED = 'SHOW_PROGRESS_LOADED';
+export const SHOW_LOADED = 'show/show';
+export const SHOW_LOADING = 'show/show_loading';
 
-export const SHOW_PROGRESS_WATCHED = 'SHOW_PROGRESS_WATCHED';
-export const SHOW_WATCHLIST_ADD = 'SHOW_WATCHLIST_ADD';
-export const SHOW_REMOVE = 'SHOW_REMOVE';
+export const SHOW_SEASONS_LOADED = 'show/seasons';
+export const SHOW_SEASONS_LOADING = 'show/seasons_loading';
+
+export const SHOW_PROGRESS_LOADED = 'show/progress';
+export const SHOW_PROGRESS_LOADING = 'show/progress_loading';
+
+export const SHOW_WATCHING_LOADING = 'show/watching_loading';
+export const SHOW_WATCHING = 'show/watching';
+
+export const SHOW_PROGRESS_WATCHED = 'show/progress';
+export const SHOW_WATCHLIST_ADD = 'sync/watchlist_add'; // TODO: Move to sync
+
+export const SHOW_REMOVE = 'show/remove';
 
 export function load(trakt_id) {
     return dispatch => {
@@ -42,17 +48,6 @@ export function load(trakt_id) {
                     })
                     .then(stats => {
                         item.show.stats = stats;
-                        return item;
-                    })
-                    .catch(() => item)
-            })
-            .then(item => {
-                return api.client.shows.watching({
-                        id: trakt_id,
-                        extended: 'full'
-                    })
-                    .then(watching => {
-                        item.show.usersWatching = watching;
                         return item;
                     })
                     .catch(() => item)
@@ -95,14 +90,15 @@ export function loadSeasons(trakt_id) {
     };
 }
 
-export function loadProgress(trakt_id, deck) {
-    return dispatch => {
+export function loadProgress(trakt_id) {
+    return (dispatch, getState) => {
+        const deck = getState().deck;
         if(deck.loaded) {
             deck.list.forEach(item => {
                 if(item.show.ids.slug == trakt_id) {
                     dispatch({
                         type: SHOW_PROGRESS_LOADED,
-                        payload: item.progress.seasons
+                        payload: item.progress
                     });
                 }
             });
@@ -112,7 +108,7 @@ export function loadProgress(trakt_id, deck) {
             return api.client.shows.progress.watched({
                     id: trakt_id,
                     hidden: false,
-                    specials: false,
+                    specials: true,
                     extended: 'full' // TOOD: Not in the docs?
                 })
                 .then(progress => {
@@ -125,23 +121,27 @@ export function loadProgress(trakt_id, deck) {
     };
 }
 
-// TODO: Move to history/sync reducer
-export function progressWatched(showItem, watched_at = null) {
+export function watching(trakt_id) {
     return dispatch => {
-        const episodes = [{
-            ids: showItem.next_episode.ids,
-            watched_at
-        }];
-        
-        return api.client.sync.history.add({ episodes })
-            .then(() => progress(showItem.show)(dispatch));
+        dispatch({ type: SHOW_WATCHING_LOADING });
+
+        return api.client.shows.watching({
+                id: trakt_id,
+                extended: 'full'
+            })
+            .then(watching => {
+                dispatch({
+                    type: SHOW_WATCHING,
+                    payload: watching
+                });
+            });
     };
 }
 
-export function progress(show) {
+export function progress(show_trakt_id) {
     return dispatch => {
         return api.client.shows.progress.watched({
-                id: show.ids.slug,
+                id: show_trakt_id,
                 hidden: false,
                 specials: false,
                 extended: 'full' // TODO: Not in docs?
@@ -151,7 +151,7 @@ export function progress(show) {
                     dispatch({
                         type: SHOW_PROGRESS_WATCHED,
                         payload: {
-                            trakt_id: show.ids.trakt,
+                            trakt_id: show_trakt_id,
                             next_episode: progress.next_episode
                         }
                     });
@@ -159,7 +159,7 @@ export function progress(show) {
                     dispatch({
                         type: SHOW_REMOVE,
                         payload: {
-                            trakt_id: show.ids.trakt
+                            trakt_id: show_trakt_id
                         }
                     });
                 }

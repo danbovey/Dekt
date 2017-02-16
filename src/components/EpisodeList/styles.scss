@@ -1,0 +1,58 @@
+@import "variables";
+
+.episode-list {
+    &.loading {
+        text-align: center;
+    }
+
+    .dropdown {
+        float: right;
+        margin-bottom: 15px;
+        
+        .btb {
+            position: relative;
+            top: -1px;
+            margin-left: 10px;
+            font-size: 11px;
+            color: #666;
+        }
+    }
+
+    .table {
+        width: 100%;
+        max-height: 840px;
+        overflow: scroll;
+        border-collapse: collapse;
+        font-size: 14px;
+
+        tr {
+            line-height: 35px;
+        }
+        td:first-child {
+            padding-left: 15px;
+        }
+        td:last-child {
+            padding-right: 15px;
+        }
+        tr:nth-child(odd) {
+            background: #EEE;
+        }
+
+        .date {
+            color: #AAA;
+        }
+
+        .btn {
+            padding: 0 10px;
+            background: none;
+        }
+        .btn--history {
+            transition: color 0.2s ease-in-out;
+            color: #AAA;
+
+            &:hover, &.active {
+                color: $history;
+            }
+        }
+    }
+}

@@ -1,3 +1,5 @@
+@import "variables";
+
 .poster {
     display: inline-block;
     position: relative;
@@ -87,31 +89,31 @@
 
             &.history {
                 font-size: 14px;
-                color: #8E44AD;
+                color: $history;
 
                 &:hover, &.active {
-                    background: #8E44AD;
+                    background: $history;
                 }
             }
             &.collect {
-                color: #16A085;
+                color: $collect;
 
                 &:hover, &.active {
-                    background: #16A085;
+                    background: $collect;
                 }
             }
             &.list {
-                color: #2B678F;
+                color: $list;
 
                 &:hover, &.active {
-                    background: #2B678F;
+                    background: $list;
                 }
             }
             &.watch-now {
-                color: #AAA;
+                color: $watch-now;
 
                 &:hover, &.active {
-                    background: #555;
+                    background: $watch-now-hover;
                 }
             }
         }

@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import classNames from 'classnames';
 
 import * as showActions from 'actions/show';
+import * as syncActions from 'actions/sync';
 import Icon from 'components/Icon';
 import Spinner from 'components/Spinner';
 import route from 'helpers/route';
@@ -14,7 +15,8 @@ import './styles';
 @connect(
     state => ({}),
     dispatch => ({
-        showActions: bindActionCreators(showActions, dispatch)
+        showActions: bindActionCreators(showActions, dispatch),
+        syncActions: bindActionCreators(syncActions, dispatch)
     })
 )
 export default class Poster extends Component {
@@ -46,12 +48,14 @@ export default class Poster extends Component {
     }
 
     history() {
-        // TOOD: If this item is in history
+        // TOOD: If this item is in history, toggle off
         this.setState({
             progressing: true,
             updating: true,
         });
-        this.props.showActions.progressWatched(this.props.item)
+        const item = this.props.item;
+        this.props.syncActions.history(item.next_episode.ids.trakt)
+            .then(() => this.props.showActions.progress(item.show.ids.trakt))
             .then(() => {
                 window.setTimeout(() => {
                     this.setState({

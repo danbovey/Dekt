@@ -42,7 +42,7 @@ export default class Search extends Component {
                     <div>
                         <PageTopper title="Search" />
                         <div className="container--lg">
-                            <p>Searching for <span>{search.query}</span></p>
+                            <p>Searching for <span>"{search.query}"</span></p>
                         </div>
                         <div className="container--lg container--poster">
                             {search.loaded && search.results.length > 0 ? search.results.map((result, i) => (
