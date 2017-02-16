@@ -1,6 +1,7 @@
 {
   "short_name": "Dekt.tv",
   "name": "Dekt.tv",
+  "start_url": "/",
   "icons": [
     {
       "src": "/favicons/icon-192.png",
@@ -23,9 +24,8 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait",
+  "theme_color": "#ED1C24",
   "background_color": "#1D1D1D",
-  "theme_color": "#ED1C24"
+  "display": "standalone",
+  "orientation": "portrait"
 }
