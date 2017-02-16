@@ -50,22 +50,21 @@ export default class PageTopper extends Component {
     componentDidUpdate(prevProps) {
         // If this component isn't hardcoded to use an image as a background
         if(!this.props.item) {
+            const prevItem = prevProps.watching.item;
+            const currItem = this.props.watching.item;
+
             // If there is no longer an item and we're running the task
-            if(!this.props.watching.item && this.state.progressBarTask) {
+            if(!currItem && this.state.progressBarTask) {
                 this.stopProgressBar();
             // If the current watching item is different from the last
-            } else if(prevProps.watching.item && this.props.watching.item && prevProps.watching.item.ids.trakt != this.props.watching.item.ids.trakt) {
+            } else if(prevItem && currItem && prevItem[prevItem.itemType].ids.trakt != currItem[currItem.itemType].ids.trakt) {
                 this.stopProgressBar();
                 this.startProgressbar();
                 // Tell the deck that something may have changed with the previous show
                 this.props.showActions.progress(prevProps.watching.item);
             // If there is a new item being watched and we haven't started the task
-            } else if(this.props.watching.loaded && !this.state.progressBarTask) {
-                if(this.props.watching.item == null) {
-                    this.stopProgressBar();
-                } else {
-                    this.startProgressBar();
-                }
+            } else if(this.props.watching.loaded && currItem && !this.state.progressBarTask) {
+                this.startProgressBar();
             }
         }
     }
@@ -102,8 +101,8 @@ export default class PageTopper extends Component {
         }
 
         const now = moment();
-        const started_at = moment(watching.started_at);
-        const expires_at = moment(watching.expires_at);
+        const started_at = moment(watching.item.started_at);
+        const expires_at = moment(watching.item.expires_at);
 
         if(now.isBetween(started_at, expires_at)) {
             let elapsed = now.diff(started_at, 'second');
@@ -124,40 +123,54 @@ export default class PageTopper extends Component {
         const {
             abstract,
             background,
+            children,
             item,
             title,
             watching
         } = this.props;
 
-        let topperItem = watching;
+        let topperItem = watching.item;
         if(item) {
             topperItem = item;
-            topperItem.item = topperItem.show;
         }
 
         let link = null;
         let itemTitle = null;
+        let itemBackdrop = null;
 
-        if(topperItem && topperItem.item) {
+        if(topperItem) {
+            link = `/shows/${topperItem[topperItem.itemType].ids.slug}`;
+            itemTitle = topperItem[topperItem.itemType].title;
+
             if(topperItem.itemType == 'episode') {
-                link = `https://trakt.tv/shows/${topperItem.item.slug}/seasons/${topperItem.item.season}/episodes/${topperItem.item.number}`;
-                itemTitle = `${topperItem.item.show_title} ${topperItem.item.season}x${topperItem.item.number} "${topperItem.item.title}"`;
-            } else if(topperItem.itemType == 'movie') {
-                link = `https://trakt.tv/movies/${topperItem.item.ids.slug}`;
-                itemTitle = topperItem.item.title;
+                link += `/seasons/${topperItem.episode.season}/episodes/${topperItem.episode.number}`;
+                itemTitle += ` ${topperItem.episode.season}x${topperItem.episode.number} "${topperItem.episode.title}"`;
             }
+
+            itemBackdrop = topperItem[topperItem.itemType].backdrop_path;
         }
+
+        const defaultBackdrop = (
+            <div
+                className={classNames('page-topper__bg', {
+                    'repeat blur': abstract
+                })}
+                style={{backgroundImage: `url(${background})`}}
+            />
+        );
 
         return (
             <div
                 className={classNames('page-topper', {
-                    'page-topper--banner': topperItem && topperItem.item
+                    'page-topper--banner': topperItem
                 })}
             >
-                {topperItem && topperItem.item ? (
+                {topperItem ? (
                     <div>
-                        <div className="page-topper__bg" style={{backgroundImage: `url(${topperItem.backdrop_path})`}} />
-                        {watching && watching.item ? (
+                        {itemBackdrop ? (
+                            <div className="page-topper__bg" style={{backgroundImage: `url(${itemBackdrop})`}} />
+                        ) : defaultBackdrop}
+                        {!item && watching.item ? (
                             <div className="watching-bar">
                                 <div className="bar" style={{ width: this.state.percentage + '%' }}>
                                     <p className="percentage">{Math.round(this.state.percentage)}%</p>
@@ -176,17 +189,18 @@ export default class PageTopper extends Component {
                                 <p className="duration">{toHHMM(this.state.duration)}</p>
                             </div>
                         ) : null}
-                        <h2>{title}</h2>
+                        {title ? (
+                            <h2>{title}</h2>
+                        ) : null}
+                        {children}
                     </div>
-                ): (
+                ) : (
                     <div>
-                        <div
-                            className={classNames('page-topper__bg', {
-                                'repeat blur': abstract
-                            })}
-                            style={{backgroundImage: `url(${background})`}}
-                        />
-                        <h2>{title}</h2>
+                        {defaultBackdrop}
+                        {title ? (
+                            <h2>{title}</h2>
+                        ) : null}
+                        {children}
                     </div>
                 )}
             </div>

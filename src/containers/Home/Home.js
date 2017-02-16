@@ -34,10 +34,10 @@ export default class Home extends Component {
         return (
             <main className="home">
                 <PageTopper title="On deck" />
-                <div className="container-lg">
-                    {deck.list.length > 0 ? deck.list.map((show, i) => {
-                        if(!watching.item || show.show.ids.trakt != watching.item.ids.trakt) {
-                            return <Poster item={show} actions={true} allowWatchlist={false} key={i} />;
+                <div className="container--lg container--poster">
+                    {deck.list.length > 0 ? deck.list.map((item, i) => {
+                        if(watching.item == null || item.show.ids.trakt != watching.item.show.ids.trakt) {
+                            return <Poster item={item} actions={true} allowWatchlist={false} key={i} />;
                         }
                     }) : deck.loaded && deck.list.length == 0 ? (
                         <p className="empty-state">

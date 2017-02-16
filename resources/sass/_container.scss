@@ -1,19 +1,27 @@
-.container-lg {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    min-height: 100vh;
+.container {
+    margin: 0 auto;
+    padding: 0 10px;
+
+    @media(min-width: 768px) {
+        width: 740px;
+    }
+    @media(min-width: 992px) {
+        width: 960px;
+    }
+    @media(min-width: 1200px) {
+        width: 1160px;
+    }
+}
+
+.container--lg {
     padding: 30px 0;
     color: #FFF;
-
-    .poster {
-        padding: 20px;
-    }
 
     .loading {
         display: flex;
         justify-content: center;
         align-items: center;
+        min-height: 80vh;
         padding: 150px 0;
     }
 
@@ -26,14 +34,28 @@
     @media(min-width: 320px) {
         padding-left: 15px;
         padding-right: 15px;
+    }
+}
 
+
+.container--poster {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    
+    .poster {
+        padding: 20px;
+    }
+
+    @media(min-width: 320px) {
         .poster {
+            width: 50%;
             margin: 0;
         }
     }
-
     @media(min-width: 768px) {
         .poster {
+            width: 173px;
             padding: 0;
             margin: 20px;
         }

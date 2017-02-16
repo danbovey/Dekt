@@ -9,8 +9,7 @@ const api = {
             client_id: config.client_id,
             client_secret: config.client_secret,
             redirect_uri: app_url + '/oauth/callback',
-            // api_url: process.env.NODE_ENV === 'production' ? 'https://api.trakt.tv' : 'https://api-staging.trakt.tv'
-            api_url: 'https://api-staging.trakt.tv'
+            api_url: 'https://api.trakt.tv'
         });
 
         const tokens = {

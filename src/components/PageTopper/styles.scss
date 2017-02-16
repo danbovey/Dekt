@@ -30,6 +30,7 @@
         z-index: -1;
         background-size: cover;
         background-position: center 25%;
+        background-color: #181818;
 
         &.repeat {
             background-size: 240px 240px;
@@ -43,6 +44,19 @@
     h2 {
         padding: 0 45px;
         text-transform: uppercase;
+        text-shadow: 0 0 20px #000;
+
+        .year {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 21px;
+            font-weight: 200;
+            color: #999;
+        }
+    }
+
+    .container h2 {
+        padding: 0;
     }
 
     .watching-bar + h2 {

@@ -11,24 +11,13 @@ export function load(currentWatching) {
             })
             .then(result => {
                 if(result) {
-                    const isSameShow = (result.type == 'episode' && currentWatching && currentWatching.ids.trakt == result.show.ids.trakt);
-                    const isSameMovie = (result.type == 'movie' && currentWatching && currentWatching.ids.trakt == result.movie.ids.trakt);
+                    const item = currentWatching ? currentWatching[currentWatching.itemType] : null;
+                    const isSameShow = (result.type == 'episode' && item && item.ids.trakt == result.show.ids.trakt);
+                    const isSameMovie = (result.type == 'movie' && item && item.ids.trakt == result.movie.ids.trakt);
                     if(!(isSameShow || isSameMovie)) {
-                        const itemType = result.type;
-
-                        // The payload
                         return {
-                            started_at: result.started_at,
-                            expires_at: result.expires_at,
-                            itemType,
-                            item: itemType == 'episode' ? ({
-                                ids: result.show.ids,
-                                season: result.episode.season,
-                                number: result.episode.number,
-                                title: result.episode.title,
-                                show_title: result.show.title,
-                                slug: result.show.ids.slug
-                            }) : result.movie
+                            ...result,
+                            itemType: result.type
                         };
                     } else {
                         dispatch({ type: 'IGNORE' });
@@ -38,11 +27,11 @@ export function load(currentWatching) {
                 }
             })
             .then(payload => {
-                if(payload) {
-                    return loadImages(payload.item, payload.itemType == 'episode' ? 'tv' : 'movie')
+                if(payload && payload[payload.itemType]) {
+                    return loadImages(payload)
                         .then(tmdbShow => {
-                            payload.poster_path = tmdbShow.poster_path;
-                            payload.backdrop_path = tmdbShow.backdrop_path;
+                            payload[payload.itemType].poster_path = tmdbShow.poster_path;
+                            payload[payload.itemType].backdrop_path = tmdbShow.backdrop_path;
 
                             dispatch({
                                 type: WATCHING_LOADED,

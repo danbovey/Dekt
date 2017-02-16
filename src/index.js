@@ -15,7 +15,15 @@ const dest = document.getElementById('root');
 const store = configureStore();
 
 const router = (
-    <Router history={browserHistory}>
+    <Router
+        onUpdate={(prevState, nextState) => {
+            // If the transition is not "back"
+            if(nextState && nextState.location.action !== "POP") {
+                window.scrollTo(0, 0);
+            }
+        }}
+        history={browserHistory}
+    >
         {getRoutes(store)}
     </Router>
 );

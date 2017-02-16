@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import classNames from 'classnames';
 
 import * as lightActions from 'actions/lights';
@@ -20,12 +20,54 @@ import './styles';
     })
 )
 export default class Navbar extends Component {
-    search() {
+    constructor(props) {
+        super(props);
 
+        this.state = {
+            search: false,
+            searchValue: ''
+        };
+    }
+
+    toggleSearch() {
+        this.setState({
+            search: !this.state.search,
+            searchValue: ''
+        }, () => {
+            if(this._searchInput && this.state.search) {
+                window.setTimeout(() => this._searchInput.focus(), 200);
+            }
+        });
+    }
+
+    closeSearch() {
+        this.setState({
+            search: false,
+            searchValue: ''
+        });
+    }
+
+    handleSearchChange(e) {
+        this.setState({
+            searchValue: e.target.value
+        });
+    }
+
+    handleSearchKey(e) {
+        if(e.keyCode == 27) { // ESC
+            this.closeSearch();
+        } else if(e.keyCode == 13) { // Enter
+            const query = e.target.value;
+            if(query.length > 0) {
+                this.closeSearch();
+                browserHistory.push(route('search', {}, {
+                    query: encodeURIComponent(query).replace(/%20/g, '+')
+                }));
+            }
+        }
     }
 
     toggleLights() {
-        console.log('toggle lights?');
         this.props.lightActions.toggle();
     }
 
@@ -37,6 +79,10 @@ export default class Navbar extends Component {
         const {
             auth
         } = this.props;
+
+        const {
+            search
+        } = this.state;
 
         return (
             <header className="navbar">
@@ -82,18 +128,6 @@ export default class Navbar extends Component {
                         Watchlist
                     </Link></li>
                 </ul>
-                <ul className="nav nav--first">
-                    <li>
-                        <button onClick={this.search.bind(this)}>
-                            <Icon name="search" />
-                        </button>
-                    </li>
-                    <li>
-                        <button onClick={this.toggleLights.bind(this)}>
-                            <Icon name="light-bulb" />
-                        </button>
-                    </li>
-                </ul>
                 <div className="nav nav--last">
                     {auth.user ? (
                         <div className="user">
@@ -104,6 +138,31 @@ export default class Navbar extends Component {
                         </div>
                     ) : null}
                 </div>
+                <ul className="nav nav--first">
+                    <li
+                        className={classNames('search', {
+                            'active': search
+                        })}
+                    >
+                        <button onClick={this.toggleSearch.bind(this)}>
+                            <Icon name={search ? "times" : "search"} />
+                        </button>
+                        <div className="search__input">
+                            <input
+                                type="text"
+                                ref={c => this._searchInput = c}
+                                onChange={this.handleSearchChange.bind(this)}
+                                onKeyUp={this.handleSearchKey.bind(this)}
+                                value={this.state.searchValue}
+                            />
+                        </div>
+                    </li>
+                    <li className="lights-toggle">
+                        <button onClick={this.toggleLights.bind(this)}>
+                            <Icon name="light-bulb" />
+                        </button>
+                    </li>
+                </ul>
             </header>
         );
     }

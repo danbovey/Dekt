@@ -20,28 +20,36 @@ export function load() {
                     })
                     .then(hidden => {
                         hidden = hidden.map(item => item.show.ids.slug);
-                        return watched.filter(show => hidden.indexOf(show.show.ids.slug) === -1)
+                        return watched.filter(item => hidden.indexOf(item.show.ids.slug) === -1)
                     })
                     .catch(() => watched);
             })
-            .then(watched => Promise.all(watched.map(show => {
+            .then(watched => Promise.all(watched.map(item => {
                 // Get watch progress for shows that have aired episodes
-                if(show.show.aired_episodes > 0 && show.show.aired_episodes !== show.plays) {
+                if(item.show.aired_episodes > 0) {
                     return api.client.shows.progress.watched({
-                            extended: 'full',
-                            id: show.show.ids.slug,
+                            id: item.show.ids.slug,
                             hidden: false,
-                            specials: false
+                            specials: false,
+                            extended: 'full' // TODO: Not in the docs?
                         })
                         .then(progress => {
+                            // TODO: Lots more useful info here to add to deck shows
+
                             const lastSeason = progress.seasons[progress.seasons.length - 1];
                             const lastEpisodeWatched = lastSeason.episodes[lastSeason.episodes.length - 1].completed;
                             if(!lastEpisodeWatched && progress.next_episode && progress.aired > progress.completed) {
                                 return {
-                                    show: show.show,
+                                    show: item.show,
+                                    itemType: 'show',
                                     next_episode: progress.next_episode,
-                                    unseen: progress.aired - progress.completed,
-                                    last_watched_at: progress.last_watched_at
+                                    progress: {
+                                        aired: progress.aired,
+                                        completed: progress.completed,
+                                        unseen: progress.aired - progress.completed,
+                                        seasons: progress.seasons,
+                                        last_watched_at: progress.last_watched_at
+                                    }
                                 };
                             }
 
@@ -69,9 +77,9 @@ export function load() {
             .then(watched => Promise.all(watched.map(item => {
                 if(item.show.ids.tmdb) {
                     // Load the show poster from TMDB
-                    return loadImages(item.show)
+                    return loadImages(item)
                         .then(tmdbShow => {
-                            item.poster_path = tmdbShow.poster_path;
+                            item.show.poster_path = tmdbShow.poster_path;
                             return item;
                         })
                         .catch(() => item);
