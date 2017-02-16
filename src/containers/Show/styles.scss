@@ -4,10 +4,19 @@ main.show {
     .page-topper > div {
         height: 175px;
         align-items: flex-end;
+
+        @media(min-width: 480px) {
+            margin-left: 170px;
+        }
+
+        @media(min-width: 768px) {
+            margin-left: 0;
+        }
     }
 
     .show__meta {
         display: flex;
+        flex-wrap: wrap;
         align-items: flex-start;
         margin-top: 20px;
         text-shadow: 0 0 20px #000;
@@ -69,10 +78,51 @@ main.show {
         background: #FFF;
         color: #333;
 
-        .container {
+        > .loading {
             display: flex;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 400px);
         }
 
+        .container {
+            .sidebar {
+                margin-bottom: 20px;
+
+                .poster {
+                    display: none;
+                }
+            }
+            .additional-stats {
+                text-align: center;
+            }
+
+            @media(min-width: 480px) {
+                .sidebar .poster {
+                    display: block;
+                    position: absolute;
+                    top: 81px;
+                    left: 40px;
+                    width: 120px;
+                }
+            }
+
+            @media(min-width: 768px) {
+                display: flex;
+
+                .sidebar {
+                    margin-bottom: 0;
+
+                    .poster {
+                        width: 173px;
+                        position: static;
+                    }
+                }
+                .additional-stats {
+                    text-align: left;
+                }
+            }
+        }
         .show-content {
             padding: 0 30px;
         }

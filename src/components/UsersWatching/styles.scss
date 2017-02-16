@@ -1,6 +1,10 @@
 @import "variables";
 
 .users-watching {
+    &.loading {
+        text-align: center;
+    }
+
     p, .users {
         padding: 15px;
         background: #FAFAFA;
@@ -10,6 +14,7 @@
     }
     .users {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-around;
         padding: 15px;
         background: #FAFAFA;

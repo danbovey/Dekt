@@ -1,6 +1,10 @@
 @import "variables";
 
 .episode-list {
+    &.loading {
+        text-align: center;
+    }
+
     .dropdown {
         float: right;
         margin-bottom: 15px;

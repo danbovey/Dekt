@@ -37,6 +37,7 @@ export default class Show extends Component {
     }
 
     render() {
+        const title = decodeURIComponent(this.props.params.title).replace('-', ' ');
         const show = this.props.show;
         const item = show.item;
 
@@ -63,63 +64,63 @@ export default class Show extends Component {
 
         return (
             <main className="show">
-                {item ? (
-                    <div>
-                        <PageTopper item={item}>
-                            <div className="container">
-                                <h2>
-                                    {item.show.title}
-                                    <span className="year">{item.show.year}</span>
-                                </h2>
-                                <div className="show__meta">
-                                    {item.show.rating && item.show.votes ? (
-                                        <div className="rating">
-                                            <Icon name="heart" />
-                                            <span className="heart-solid" />
-                                            <p>
-                                                {`${Math.round(item.show.rating * 10)}%`}
-                                                <span>{`${item.show.votes} votes`}</span>
-                                            </p>
-                                        </div>
-                                    ) : null}
-                                    {stats.map((stat, i) => (
-                                        <div className={stat.name} key={i}>
-                                            <p>{item.show.stats[stat.name]}<span>{stat.label || stat.name}</span></p>
-                                        </div>
-                                    ))}
+                <PageTopper item={item}>
+                    <div className="container">
+                        <h2>
+                            {item ? item.show.title : title}
+                            <span className="year">{item ? item.show.year : null}</span>
+                        </h2>
+                        <div className="show__meta">
+                            {item && item.show.rating && item.show.votes ? (
+                                <div className="rating">
+                                    <Icon name="heart" />
+                                    <span className="heart-solid" />
+                                    <p>
+                                        {`${Math.round(item.show.rating * 10)}%`}
+                                        <span>{`${item.show.votes} votes`}</span>
+                                    </p>
                                 </div>
-                            </div>
-                        </PageTopper>
-                        <div className="show-main">
-                            <div className="container">
-                                <aside className="sidebar">
-                                    <Poster item={item} titles={false} />
-                                </aside>
-                                <div className="show-content">
-                                    <section className="overview">
-                                        <ul className="additional-stats">
-                                            {additional.map((stat, i) => (
-                                                <li key={i}>
-                                                    <label>{stat.label}</label>
-                                                    <span>{stat.value}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        <p>{item.show.overview}</p>
-                                    </section>
-                                    <section className="watching-now">
-                                        <UsersWatching show={show} />
-                                    </section>
-                                    <section className="seasons">
-                                        <EpisodeList show={show} />
-                                    </section>
+                            ) : null}
+                            {stats.map((stat, i) => (
+                                <div className={stat.name} key={i}>
+                                    <p>{item.show.stats[stat.name]}<span>{stat.label || stat.name}</span></p>
                                 </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
-                ) : (
-                    <Spinner size="large" />
-                )}
+                </PageTopper>
+                <div className="show-main">
+                    {item ? (
+                        <div className="container">
+                            <aside className="sidebar">
+                                <Poster item={item} titles={false} />
+                            </aside>
+                            <div className="show-content">
+                                <section className="overview">
+                                    <ul className="additional-stats">
+                                        {additional.map((stat, i) => (
+                                            <li key={i}>
+                                                <label>{stat.label}</label>
+                                                <span>{stat.value}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <p>{item.show.overview}</p>
+                                </section>
+                                <section className="watching-now">
+                                    <UsersWatching show={show} />
+                                </section>
+                                <section className="seasons">
+                                    <EpisodeList show={show} />
+                                </section>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="loading">
+                            <Spinner size="large" />
+                        </div>
+                    )}
+                </div>
             </main>
         );
     }

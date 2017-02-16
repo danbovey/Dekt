@@ -145,6 +145,10 @@ export default class EpisodeList extends Component {
             );
         }
 
-        return <Spinner size="medium" />;
+        return (
+            <div className="episode-list">
+                <Spinner size="medium" />
+            </div>
+        );
     }
 }
