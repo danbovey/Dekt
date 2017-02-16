@@ -28,12 +28,14 @@ export function load() {
                 // Get watch progress for shows that have aired episodes
                 if(item.show.aired_episodes > 0) {
                     return api.client.shows.progress.watched({
-                            extended: 'full',
                             id: item.show.ids.slug,
                             hidden: false,
-                            specials: false
+                            specials: false,
+                            extended: 'full' // TODO: Not in the docs?
                         })
                         .then(progress => {
+                            // TODO: Lots more useful info here to add to deck shows
+
                             const lastSeason = progress.seasons[progress.seasons.length - 1];
                             const lastEpisodeWatched = lastSeason.episodes[lastSeason.episodes.length - 1].completed;
                             if(!lastEpisodeWatched && progress.next_episode && progress.aired > progress.completed) {
@@ -41,8 +43,13 @@ export function load() {
                                     show: item.show,
                                     itemType: 'show',
                                     next_episode: progress.next_episode,
-                                    unseen: progress.aired - progress.completed,
-                                    last_watched_at: progress.last_watched_at
+                                    progress: {
+                                        aired: progress.aired,
+                                        completed: progress.completed,
+                                        unseen: progress.aired - progress.completed,
+                                        seasons: progress.seasons,
+                                        last_watched_at: progress.last_watched_at
+                                    }
                                 };
                             }
 

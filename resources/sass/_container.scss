@@ -1,3 +1,18 @@
+.container {
+    margin: 0 auto;
+    padding: 0 10px;
+
+    @media(min-width: 768px) {
+        width: 740px;
+    }
+    @media(min-width: 992px) {
+        width: 960px;
+    }
+    @media(min-width: 1200px) {
+        width: 1160px;
+    }
+}
+
 .container--lg {
     padding: 30px 0;
     color: #FFF;
@@ -34,11 +49,13 @@
 
     @media(min-width: 320px) {
         .poster {
+            width: 50%;
             margin: 0;
         }
     }
     @media(min-width: 768px) {
         .poster {
+            width: 173px;
             padding: 0;
             margin: 20px;
         }

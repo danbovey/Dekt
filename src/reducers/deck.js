@@ -72,7 +72,7 @@ const sortShows = list => {
     return list.sort((a, b) => {
         const now = moment();
         const shows = [a, b];
-        const dates = [a.last_watched_at, b.last_watched_at];
+        const dates = [a.progress.last_watched_at, b.progress.last_watched_at];
 
         for(let i in shows) {
             if(!shows.hasOwnProperty(i)) continue;

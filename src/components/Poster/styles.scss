@@ -3,10 +3,6 @@
     position: relative;
     transition: transform 0.3s ease-in-out;
 
-    @media(min-width: 320px) {
-        width: 50%;
-    }
-
     @media(min-width: 768px) {
         width: 173px;
     }
@@ -130,6 +126,9 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+        a {
+            color: inherit;
         }
 
         .titles__number {

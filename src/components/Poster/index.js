@@ -20,7 +20,8 @@ import './styles';
 export default class Poster extends Component {
     static defaultProps = {
         allowHistory: true,
-        allowWatchlist: true
+        allowWatchlist: true,
+        titles: true
     };
 
     constructor(props) {
@@ -73,7 +74,8 @@ export default class Poster extends Component {
             actions,
             allowHistory,
             allowWatchlist,
-            item
+            item,
+            titles
         } = this.props;
 
         const {
@@ -81,7 +83,11 @@ export default class Poster extends Component {
             updating
         } = this.state;
 
-        const link = route('shows.single', { title: item[item.itemType].ids.slug });
+        const showLink = route('shows.single', { title: item[item.itemType].ids.slug });
+        let link = null;
+        if(item.next_episode) {
+            link = route('show.episode', { title: item[item.itemType].ids.slug, season: item.next_episode.season, episode: item.next_episode.number });
+        }
 
         return (
             <div
@@ -90,7 +96,7 @@ export default class Poster extends Component {
                 })}
             >
                 <div className="poster__images">
-                    <Link to={link}>
+                    <Link to={link || showLink}>
                         <img src="/img/poster.png" alt="Temporary Poster" className="base" />
                         {item[item.itemType].poster_path ? (
                             <img src={item[item.itemType].poster_path} alt="Poster" className="real" />
@@ -132,23 +138,30 @@ export default class Poster extends Component {
                         </button>*/}
                     </div>
                 ) : null}
-                <div className="poster__titles">
-                    {item.next_episode ? (
-                        <p>
-                            <span className="titles__number">{item.next_episode.season + 'x' + item.next_episode.number}</span>
-                            <span
-                                className="titles__name"
-                                dangerouslySetInnerHTML={{__html: item.next_episode.title }}
-                            />
+                {titles ? (
+                    <div className="poster__titles">
+                        {item.next_episode ? (
+                            <p>
+                                <Link to={link}>
+                                    <span className="titles__number">
+                                        {item.next_episode.season + 'x' + item.next_episode.number}
+                                    </span>
+                                    <span
+                                        className="titles__name"
+                                        dangerouslySetInnerHTML={{__html: item.next_episode.title }}
+                                    />
+                                </Link>
+                            </p>
+                        ) : null}
+                        <p
+                            className={classNames('titles__show', {
+                                'titles--single': !item.next_episode
+                            })}
+                        >
+                            <Link to={showLink} dangerouslySetInnerHTML={{__html: item[item.itemType].title }} />
                         </p>
-                    ) : null}
-                    <p
-                        className={classNames('titles__show', {
-                            'titles--single': !item.next_episode
-                        })}
-                        dangerouslySetInnerHTML={{__html: item[item.itemType].title }}
-                    />
-                </div>
+                    </div>
+                ) : null}
             </div>
         );
     }

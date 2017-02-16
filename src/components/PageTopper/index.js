@@ -123,6 +123,7 @@ export default class PageTopper extends Component {
         const {
             abstract,
             background,
+            children,
             item,
             title,
             watching
@@ -135,16 +136,28 @@ export default class PageTopper extends Component {
 
         let link = null;
         let itemTitle = null;
+        let itemBackdrop = null;
 
         if(topperItem) {
-            link = `https://trakt.tv/shows/${topperItem[topperItem.itemType].ids.slug}`;
+            link = `/shows/${topperItem[topperItem.itemType].ids.slug}`;
             itemTitle = topperItem[topperItem.itemType].title;
 
             if(topperItem.itemType == 'episode') {
                 link += `/seasons/${topperItem.episode.season}/episodes/${topperItem.episode.number}`;
                 itemTitle += ` ${topperItem.episode.season}x${topperItem.episode.number} "${topperItem.episode.title}"`;
             }
+
+            itemBackdrop = topperItem[topperItem.itemType].backdrop_path;
         }
+
+        const defaultBackdrop = (
+            <div
+                className={classNames('page-topper__bg', {
+                    'repeat blur': abstract
+                })}
+                style={{backgroundImage: `url(${background})`}}
+            />
+        );
 
         return (
             <div
@@ -154,8 +167,10 @@ export default class PageTopper extends Component {
             >
                 {topperItem ? (
                     <div>
-                        <div className="page-topper__bg" style={{backgroundImage: `url(${topperItem[topperItem.itemType].backdrop_path})`}} />
-                        {watching && watching.item ? (
+                        {itemBackdrop ? (
+                            <div className="page-topper__bg" style={{backgroundImage: `url(${itemBackdrop})`}} />
+                        ) : defaultBackdrop}
+                        {!item && watching.item ? (
                             <div className="watching-bar">
                                 <div className="bar" style={{ width: this.state.percentage + '%' }}>
                                     <p className="percentage">{Math.round(this.state.percentage)}%</p>
@@ -174,17 +189,18 @@ export default class PageTopper extends Component {
                                 <p className="duration">{toHHMM(this.state.duration)}</p>
                             </div>
                         ) : null}
-                        <h2>{title}</h2>
+                        {title ? (
+                            <h2>{title}</h2>
+                        ) : null}
+                        {children}
                     </div>
                 ) : (
                     <div>
-                        <div
-                            className={classNames('page-topper__bg', {
-                                'repeat blur': abstract
-                            })}
-                            style={{backgroundImage: `url(${background})`}}
-                        />
-                        <h2>{title}</h2>
+                        {defaultBackdrop}
+                        {title ? (
+                            <h2>{title}</h2>
+                        ) : null}
+                        {children}
                     </div>
                 )}
             </div>
