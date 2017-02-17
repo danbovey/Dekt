@@ -37,6 +37,7 @@ export default class Dropdown extends Component {
         const {
             className,
             closeOnClick,
+            dark,
             disabled,
             trigger
         } = this.props;
@@ -90,7 +91,8 @@ export default class Dropdown extends Component {
         return (
             <div
                 className={classNames('dropdown', className, {
-                    'dropdown--disabled': disabled
+                    'dropdown--disabled': disabled,
+                    'dropdown--dark': dark
                 })}
             >
                 {children}
@@ -134,10 +136,11 @@ export class Menu extends Component {
     }
 }
 
-export const Item = ({ children, disabled, onClick }) => (
+export const Item = ({ children, disabled, link, onClick }) => (
     <li
         className={classNames('dropdown__item', {
-            'dropdown__item--disabled': disabled
+            'dropdown__item--disabled': disabled,
+            'dropdown__item--link': link
         })}
         onClick={!disabled ? onClick : null}
     >

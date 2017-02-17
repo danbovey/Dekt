@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import classNames from 'classnames';
 
+import * as authActions from 'actions/auth';
 import * as lightActions from 'actions/lights';
+import Dropdown, { Menu, Item, Divider } from 'components/Dropdown';
+import Button from 'components/Button';
 import Icon from 'components/Icon';
 import route from 'helpers/route';
 
@@ -16,6 +19,7 @@ import './styles';
         lights: state.lights
     }),
     dispatch => ({
+        authActions: bindActionCreators(authActions, dispatch),
         lightActions: bindActionCreators(lightActions, dispatch)
     })
 )
@@ -75,6 +79,10 @@ export default class Navbar extends Component {
         this.props.lightActions.off();
     }
 
+    logout() {
+        this.props.authActions.logout();
+    }
+
     render() {
         const {
             auth
@@ -131,10 +139,35 @@ export default class Navbar extends Component {
                 <div className="nav nav--last">
                     {auth.user ? (
                         <div className="user">
-                            <a href={`https://trakt.tv/users/${auth.user.username}`} target="_blank" rel="noopener">
-                                <img src={auth.user.images.avatar.full} className="avatar" alt={auth.user.name} />
-                                <span>{auth.user.name}</span>
-                            </a>
+                            <Dropdown
+                                dark={true}
+                                menu={(
+                                    <Menu placement="right">
+                                        <Item link={true}>
+                                            <a href={`https://trakt.tv/users/${auth.user.username}`} target="_blank" rel="noopener">Profile</a>
+                                        </Item>
+                                        <Item link={true}>
+                                            <a href={`https://trakt.tv/users/${auth.user.username}/history`} target="_blank" rel="noopener">History</a>
+                                        </Item>
+                                        <Item link={true}>
+                                            <a href={`https://trakt.tv/users/${auth.user.username}/lists`} target="_blank" rel="noopener">Lists</a>
+                                        </Item>
+                                        <Item link={true}>
+                                            <a href="https://trakt.tv/settings/hidden" target="_blank" rel="noopener">Hidden Items</a>
+                                        </Item>
+                                        <Item link={true}>
+                                            <a href="https://trakt.tv/settings" target="_blank" rel="noopener">Settings</a>
+                                        </Item>
+                                        <Divider />
+                                        <Item onClick={this.logout.bind(this)}>Sign out</Item>
+                                    </Menu>
+                                )}
+                            >
+                                <Button type="default">
+                                    <img src={auth.user.images.avatar.full} className="avatar" alt={auth.user.name} />
+                                    <span>{auth.user.name}</span>
+                                </Button>
+                            </Dropdown>
                         </div>
                     ) : null}
                 </div>

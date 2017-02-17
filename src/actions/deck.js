@@ -25,8 +25,8 @@ export function load() {
                     .catch(() => watched);
             })
             .then(watched => Promise.all(watched.map(item => {
-                // Get watch progress for shows that have aired episodes
-                if(item.show.aired_episodes > 0) {
+                // Get watch progress for shows that have aired episodes and have been watched
+                if(item.show.aired_episodes > 0 && item.last_watched_at) {
                     return api.client.shows.progress.watched({
                             id: item.show.ids.slug,
                             hidden: false,
@@ -60,6 +60,7 @@ export function load() {
             // Filter out any episodes above that are removed above
             .then(watched => watched.filter(item => item != null))
             .then(watched => Promise.all(watched.map(item => {
+                // TODO: This can be deferred
                 // If the show is still running, check if the next episode is the latest episode
                 if(item.show.status != 'ended') {
                     return api.client.shows.last_episode({
@@ -75,6 +76,7 @@ export function load() {
                 return item;
             })))
             .then(watched => Promise.all(watched.map(item => {
+                // TODO: This can be deferred
                 if(item.show.ids.tmdb) {
                     // Load the show poster from TMDB
                     return loadImages(item)
