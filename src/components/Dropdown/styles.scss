@@ -38,6 +38,8 @@
         }
 
         .dropdown__item {
+            display: block;
+            width: 100%;
             padding: 8px 16px;
             background: #FFF;
             font-size: 0.8rem;
@@ -53,6 +55,16 @@
                 color: rgba(0, 0, 0, 0.25);
                 cursor: not-allowed;
             }
+
+            &--link {
+                padding: 0;
+
+                a {
+                    display: block;
+                    padding: 8px 16px;
+                    color: inherit;
+                }
+            }
         }
 
         .dropdown__divider {
@@ -60,6 +72,22 @@
             height: 1px;
             margin: 5px 0;
             background: #EEE;
+        }
+    }
+
+    &--dark .dropdown__menu {
+        background: #171717;
+
+        .dropdown__item {
+            background: #171717;
+            color: #CCC;
+
+            &:hover, &:focus {
+                background: #292929;
+            }
+        }
+        .dropdown__divider {
+            background: #333;
         }
     }
 }

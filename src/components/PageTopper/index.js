@@ -139,12 +139,12 @@ export default class PageTopper extends Component {
         let itemBackdrop = null;
 
         if(topperItem) {
-            link = `/shows/${topperItem[topperItem.itemType].ids.slug}`;
-            itemTitle = topperItem[topperItem.itemType].title;
-
             if(topperItem.itemType == 'episode') {
-                link += `/seasons/${topperItem.episode.season}/episodes/${topperItem.episode.number}`;
+                link = `/shows/${topperItem.show.ids.slug}/seasons/${topperItem.episode.season}/episodes/${topperItem.episode.number}`;
                 itemTitle = `${topperItem.show.title} ${topperItem.episode.season}x${topperItem.episode.number} "${topperItem.episode.title}"`;
+            } else if(topperItem.itemType == 'movie') {
+                link = `/movies/${topperItem.movie.ids.slug}`;
+                itemTitle = topperItem.movie.title;
             }
 
             itemBackdrop = topperItem[topperItem.itemType].backdrop_path;

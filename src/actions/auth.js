@@ -1,7 +1,10 @@
+import { browserHistory } from 'react-router'
+
 import api from 'helpers/api';
 
 export const AUTH_LOADING = 'auth/auth_loading';
 export const AUTH_LOADED = 'auth/auth';
+export const AUTH_LOGOUT = 'auth/logout';
 
 export const AUTH_OAUTH_START = 'auth/oauth_start';
 export const AUTH_OAUTH_END = 'auth/oauth_end';
@@ -32,5 +35,19 @@ export function exchange(code) {
     return dispatch => {
         return api.exchange(code)
             .then(() => dispatch({ type: AUTH_OAUTH_END }))
+    };
+}
+
+export function logout() {
+    localStorage.removeItem('trakt.access_token');
+    localStorage.removeItem('trakt.refresh_token');
+    localStorage.removeItem('trakt.expires');
+
+    window.setTimeout(() => {
+        browserHistory.push('/');
+    }, 100);
+
+    return {
+        type: AUTH_LOGOUT
     };
 }
