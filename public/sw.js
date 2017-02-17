@@ -7,6 +7,13 @@ this.addEventListener('install', event => {
                 '/',
                 '/build/bundle.js',
                 '/build/style.css',
+
+                '/build/BlackTie-Bold-webfont.eot',
+                '/build/BlackTie-Bold-webfont.svg',
+                '/build/BlackTie-Bold-webfont.ttf',
+                '/build/BlackTie-Bold-webfont.woff',
+                '/build/BlackTie-Bold-webfont.woff2',
+
                 '/config.json',
                 '/img/logo.svg',
                 '/img/poster.png',

@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const BabiliPlugin = require('babili-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -18,7 +19,7 @@ module.exports = {
     },
 
     output: {
-        path: path.resolve(__dirname, 'public/build'),
+        path: path.resolve('public/build'),
         filename: '[name].js'
     },
 
@@ -32,16 +33,22 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                use: [
-                    'url-loader?limit=10000&mimetype=application/font-woff'
-                ]
+                test: /\.woff(2)?$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    mimetype: 'application/font-woff',
+                    name: '[name].[ext]'
+                }
             },
             {
-                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                use: [
-                    'file-loader'
-                ]
+                test: /\.(ttf|eot|svg)$/,
+                loader: 'file-loader',
+                options: {
+                    limit: 10000,
+                    mimetype: 'application/font-woff',
+                    name: '[name].[ext]'
+                }
             },
             {
                 test: /\.css$/,
@@ -82,7 +89,8 @@ module.exports = {
             comments: false
         }),
 
-        new ExtractTextPlugin('style.css')
+        new ExtractTextPlugin('style.css'),
+        new OptimizeCssAssetsPlugin()
     ]
 
 };
