@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
+import ReactGA from 'react-ga';
 
 __webpack_public_path__ = "http://localhost:3000/build/";
 
@@ -13,8 +14,15 @@ import getRoutes from 'routes';
 
 import './sw/register';
 
+ReactGA.initialize('UA-26369727-6');
+
 const dest = document.getElementById('root');
 const store = configureStore();
+
+const logPageView = () => {
+    ReactGA.set({ page: window.location.pathname });
+    ReactGA.pageview(window.location.pathname);
+};
 
 const router = (
     <Router
@@ -23,6 +31,7 @@ const router = (
             if(nextState && nextState.location.action !== "POP") {
                 window.scrollTo(0, 0);
             }
+            logPageView();
         }}
         history={browserHistory}
     >
