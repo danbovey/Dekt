@@ -4,10 +4,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const BabiliPlugin = require('babili-webpack-plugin');
 
 module.exports = {
-    entry: [
-        // the entry point of our app
-        './src/index.js'
-    ],
+    entry: {
+        bundle: './src/index.js',
+    },
 
     resolve: {
         modules: [
@@ -19,8 +18,8 @@ module.exports = {
     },
 
     output: {
-        filename: 'bundle.js',
-        path: path.resolve('public/build')
+        path: path.resolve(__dirname, 'public/build'),
+        filename: '[name].js'
     },
 
     module: {

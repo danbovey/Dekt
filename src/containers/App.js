@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import * as configActions from 'actions/config';
 import * as lightActions from 'actions/lights';
 import Navbar from 'components/Navbar';
+import Spinner from 'components/Spinner';
 
 import 'app.scss';
 
@@ -38,14 +39,18 @@ export default class App extends Component {
             lights
         } = this.props;
 
-        if(config.failed) {
-            return <p>Failed to load <code>config.json</code></p>;
-        }
-
         if(!config.loaded) {
             return (
-                <div>
-                    Loading...
+                <div className="container container--app-load">
+                    <Spinner size="large" />
+                </div>
+            );
+        }
+
+        if(config.failed) {
+            return (
+                <div className="container container--app-load">
+                    <p className="error">Failed to load <code>config.json</code></p>
                 </div>
             );
         }

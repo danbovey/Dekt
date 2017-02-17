@@ -1,6 +1,8 @@
 import {
     AUTH_LOADING,
     AUTH_LOADED,
+    AUTH_FAIL,
+
     AUTH_OAUTH_START,
     AUTH_OAUTH_END
 } from 'actions/auth';
@@ -34,6 +36,8 @@ export default function auth(state = initialState, action = {}) {
         case AUTH_OAUTH_END:
             return {
                 ...state,
+                loaded: false,
+                loading: false,
                 oauthStarted: false
             };
         default:
