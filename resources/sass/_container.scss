@@ -61,3 +61,19 @@
         }
     }
 }
+
+.container--app-load {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+
+    svg {
+        margin-bottom: 30px;
+
+        @media(min-width: 480px) {
+            width: 320px;
+        }
+    }
+}

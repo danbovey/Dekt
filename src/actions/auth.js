@@ -1,9 +1,10 @@
 import api from 'helpers/api';
 
-export const AUTH_LOADING = 'AUTH_LOADING';
-export const AUTH_LOADED = 'AUTH_LOADED';
-export const AUTH_OAUTH_START = 'AUTH_OAUTH_START';
-export const AUTH_OAUTH_END = 'AUTH_OAUTH_END';
+export const AUTH_LOADING = 'auth/auth_loading';
+export const AUTH_LOADED = 'auth/auth';
+
+export const AUTH_OAUTH_START = 'auth/oauth_start';
+export const AUTH_OAUTH_END = 'auth/oauth_end';
 
 export function init(config) {
     api.init(config);
@@ -22,10 +23,6 @@ export function load() {
                 .then(settings => dispatch({ type: AUTH_LOADED, payload: settings }))
                 .catch(err => dispatch({ type: AUTH_OAUTH_END }));
         } else {
-            // const oauthWindow = window.open(api.getAuthUrl(), 'Trakt OAuth', 'height=600,width=450');
-            // if(oauthWindow) {
-            //     oauthWindow.focus();
-            // }
             dispatch({ type: AUTH_OAUTH_START });
         }
     };

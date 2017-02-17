@@ -2,21 +2,23 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-    entry: [
-        // activate HMR for React
-        'react-hot-loader/patch',
+    entry: {
+        bundle: [
+            // activate HMR for React
+            'react-hot-loader/patch',
 
-        // bundle the client for webpack-dev-server
-        // and connect to the provided endpoint
-        'webpack-dev-server/client?http://127.0.0.1:3000',
+            // bundle the client for webpack-dev-server
+            // and connect to the provided endpoint
+            'webpack-dev-server/client?http://127.0.0.1:3000',
 
-        // bundle the client for hot reloading
-        // only- means to only hot reload for successful updates
-        'webpack/hot/only-dev-server',
+            // bundle the client for hot reloading
+            // only- means to only hot reload for successful updates
+            'webpack/hot/only-dev-server',
 
-        // the entry point of our app
-        './src/index.js',
-    ],
+            // the entry point of our app
+            './src/index.js',
+        ],
+    },
 
     resolve: {
         modules: [
@@ -28,11 +30,11 @@ module.exports = {
     },
 
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'public/dist'),
+        path: path.resolve(__dirname, 'public/build'),
+        filename: '[name].js',
 
         // necessary for HMR to know where to load the hot update chunks
-        publicPath: '/static/'
+        publicPath: '/build/'
     },
 
     devtool: 'inline-source-map',
@@ -47,16 +49,22 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                use: [
-                    'url-loader?limit=10000&mimetype=application/font-woff'
-                ]
+                test: /\.woff(2)?$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    mimetype: 'application/font-woff',
+                    name: '[name].[ext]'
+                }
             },
             {
-                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                use: [
-                    'file-loader'
-                ]
+                test: /\.(ttf|eot|svg)$/,
+                loader: 'file-loader',
+                options: {
+                    limit: 10000,
+                    mimetype: 'application/font-woff',
+                    name: '[name].[ext]'
+                }
             },
             {
                 test: /\.css$/,

@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 
-__webpack_public_path__ = "http://localhost:3000/static/";
+__webpack_public_path__ = "http://localhost:3000/build/";
 
 import 'babel-polyfill';
 import 'prototypes';
 import { configureStore } from 'store/configureStore';
 import DevTools from 'containers/DevTools';
 import getRoutes from 'routes';
+
+import './sw/register';
 
 const dest = document.getElementById('root');
 const store = configureStore();

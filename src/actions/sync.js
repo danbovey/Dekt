@@ -25,7 +25,7 @@ export function history(ids, type = 'episodes', watched_at = null) {
             .then(resp => {
                 if(resp.added[type] == items.length) {
                     items.forEach(item => dispatch({
-                        type: SHOW_HISTORY,
+                        type: SYNC_HISTORY,
                         payload: {
                             trakt_id: item.ids.trakt,
                             type
@@ -33,7 +33,7 @@ export function history(ids, type = 'episodes', watched_at = null) {
                     }));
                 } else {
                     resp.not_found[type].forEach(item => dispatch({
-                        type: SHOW_HISTORY_FAIL,
+                        type: SYNC_HISTORY_FAIL,
                         payload: {
                             trakt_id: item.ids.trakt
                         }
@@ -58,7 +58,7 @@ export function historyRemove(ids, type = 'episodes') {
             .then(resp => {
                 if(resp.deleted[type] == items.length) {
                     items.forEach(item => dispatch({
-                        type: SHOW_HISTORY_REMOVE,
+                        type: SYNC_HISTORY_REMOVE,
                         payload: {
                             trakt_id: item.ids.trakt,
                             type
@@ -66,7 +66,7 @@ export function historyRemove(ids, type = 'episodes') {
                     }));
                 } else {
                     resp.not_found[type].forEach(item => dispatch({
-                        type: SHOW_HISTORY_REMOVE_FAIL,
+                        type: SYNC_HISTORY_REMOVE_FAIL,
                         payload: {
                             trakt_id: item.ids.trakt
                         }
