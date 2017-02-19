@@ -6,6 +6,9 @@ import classNames from 'classnames';
 
 import * as showActions from 'actions/show';
 import * as syncActions from 'actions/sync';
+import * as userActions from 'actions/user';
+import Dropdown, { Menu, Item, Divider } from 'components/Dropdown';
+import Button from 'components/Button';
 import Icon from 'components/Icon';
 import Spinner from 'components/Spinner';
 import route from 'helpers/route';
@@ -16,12 +19,14 @@ import './styles';
     state => ({}),
     dispatch => ({
         showActions: bindActionCreators(showActions, dispatch),
-        syncActions: bindActionCreators(syncActions, dispatch)
+        syncActions: bindActionCreators(syncActions, dispatch),
+        userActions: bindActionCreators(userActions, dispatch)
     })
 )
 export default class Poster extends Component {
     static defaultProps = {
         allowHistory: true,
+        allowMenu: true,
         allowWatchlist: true,
         titles: true
     };
@@ -30,6 +35,7 @@ export default class Poster extends Component {
         super(props);
 
         this.state = {
+            menu: false,
             progressing: false,
             updating: false
         };
@@ -73,10 +79,29 @@ export default class Poster extends Component {
             .then(() => this.setState({ updating: false }));
     }
 
+    toggleMenu() {
+        this.setState({
+            menu: !this.state.menu
+        });
+    }
+
+    checkIn() {
+        console.log('check in');
+    }
+
+    watchedAt() {
+        console.log('when did you watch this?');
+    }
+
+    toggleHide() {
+        this.props.userActions.hiddenToggle(this.props.item);
+    }
+
     render() {
         const {
             actions,
             allowHistory,
+            allowMenu,
             allowWatchlist,
             item,
             titles
@@ -140,6 +165,22 @@ export default class Poster extends Component {
                         {/*<button className="watch-now">
                             <Icon name="play" />
                         </button>*/}
+                        {allowMenu ? (
+                            <Dropdown
+                                dark={true}
+                                menu={(
+                                    <Menu placement="right">
+                                        <Item onClick={this.checkIn.bind(this)} disabled={true}>Check in</Item>
+                                        <Item onClick={this.watchedAt.bind(this)} disabled={true}>Watched at...</Item>
+                                        <Item onClick={this.toggleHide.bind(this)}>{item.is_hidden ? 'Unhide this' : 'Hide this'}</Item>
+                                    </Menu>
+                                )}
+                            >
+                                <Button type="default">
+                                    <Icon name="ellipsis-v" />
+                                </Button>
+                            </Dropdown>
+                        ) : null}
                     </div>
                 ) : null}
                 {titles ? (

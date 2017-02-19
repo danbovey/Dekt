@@ -10,6 +10,10 @@ import {
     SHOW_REMOVE
 } from 'actions/show';
 
+import {
+    USER_HIDDEN_ADD
+} from 'actions/user';
+
 const initialState = {
     loaded: false,
     list: []
@@ -58,7 +62,7 @@ export default function deck(state = initialState, action = {}) {
                     return item;
                 })
             };
-        case SHOW_REMOVE:
+        case SHOW_REMOVE: case USER_HIDDEN_ADD:
             return {
                 ...state,
                 list: state.list.filter(item => action.payload.trakt_id != item.show.ids.trakt)

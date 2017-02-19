@@ -82,6 +82,11 @@
             background: #171717;
             color: #CCC;
 
+            &--disabled, &--disabled:hover, &--disabled:focus {
+                color: #444;
+                cursor: not-allowed;
+            }
+
             &:hover, &:focus {
                 background: #292929;
             }

@@ -117,6 +117,15 @@
                 }
             }
         }
+
+        .dropdown {
+            float: right;
+            color: #AAA;
+
+            .dropdown__menu {
+                min-width: 120px;
+            }
+        }
     }
 
     .poster__titles {
