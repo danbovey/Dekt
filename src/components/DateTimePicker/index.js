@@ -177,138 +177,141 @@ export default class DateTimePicker extends Component {
 
         if(open) {
             return (
-                <div className="c-datepicker">
-                    <a
-                        onClick={this.showClock.bind(this)}
-                        className={classNames('c-datepicker__toggle c-datepicker__toggle--right c-datepicker--show-time js-show-clock', {
-                            'is-selected': mode == 'clock'
-                        })}
-                        title="show time picker"
-                    ></a>
-                    <a
-                        onClick={this.showCalendar.bind(this)}
-                        className={classNames('c-datepicker__toggle c-datepicker__toggle--left c-datepicker--show-calendar js-show-calendar', {
-                            'is-selected': mode == 'calendar'
-                        })}
-                        title="show date picker"
-                    ></a>
-
-                    <div className="c-datepicker__header">
-                        <div className="c-datepicker__header-day">
-                            <span className="js-day">{date.format('dddd')}</span>
-                        </div>
-                        <div className="c-datepicker__header-date">
-                            <span onClick={this.showCalendar.bind(this)} className="c-datepicker__header-date__month js-date-month">
-                                {date.format('MMM YYYY')}
-                            </span>
-                            <span onClick={this.showCalendar.bind(this)} className="c-datepicker__header-date__day js-date-day">
-                                {date.format('Do')}
-                            </span>
-                            <span className="c-datepicker__header-date__time js-date-time">
-                                <span
-                                    onClick={this.showHourClock.bind(this)}
-                                    className={classNames('c-datepicker__header-date__hours js-date-hours', {
-                                        'active': clockMode == 'hour'
-                                    })}
-                                >
-                                    {date.format('HH')}
-                                </span>
-                                :
-                                <span
-                                    onClick={this.showMinuteClock.bind(this)}
-                                    className={classNames('c-datepicker__header-date__minutes js-date-minutes', {
-                                        'active': clockMode == 'minute'
-                                    })}
-                                >
-                                    {date.format('mm')}
-                                </span>
-                            </span>
-                        </div>
-                    </div>
-
-
-                    <div
-                        className="c-datepicker__calendar"
-                        ref={c => this._calendar = c}
-                    ></div>
-                    <div className="c-datepicker__clock">
-                        <div className="c-datepicker__clock__am-pm-toggle">
-                            <label
-                                className={classNames({
-                                    'c-datepicker__toggle--checked': date.hour() < 12
-                                })}
-                            >
-                                <input
-                                    onClick={this.switchAm.bind(this)}
-                                    checked={date.hour() < 12}
-                                    className="c-datepicker__toggle c-datepicker__toggle--right c-datepicker__clock--am"
-                                    type="radio"
-                                    name="time-date-toggle"
-                                    value="AM"
-                                />
-                                AM
-                            </label>
-                            <label
-                                className={classNames({
-                                    'c-datepicker__toggle--checked': date.hour() >= 12
-                                })}
-                            >
-                                <input
-                                    onClick={this.switchPm.bind(this)}
-                                    checked={date.hour() >= 12}
-                                    className="c-datepicker__toggle c-datepicker__toggle--right c-datepicker__clock--pm"
-                                    type="radio"
-                                    name="time-date-toggle"
-                                    value="PM"
-                                />
-                                PM
-                            </label>
-                        </div>
-                        <div className="c-datepicker__mask"></div>
-                        <div
-                            onMouseLeave={this.mouseOutHourClock.bind(this)}
-                            className={classNames('c-datepicker__clock__hours js-clock-hours', {
-                                'active': clockMode == 'hour'
+                <div>
+                    <div className="c-scrim"></div>
+                    <div className="c-datepicker">
+                        <a
+                            onClick={this.showClock.bind(this)}
+                            className={classNames('c-datepicker__toggle c-datepicker__toggle--right c-datepicker--show-time js-show-clock', {
+                                'is-selected': mode == 'clock'
                             })}
-                        >
-                            {hourNums.map((num, i) => (
-                                <div
-                                    onClick={this.clickHourNum.bind(this, num)}
-                                    onMouseEnter={this.mouseInHourClock.bind(this)}
-                                    className="c-datepicker__clock__num"
-                                    key={i}
-                                >
-                                    {num}
-                                </div>
-                            ))}
-                            <div className="c-datepicker__clock-hands">
-                                <div className="c-datepicker__hour-hand"></div>
+                            title="show time picker"
+                        ></a>
+                        <a
+                            onClick={this.showCalendar.bind(this)}
+                            className={classNames('c-datepicker__toggle c-datepicker__toggle--left c-datepicker--show-calendar js-show-calendar', {
+                                'is-selected': mode == 'calendar'
+                            })}
+                            title="show date picker"
+                        ></a>
+
+                        <div className="c-datepicker__header">
+                            <div className="c-datepicker__header-day">
+                                <span className="js-day">{date.format('dddd')}</span>
+                            </div>
+                            <div className="c-datepicker__header-date">
+                                <span onClick={this.showCalendar.bind(this)} className="c-datepicker__header-date__month js-date-month">
+                                    {date.format('MMM YYYY')}
+                                </span>
+                                <span onClick={this.showCalendar.bind(this)} className="c-datepicker__header-date__day js-date-day">
+                                    {date.format('Do')}
+                                </span>
+                                <span className="c-datepicker__header-date__time js-date-time">
+                                    <span
+                                        onClick={this.showHourClock.bind(this)}
+                                        className={classNames('c-datepicker__header-date__hours js-date-hours', {
+                                            'active': clockMode == 'hour'
+                                        })}
+                                    >
+                                        {date.format('HH')}
+                                    </span>
+                                    :
+                                    <span
+                                        onClick={this.showMinuteClock.bind(this)}
+                                        className={classNames('c-datepicker__header-date__minutes js-date-minutes', {
+                                            'active': clockMode == 'minute'
+                                        })}
+                                    >
+                                        {date.format('mm')}
+                                    </span>
+                                </span>
                             </div>
                         </div>
+
+
                         <div
-                            onMouseLeave={this.mouseOutMinuteClock.bind(this)}
-                            className={classNames('c-datepicker__clock__minutes js-clock-minutes', {
-                                'active': clockMode == 'minute'
-                            })}
-                        >
-                            {minuteNums.map((num, i) => (
-                                <div
-                                    onClick={this.clickMinuteNum.bind(this, num)}
-                                    onMouseEnter={this.mouseInMinuteClock.bind(this)}
-                                    className="c-datepicker__clock__num"
-                                    key={i}
+                            className="c-datepicker__calendar"
+                            ref={c => this._calendar = c}
+                        ></div>
+                        <div className="c-datepicker__clock">
+                            <div className="c-datepicker__clock__am-pm-toggle">
+                                <label
+                                    className={classNames({
+                                        'c-datepicker__toggle--checked': date.hour() < 12
+                                    })}
                                 >
-                                    {num}
+                                    <input
+                                        onClick={this.switchAm.bind(this)}
+                                        checked={date.hour() < 12}
+                                        className="c-datepicker__toggle c-datepicker__toggle--right c-datepicker__clock--am"
+                                        type="radio"
+                                        name="time-date-toggle"
+                                        value="AM"
+                                    />
+                                    AM
+                                </label>
+                                <label
+                                    className={classNames({
+                                        'c-datepicker__toggle--checked': date.hour() >= 12
+                                    })}
+                                >
+                                    <input
+                                        onClick={this.switchPm.bind(this)}
+                                        checked={date.hour() >= 12}
+                                        className="c-datepicker__toggle c-datepicker__toggle--right c-datepicker__clock--pm"
+                                        type="radio"
+                                        name="time-date-toggle"
+                                        value="PM"
+                                    />
+                                    PM
+                                </label>
+                            </div>
+                            <div className="c-datepicker__mask"></div>
+                            <div
+                                onMouseLeave={this.mouseOutHourClock.bind(this)}
+                                className={classNames('c-datepicker__clock__hours js-clock-hours', {
+                                    'active': clockMode == 'hour'
+                                })}
+                            >
+                                {hourNums.map((num, i) => (
+                                    <div
+                                        onClick={this.clickHourNum.bind(this, num)}
+                                        onMouseEnter={this.mouseInHourClock.bind(this)}
+                                        className="c-datepicker__clock__num"
+                                        key={i}
+                                    >
+                                        {num}
+                                    </div>
+                                ))}
+                                <div className="c-datepicker__clock-hands">
+                                    <div className="c-datepicker__hour-hand"></div>
                                 </div>
-                            ))}
-                            <div className="c-datepicker__clock-hands">
-                                <div className="c-datepicker__hour-hand"></div>
+                            </div>
+                            <div
+                                onMouseLeave={this.mouseOutMinuteClock.bind(this)}
+                                className={classNames('c-datepicker__clock__minutes js-clock-minutes', {
+                                    'active': clockMode == 'minute'
+                                })}
+                            >
+                                {minuteNums.map((num, i) => (
+                                    <div
+                                        onClick={this.clickMinuteNum.bind(this, num)}
+                                        onMouseEnter={this.mouseInMinuteClock.bind(this)}
+                                        className="c-datepicker__clock__num"
+                                        key={i}
+                                    >
+                                        {num}
+                                    </div>
+                                ))}
+                                <div className="c-datepicker__clock-hands">
+                                    <div className="c-datepicker__hour-hand"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="modal-btns">
-                        <a onClick={this.close.bind(this)} className="c-btn c-btn--flat js-cancel">Cancel</a>
-                        <a onClick={this.submit.bind(this)} className="c-btn c-btn--flat js-ok">OK</a>
+                        <div className="modal-btns">
+                            <a onClick={this.close.bind(this)} className="c-btn c-btn--flat js-cancel">Cancel</a>
+                            <a onClick={this.submit.bind(this)} className="c-btn c-btn--flat js-ok">OK</a>
+                        </div>
                     </div>
                 </div>
             );

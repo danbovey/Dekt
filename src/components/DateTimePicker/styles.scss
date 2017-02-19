@@ -5,6 +5,7 @@ $datetimepicker-primary: #00bcd4 !default;
 
 .c-scrim {
   position: fixed;
+  z-index: 1599;
   left: 0;
   right: 0;
   top: 0;
@@ -15,7 +16,7 @@ $datetimepicker-primary: #00bcd4 !default;
 .c-datepicker {
   min-height: 610px;
   position: fixed;
-  z-index: 1500;
+  z-index: 1600;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
