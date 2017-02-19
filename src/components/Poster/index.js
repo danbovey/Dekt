@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import MaterialDateTimePicker from 'material-datetime-picker';
 import moment from 'moment';
 import classNames from 'classnames';
 
@@ -13,6 +12,7 @@ import Dropdown, { Menu, Item, Divider } from 'components/Dropdown';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 import Spinner from 'components/Spinner';
+import DateTimePicker from 'components/DateTimePicker';
 import route from 'helpers/route';
 
 import './styles';
@@ -37,6 +37,7 @@ export default class Poster extends Component {
         super(props);
 
         this.state = {
+            datepicker: false,
             menu: false,
             progressing: false,
             updating: false
@@ -92,12 +93,15 @@ export default class Poster extends Component {
     }
 
     watchedAt() {
-        const picker = new MaterialDateTimePicker()
-            .on('submit', val => {
-                console.log(val);
-                this.history(val.toISOString());
-            })
-            .open();
+        this.setState({
+            datepicker: true
+        });
+    }
+
+    closeDatePicker() {
+        this.setState({
+            datepicker: false
+        });
     }
 
     toggleHide() {
@@ -115,6 +119,7 @@ export default class Poster extends Component {
         } = this.props;
 
         const {
+            datepicker,
             progressing,
             updating
         } = this.state;
@@ -213,6 +218,13 @@ export default class Poster extends Component {
                             <Link to={showLink} dangerouslySetInnerHTML={{__html: item[item.itemType].title }} />
                         </p>
                     </div>
+                ) : null}
+                {datepicker ? (
+                    <DateTimePicker
+                        onRequestClose={this.closeDatePicker.bind(this)}
+                        onChange={this.history.bind(this)}
+                        open={true}
+                    />
                 ) : null}
             </div>
         );

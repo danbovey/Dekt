@@ -26,6 +26,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.0",
     "redux-thunk": "^2.2.0",
+    "rome": "^2.1.22",
     "trakt.tv": "^5.0.0"
   },
   "devDependencies": {
