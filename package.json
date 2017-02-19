@@ -11,6 +11,7 @@
   "dependencies": {
     "babel-core": "^6.22.1",
     "classnames": "^2.2.5",
+    "material-datetime-picker": "^2.2.0",
     "moment": "^2.17.1",
     "qwest": "^4.4.5",
     "rc-tooltip": "^3.4.2",

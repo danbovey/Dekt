@@ -18,7 +18,7 @@ import Spinner from 'components/Spinner';
         deckActions: bindActionCreators(deckActions, dispatch)
     })
 )
-export default class Home extends Component {
+export default class Deck extends Component {
     componentWillMount() {
         if(!this.props.deck.loaded) {
             this.props.deckActions.load();

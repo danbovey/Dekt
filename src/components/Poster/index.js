@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import MaterialDateTimePicker from 'material-datetime-picker';
+import moment from 'moment';
 import classNames from 'classnames';
 
 import * as showActions from 'actions/show';
@@ -53,14 +55,14 @@ export default class Poster extends Component {
         }
     }
 
-    history() {
+    history(watched_at) {
         // TOOD: If this item is in history, toggle off
         this.setState({
             progressing: true,
             updating: true,
         });
         const item = this.props.item;
-        this.props.syncActions.history(item.next_episode.ids.trakt)
+        this.props.syncActions.history(item.next_episode.ids.trakt, 'episodes', watched_at)
             .then(() => this.props.showActions.progress(item.show.ids.trakt))
             .then(() => {
                 window.setTimeout(() => {
@@ -90,7 +92,12 @@ export default class Poster extends Component {
     }
 
     watchedAt() {
-        console.log('when did you watch this?');
+        const picker = new MaterialDateTimePicker()
+            .on('submit', val => {
+                console.log(val);
+                this.history(val.toISOString());
+            })
+            .open();
     }
 
     toggleHide() {
@@ -145,7 +152,7 @@ export default class Poster extends Component {
                 {actions ? (
                     <div className="poster__actions">
                         {allowHistory ? (
-                            <button className="history" onClick={this.history.bind(this)}>
+                            <button className="history" onClick={this.history.bind(this, null)}>
                                 <Icon name="check" />
                             </button>
                         ) : null}
@@ -171,7 +178,7 @@ export default class Poster extends Component {
                                 menu={(
                                     <Menu placement="right">
                                         <Item onClick={this.checkIn.bind(this)} disabled={true}>Check in</Item>
-                                        <Item onClick={this.watchedAt.bind(this)} disabled={true}>Watched at...</Item>
+                                        <Item onClick={this.watchedAt.bind(this)}>Watched at...</Item>
                                         <Item onClick={this.toggleHide.bind(this)}>{item.is_hidden ? 'Unhide this' : 'Hide this'}</Item>
                                     </Menu>
                                 )}

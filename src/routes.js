@@ -4,7 +4,7 @@ import { IndexRoute, Route } from 'react-router';
 import {
     App,
     Auth,
-    Home,
+    Deck,
     Watchlist,
     Search,
     Show,
@@ -23,7 +23,7 @@ export default (store) => {
     return (
         <Route component={App}>
             <Route component={Auth}>
-                <Route path="/" component={Home} />
+                <Route path="/" component={Deck} />
                 <Route path="/watchlist" component={Watchlist} />
                 <Route path="/search" component={Search} />
                 <Route path="/shows/:title" component={Show} />

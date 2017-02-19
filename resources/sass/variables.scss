@@ -6,5 +6,8 @@ $list: #2B678F;
 $watch-now: #AAA;
 $watch-now-hover: #555;
 
+// Material Datepicker
+$lowlight: darken(desaturate($primary, 15%), 10%);
+
 // Fonts
 $bt-font-path: '../../public/fonts';
