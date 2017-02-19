@@ -59,7 +59,7 @@ export default class PageTopper extends Component {
             // If the current watching item is different from the last
             } else if(prevItem && currItem && prevItem[prevItem.itemType].ids.trakt != currItem[currItem.itemType].ids.trakt) {
                 this.stopProgressBar();
-                this.startProgressbar();
+                this.startProgressBar();
                 // Tell the deck that something may have changed with the previous show
                 this.props.showActions.progress(prevProps.watching.item);
             // If there is a new item being watched and we haven't started the task
@@ -75,7 +75,7 @@ export default class PageTopper extends Component {
     }
 
     pollWatching() {
-        this.props.watchingActions.load(this.props.watching.item);
+        this.props.watchingActions.load();
     }
 
     startProgressBar() {
@@ -117,6 +117,10 @@ export default class PageTopper extends Component {
                 percentage
             });
         }
+    }
+
+    confirmConflict() {
+        this.props.watchingActions.confirmConflict();
     }
 
     render() {

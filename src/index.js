@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
+import ReduxSweetAlert from 'react-redux-sweetalert';
 import ReactGA from 'react-ga';
 
 __webpack_public_path__ = "http://localhost:3000/build/";
@@ -45,6 +46,7 @@ if(typeof process.env.NODE_ENV != 'undefined' && process.env.NODE_ENV == 'develo
             <div>
                 {router}
                 <DevTools />
+                <ReduxSweetAlert />
             </div>
         </Provider>,
         dest
@@ -52,7 +54,10 @@ if(typeof process.env.NODE_ENV != 'undefined' && process.env.NODE_ENV == 'develo
 } else {
     ReactDOM.render(
         <Provider store={store} key="provider">
-            {router}
+            <div>
+                {router}
+                <ReduxSweetAlert />
+            </div>
         </Provider>,
         dest
     );
