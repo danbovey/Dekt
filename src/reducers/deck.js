@@ -33,6 +33,7 @@ export default function deck(state = initialState, action = {}) {
                     return {
                         ...item,
                         next_episode: action.payload.next_episode,
+                        progress: action.payload.progress,
                         user: {
                             ...item.user,
                             watchlist: false

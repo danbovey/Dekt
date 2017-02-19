@@ -152,7 +152,14 @@ export function progress(show_trakt_id) {
                         type: SHOW_PROGRESS_WATCHED,
                         payload: {
                             trakt_id: show_trakt_id,
-                            next_episode: progress.next_episode
+                            next_episode: progress.next_episode,
+                            progress: {
+                                aired: progress.aired,
+                                completed: progress.completed,
+                                unseen: progress.aired - progress.completed,
+                                seasons: progress.seasons,
+                                last_watched_at: progress.last_watched_at
+                            }
                         }
                     });
                 } else {
