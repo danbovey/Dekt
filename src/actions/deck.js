@@ -13,7 +13,7 @@ export function load() {
             })
             .then(watched => {
                 // Remove any hidden shows
-                return api.client.users.hidden({
+                return api.client.users.hidden.get({
                         section: 'progress_watched',
                         type: 'show',
                         limit: 100
