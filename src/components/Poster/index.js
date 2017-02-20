@@ -47,8 +47,8 @@ export default class Poster extends Component {
     }
 
     componentWillUpdate(nextProps) {
-        const lastEpisode = this.props.item.next_episode;
-        const nextEpisode = nextProps.item.next_episode;
+        const lastEpisode = this.props.item.episode;
+        const nextEpisode = nextProps.item.episode;
         if(lastEpisode && nextEpisode && lastEpisode.ids.trakt != nextEpisode.ids.trakt) {
             window.setTimeout(() => {
                 this.setState({
@@ -65,7 +65,7 @@ export default class Poster extends Component {
             updating: true,
         });
         const item = this.props.item;
-        this.props.syncActions.history(item.next_episode.ids.trakt, 'episodes', watched_at)
+        this.props.syncActions.history(item.episode.ids.trakt, 'episodes', watched_at)
             .then(() => this.props.showActions.progress(item.show.ids.trakt))
             .then(() => {
                 window.setTimeout(() => {
@@ -92,7 +92,7 @@ export default class Poster extends Component {
 
     checkIn() {
         const item = this.props.item;
-        this.props.watchingActions.checkin(item.next_episode.ids.trakt);
+        this.props.watchingActions.checkin(item.episode.ids.trakt);
     }
 
     watchedAt() {
@@ -129,8 +129,8 @@ export default class Poster extends Component {
 
         const showLink = route('shows.single', { title: item[item.itemType].ids.slug });
         let link = null;
-        if(item.next_episode) {
-            link = route('show.episode', { title: item[item.itemType].ids.slug, season: item.next_episode.season, episode: item.next_episode.number });
+        if(item.episode) {
+            link = route('show.episode', { title: item[item.itemType].ids.slug, season: item.episode.season, episode: item.episode.number });
         }
 
         return (
@@ -200,22 +200,22 @@ export default class Poster extends Component {
                 ) : null}
                 {titles ? (
                     <div className="poster__titles">
-                        {item.next_episode ? (
+                        {item.episode ? (
                             <p>
                                 <Link to={link}>
                                     <span className="titles__number">
-                                        {item.next_episode.season + 'x' + item.next_episode.number}
+                                        {item.episode.season + 'x' + item.episode.number}
                                     </span>
                                     <span
                                         className="titles__name"
-                                        dangerouslySetInnerHTML={{__html: item.next_episode.title }}
+                                        dangerouslySetInnerHTML={{__html: item.episode.title }}
                                     />
                                 </Link>
                             </p>
                         ) : null}
                         <p
                             className={classNames('titles__show', {
-                                'titles--single': !item.next_episode
+                                'titles--single': !item.episode
                             })}
                         >
                             <Link to={showLink} dangerouslySetInnerHTML={{__html: item[item.itemType].title }} />

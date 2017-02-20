@@ -42,7 +42,7 @@ export function load() {
                                 return {
                                     show: item.show,
                                     itemType: 'show',
-                                    next_episode: progress.next_episode,
+                                    episode: progress.next_episode,
                                     progress: {
                                         aired: progress.aired,
                                         completed: progress.completed,
@@ -67,7 +67,7 @@ export function load() {
                             id: item.show.ids.trakt
                         })
                         .then(lastEpisode => {
-                            item.is_new = lastEpisode.ids.trakt == item.next_episode.ids.trakt;
+                            item.is_new = lastEpisode.ids.trakt == item.episode.ids.trakt;
                             return item;
                         })
                         .catch(() => item);

@@ -152,7 +152,7 @@ export function progress(show_trakt_id) {
                         type: SHOW_PROGRESS_WATCHED,
                         payload: {
                             trakt_id: show_trakt_id,
-                            next_episode: progress.next_episode,
+                            episode: progress.next_episode,
                             progress: {
                                 aired: progress.aired,
                                 completed: progress.completed,
