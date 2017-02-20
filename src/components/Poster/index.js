@@ -29,6 +29,7 @@ import './styles';
 )
 export default class Poster extends Component {
     static defaultProps = {
+        allowHide: false,
         allowHistory: true,
         allowMenu: true,
         allowWatchlist: true,
@@ -65,14 +66,18 @@ export default class Poster extends Component {
             updating: true,
         });
         const item = this.props.item;
-        this.props.syncActions.history(item.episode.ids.trakt, 'episodes', watched_at)
-            .then(() => this.props.showActions.progress(item.show.ids.trakt))
+        this.props.syncActions.history(item[item.itemType].ids.trakt, item.itemType + 's', watched_at)
             .then(() => {
-                window.setTimeout(() => {
-                    this.setState({
-                        updating: false
-                    });
-                }, 250);
+                if(item.show) {
+                    this.props.showActions.progress(item.show.ids.trakt)
+                        .then(() => {
+                            window.setTimeout(() => {
+                                this.setState({
+                                    updating: false
+                                });
+                            }, 250);
+                        });
+                }
             });
     }
 
@@ -80,7 +85,7 @@ export default class Poster extends Component {
         this.setState({
             updating: true
         });
-        this.props.showActions.toggleWatchlist(this.props.item)
+        this.props.syncActions.toggleWatchlist(this.props.item)
             .then(() => this.setState({ updating: false }));
     }
 
@@ -114,6 +119,7 @@ export default class Poster extends Component {
     render() {
         const {
             actions,
+            allowHide,
             allowHistory,
             allowMenu,
             allowWatchlist,
@@ -127,11 +133,24 @@ export default class Poster extends Component {
             updating
         } = this.state;
 
-        const showLink = route('shows.single', { title: item[item.itemType].ids.slug });
-        let link = null;
-        if(item.episode) {
-            link = route('show.episode', { title: item[item.itemType].ids.slug, season: item.episode.season, episode: item.episode.number });
+        let mainLink = route('shows.single', { title: item[item.itemType].ids.slug });;
+        let episodeLink = null;
+        const itemTitle = item.show ? item.show.title : item.movie.title;
+
+        if(item.itemType == 'episode') {
+            mainLink = route('shows.single', { title: item.show.ids.slug });
+            episodeLink = route('show.episode', { title: item.show.ids.slug, season: item.episode.season, episode: item.episode.number });
         }
+
+        // TODO: Is an episode poster going to exist? - if episode is watched
+        // TODO: If movie is watched
+        let itemIsWatched = false;
+        if(item.itemType == 'show') {
+            itemIsWatched = item.progress && item.progress.aired > 0 && item.progress.aired == item.progress.completed;
+        }
+        const itemHasEpisode = item.itemType == 'episode' && item.episode;
+        // TODO: Poster path should always be in the default itemType
+        const posterPath = itemHasEpisode ? item.show.poster_path : item[item.itemType].poster_path;
 
         return (
             <div
@@ -140,10 +159,10 @@ export default class Poster extends Component {
                 })}
             >
                 <div className="poster__images">
-                    <Link to={link || showLink}>
+                    <Link to={episodeLink || mainLink}>
                         <img src="/img/poster.png" alt="Temporary Poster" className="base" />
-                        {item[item.itemType].poster_path ? (
-                            <img src={item[item.itemType].poster_path} alt="Poster" className="real" />
+                        {posterPath ? (
+                            <img src={posterPath} alt="Poster" className="real" />
                         ) : null}
                         {updating ? (
                             <div className="updating">
@@ -151,7 +170,12 @@ export default class Poster extends Component {
                             </div>
                         ) : null}
                         {item.is_new ? (
-                            <div className="new-tag">
+                            <div className="tag new-tag">
+                                <div />
+                            </div>
+                        ) : null}
+                        {itemHasEpisode && item.episode.number == 1 ? (
+                            <div className="tag premiere-tag">
                                 <div />
                             </div>
                         ) : null}
@@ -160,7 +184,12 @@ export default class Poster extends Component {
                 {actions ? (
                     <div className="poster__actions">
                         {allowHistory ? (
-                            <button className="history" onClick={this.history.bind(this, null)}>
+                            <button
+                                className={classNames('history', {
+                                    'active': itemIsWatched
+                                })}
+                                onClick={this.history.bind(this, null)}
+                            >
                                 <Icon name="check" />
                             </button>
                         ) : null}
@@ -180,14 +209,20 @@ export default class Poster extends Component {
                         {/*<button className="watch-now">
                             <Icon name="play" />
                         </button>*/}
-                        {allowMenu ? (
+                        {allowMenu && (item.progress.aired > 0 || allowHide) ? (
                             <Dropdown
                                 dark={true}
                                 menu={(
                                     <Menu placement="right">
-                                        <Item onClick={this.checkIn.bind(this)}>Check in</Item>
-                                        <Item onClick={this.watchedAt.bind(this)}>Watched at...</Item>
-                                        <Item onClick={this.toggleHide.bind(this)}>{item.is_hidden ? 'Unhide this' : 'Hide this'}</Item>
+                                        {item.progress.aired > 0 ? (
+                                            <div>
+                                                <Item onClick={this.checkIn.bind(this)}>Check in</Item>
+                                                <Item onClick={this.watchedAt.bind(this)}>Watched at...</Item>
+                                            </div>
+                                        ) : null}
+                                        {allowHide ? (
+                                            <Item onClick={this.toggleHide.bind(this)}>{item.is_hidden ? 'Unhide this' : 'Hide this'}</Item>
+                                        ) : null}
                                     </Menu>
                                 )}
                             >
@@ -200,9 +235,9 @@ export default class Poster extends Component {
                 ) : null}
                 {titles ? (
                     <div className="poster__titles">
-                        {item.episode ? (
+                        {itemHasEpisode ? (
                             <p>
-                                <Link to={link}>
+                                <Link to={episodeLink}>
                                     <span className="titles__number">
                                         {item.episode.season + 'x' + item.episode.number}
                                     </span>
@@ -215,10 +250,10 @@ export default class Poster extends Component {
                         ) : null}
                         <p
                             className={classNames('titles__show', {
-                                'titles--single': !item.episode
+                                'titles--single': !itemHasEpisode
                             })}
                         >
-                            <Link to={showLink} dangerouslySetInnerHTML={{__html: item[item.itemType].title }} />
+                            <Link to={mainLink} dangerouslySetInnerHTML={{__html: itemTitle }} />
                         </p>
                     </div>
                 ) : null}

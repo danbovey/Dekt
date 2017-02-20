@@ -15,7 +15,7 @@ export function load() {
                 // Remove any hidden shows
                 return api.client.users.hidden.get({
                         section: 'progress_watched',
-                        type: 'show',
+                        type: 'shows',
                         limit: 100
                     })
                     .then(hidden => {
@@ -41,7 +41,7 @@ export function load() {
                             if(!lastEpisodeWatched && progress.next_episode && progress.aired > progress.completed) {
                                 return {
                                     show: item.show,
-                                    itemType: 'show',
+                                    itemType: 'episode',
                                     episode: progress.next_episode,
                                     progress: {
                                         aired: progress.aired,
@@ -54,7 +54,8 @@ export function load() {
                             }
 
                             return null;
-                        }).catch(() => null);
+                        })
+                        .catch(() => null);
                 }
             })))
             // Filter out any episodes above that are removed above

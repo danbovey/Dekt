@@ -1,7 +1,7 @@
 import api from 'helpers/api';
 import { loadImages } from 'helpers/image';
 
-export const WATCHLIST_LOADED = 'WATCHLIST_LOADED';
+export const WATCHLIST_LOADED = 'watchlist/watchlist';
 
 export function load() {
     return dispatch => {
