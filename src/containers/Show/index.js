@@ -38,7 +38,7 @@ export default class Show extends Component {
     }
 
     render() {
-        const title = decodeURIComponent(this.props.params.title).replace('-', ' ');
+        const title = decodeURIComponent(this.props.params.title).replace(/-/g, ' ');
         const show = this.props.show;
         const item = show.item;
 
