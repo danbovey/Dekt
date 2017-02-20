@@ -59,7 +59,7 @@ export default class PageTopper extends Component {
             // If the current watching item is different from the last
             } else if(prevItem && currItem && prevItem[prevItem.itemType].ids.trakt != currItem[currItem.itemType].ids.trakt) {
                 this.stopProgressBar();
-                this.startProgressbar();
+                this.startProgressBar();
                 // Tell the deck that something may have changed with the previous show
                 this.props.showActions.progress(prevProps.watching.item);
             // If there is a new item being watched and we haven't started the task
@@ -75,7 +75,7 @@ export default class PageTopper extends Component {
     }
 
     pollWatching() {
-        this.props.watchingActions.load(this.props.watching.item);
+        this.props.watchingActions.load();
     }
 
     startProgressBar() {
@@ -119,6 +119,10 @@ export default class PageTopper extends Component {
         }
     }
 
+    confirmConflict() {
+        this.props.watchingActions.confirmConflict();
+    }
+
     render() {
         const {
             abstract,
@@ -141,7 +145,8 @@ export default class PageTopper extends Component {
         if(topperItem) {
             if(topperItem.itemType == 'episode') {
                 link = `/shows/${topperItem.show.ids.slug}/seasons/${topperItem.episode.season}/episodes/${topperItem.episode.number}`;
-                itemTitle = `${topperItem.show.title} ${topperItem.episode.season}x${topperItem.episode.number} "${topperItem.episode.title}"`;
+                const episodeTitle = topperItem.episode.title ? ' "' + topperItem.episode.title + '"' : '';
+                itemTitle = `${topperItem.show.title} ${topperItem.episode.season}x${topperItem.episode.number}${episodeTitle}`;
             } else if(topperItem.itemType == 'movie') {
                 link = `/movies/${topperItem.movie.ids.slug}`;
                 itemTitle = topperItem.movie.title;

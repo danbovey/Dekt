@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as sweetalert } from 'react-redux-sweetalert';
 
 import auth from './auth';
 import config from './config';
@@ -13,6 +14,8 @@ import watchlist from './watchlist';
  * http://redux.js.org/docs/api/combineReducers.html
  */
 const rootReducer = combineReducers({
+    sweetalert,
+
     auth,
     config,
     deck,

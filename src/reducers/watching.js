@@ -1,6 +1,8 @@
 import {
     WATCHING_LOADED,
-    WATCHING_CLEAR
+    WATCHING_CLEAR,
+    WATCHING_CHECKIN_CONFLICT,
+    WATCHING_CHECKIN_CONFLICT_CONFIRM
 } from 'actions/watching';
 
 const initialState = {
@@ -21,6 +23,16 @@ export default function config(state = initialState, action = {}) {
                 ...state,
                 ...initialState
             }
+        case WATCHING_CHECKIN_CONFLICT:
+            return {
+                ...state,
+                conflict: true
+            };
+        case WATCHING_CHECKIN_CONFLICT_CONFIRM:
+            return {
+                ...state,
+                conflict: false
+            };
         default:
             return state;
     }

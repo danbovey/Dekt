@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import * as showActions from 'actions/show';
 import * as syncActions from 'actions/sync';
 import * as userActions from 'actions/user';
+import * as watchingActions from 'actions/watching';
 import Dropdown, { Menu, Item, Divider } from 'components/Dropdown';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
@@ -22,7 +23,8 @@ import './styles';
     dispatch => ({
         showActions: bindActionCreators(showActions, dispatch),
         syncActions: bindActionCreators(syncActions, dispatch),
-        userActions: bindActionCreators(userActions, dispatch)
+        userActions: bindActionCreators(userActions, dispatch),
+        watchingActions: bindActionCreators(watchingActions, dispatch)
     })
 )
 export default class Poster extends Component {
@@ -89,7 +91,8 @@ export default class Poster extends Component {
     }
 
     checkIn() {
-        console.log('check in');
+        const item = this.props.item;
+        this.props.watchingActions.checkin(item.next_episode.ids.trakt);
     }
 
     watchedAt() {
@@ -182,7 +185,7 @@ export default class Poster extends Component {
                                 dark={true}
                                 menu={(
                                     <Menu placement="right">
-                                        <Item onClick={this.checkIn.bind(this)} disabled={true}>Check in</Item>
+                                        <Item onClick={this.checkIn.bind(this)}>Check in</Item>
                                         <Item onClick={this.watchedAt.bind(this)}>Watched at...</Item>
                                         <Item onClick={this.toggleHide.bind(this)}>{item.is_hidden ? 'Unhide this' : 'Hide this'}</Item>
                                     </Menu>
