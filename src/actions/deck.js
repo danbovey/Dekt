@@ -8,7 +8,7 @@ export const DECK_LOADED = 'DECK_LOADED';
 export function load() {
     return dispatch => {
         api.client.sync.watched({
-                type: 'shows',
+                type: 'show',
                 extended: 'full,noseasons'
             })
             .then(watched => {
