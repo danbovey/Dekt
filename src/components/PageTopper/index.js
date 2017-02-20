@@ -145,7 +145,8 @@ export default class PageTopper extends Component {
         if(topperItem) {
             if(topperItem.itemType == 'episode') {
                 link = `/shows/${topperItem.show.ids.slug}/seasons/${topperItem.episode.season}/episodes/${topperItem.episode.number}`;
-                itemTitle = `${topperItem.show.title} ${topperItem.episode.season}x${topperItem.episode.number} "${topperItem.episode.title}"`;
+                const episodeTitle = topperItem.episode.title ? ' "' + topperItem.episode.title + '"' : '';
+                itemTitle = `${topperItem.show.title} ${topperItem.episode.season}x${topperItem.episode.number}${episodeTitle}`;
             } else if(topperItem.itemType == 'movie') {
                 link = `/movies/${topperItem.movie.ids.slug}`;
                 itemTitle = topperItem.movie.title;
