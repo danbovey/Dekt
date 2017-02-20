@@ -152,7 +152,7 @@ export function progress(show_trakt_id) {
                         type: SHOW_PROGRESS_WATCHED,
                         payload: {
                             trakt_id: show_trakt_id,
-                            next_episode: progress.next_episode,
+                            episode: progress.next_episode,
                             progress: {
                                 aired: progress.aired,
                                 completed: progress.completed,
@@ -171,30 +171,5 @@ export function progress(show_trakt_id) {
                     });
                 }
             });
-    };
-}
-
-export function toggleWatchlist(showItems) {
-    return dispatch => {
-        if(!Array.isArray(showItems)) {
-            showItems = [showItems];
-        }
-
-        const shows = showItems.map(item => ({ ids: item.show.ids }));
-        const showsInWatchlist = {};
-        showItems.forEach(item => showsInWatchlist[item.show.ids.trakt] = item.user && item.user.watchlist);
-
-        return Promise.all(shows.map(item => {
-            const inWatchlist = showsInWatchlist[item.ids.trakt];
-            const method = inWatchlist ? 'remove' : 'add';
-
-            return api.client.sync.watchlist[method]({ shows }) // TODO: Check matched in result is equal
-                .then(result => dispatch({
-                    type: inWatchlist ? SHOW_REMOVE : SHOW_WATCHLIST_ADD,
-                    payload: {
-                        trakt_id: item.ids.trakt
-                    }
-                }));
-        }));
     };
 }

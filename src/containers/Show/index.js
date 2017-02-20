@@ -13,6 +13,7 @@ import Spinner from 'components/Spinner';
 import Icon from 'components/Icon';
 import UsersWatching from 'components/UsersWatching';
 import EpisodeList from 'components/EpisodeList';
+import { formatNumber } from 'helpers/number';
 
 import './styles';
 
@@ -44,10 +45,10 @@ export default class Show extends Component {
         let stats = [];
         if(item && item.show.stats) {
             stats = [
-                { name: 'watchers' },
-                { name: 'plays' },
-                { name: 'collected_episodes', label: 'collected' },
-                { name: 'lists' }
+                { label: 'watchers', value: formatNumber(item.show.stats.watchers) },
+                { label: 'plays', value: formatNumber(item.show.stats.plays) },
+                { label: 'collected', value: formatNumber(item.show.stats.collected_episodes) },
+                { label: 'lists', value: formatNumber(item.show.stats.lists) }
             ];
         }
 
@@ -82,8 +83,8 @@ export default class Show extends Component {
                                 </div>
                             ) : null}
                             {stats.map((stat, i) => (
-                                <div className={stat.name} key={i}>
-                                    <p>{item.show.stats[stat.name]}<span>{stat.label || stat.name}</span></p>
+                                <div key={i}>
+                                    <p>{stat.value}<span>{stat.label}</span></p>
                                 </div>
                             ))}
                         </div>

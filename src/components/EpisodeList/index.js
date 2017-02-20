@@ -64,11 +64,7 @@ export default class EpisodeList extends Component {
             currentSeason = progress.seasons.find(s => s.number == season);
             // If we have no selection for season then find the furthest season watched
             if(currentSeason == null) {
-                progress.seasons.forEach(season => {
-                    if(season.completed > 0 && season.aired > season.completed) {
-                        currentSeason = season;
-                    }
-                });
+                currentSeason = progress.seasons.find(season => season.aired > season.completed);
             }
             if(currentSeason) {
                 currentSeason.episodes = currentSeason.episodes.map(episode => {

@@ -37,7 +37,15 @@ export default class Deck extends Component {
                 <div className="container--lg container--poster">
                     {deck.list.length > 0 ? deck.list.map((item, i) => {
                         if(watching.item == null || item.show.ids.trakt != watching.item[watching.item.itemType].ids.trakt) {
-                            return <Poster item={item} actions={true} allowWatchlist={false} key={i} />;
+                            return (
+                                <Poster
+                                    item={item}
+                                    actions={true}
+                                    allowHide={true}
+                                    allowWatchlist={false}
+                                    key={i}
+                                />
+                            );
                         }
                     }) : deck.loaded && deck.list.length == 0 ? (
                         <p className="empty-state">

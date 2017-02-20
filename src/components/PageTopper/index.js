@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import * as showActions from 'actions/show';
 import * as watchingActions from 'actions/watching';
-import { toHHMM } from 'helpers/formatTime';
+import { toHHMM } from 'helpers/time';
 
 import './styles';
 

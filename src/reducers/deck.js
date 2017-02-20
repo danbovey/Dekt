@@ -32,7 +32,7 @@ export default function deck(state = initialState, action = {}) {
                 if(action.payload.trakt_id == item.show.ids.trakt) {
                     return {
                         ...item,
-                        next_episode: action.payload.next_episode,
+                        episode: action.payload.episode,
                         progress: action.payload.progress,
                         user: {
                             ...item.user,
@@ -85,11 +85,11 @@ const sortShows = list => {
 
             if(show.is_new) {
                 // If the show is new make sure it's first, sorted with other new shows by air date
-                dates[i] = moment().add(moment(shows[i].next_episode.first_aired).valueOf(), 'milliseconds');
+                dates[i] = moment().add(moment(shows[i].episode.first_aired).valueOf(), 'milliseconds');
             } else if(!dates[i]) {
-                if(show.next_episode) {
-                    if(now.isAfter(shows[i].next_episode.first_aired)) {
-                        dates[i] = shows[i].next_episode.first_aired;
+                if(show.episode) {
+                    if(now.isAfter(shows[i].episode.first_aired)) {
+                        dates[i] = shows[i].episode.first_aired;
                     } else {
                         dates[i] = 0;
                     }

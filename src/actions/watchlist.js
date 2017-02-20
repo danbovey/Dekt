@@ -1,7 +1,7 @@
 import api from 'helpers/api';
 import { loadImages } from 'helpers/image';
 
-export const WATCHLIST_LOADED = 'WATCHLIST_LOADED';
+export const WATCHLIST_LOADED = 'watchlist/watchlist';
 
 export function load() {
     return dispatch => {
@@ -13,7 +13,7 @@ export function load() {
                 item = {
                     show: item.show,
                     itemType: 'show',
-                    next_episode: null,
+                    episode: null,
                     unseen: item.show.aired_episodes,
                     inWatchlist: true
                 };
@@ -26,7 +26,7 @@ export function load() {
                             episode: 1
                         })
                         .then(episode => {
-                            item.next_episode =  episode;
+                            item.episode =  episode;
                             return item;
                         })
                         .catch(() => item);
