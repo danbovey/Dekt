@@ -60,17 +60,21 @@ export default class UsersWatching extends Component {
 
             return (
                 <div className="users-watching">
-                    <p>{users.length} watching now</p>
-                    <div className="users">
-                        {isWatching ? this.renderUser(auth.user, 0, true) : null}
-                        {users.slice(0, usersLength)
-                            .filter(u => u.username != auth.user.username)
-                            .map((user, i) => this.renderUser(user, i))
-                        }
-                        {users.length > 10 ? (
-                            <a href="#" className="plus-more">+{users.length - 9} more</a>
-                        ) : null}
-                    </div>
+                    {users.length > 0 ? (
+                        <div>
+                            <p>{users.length} watching now</p>
+                            <div className="users">
+                                {isWatching ? this.renderUser(auth.user, 0, true) : null}
+                                {users.slice(0, usersLength)
+                                    .filter(u => u.username != auth.user.username)
+                                    .map((user, i) => this.renderUser(user, i))
+                                }
+                                {users.length > 10 ? (
+                                    <a href="#" className="plus-more">+{users.length - 9} more</a>
+                                ) : null}
+                            </div>
+                        </div>
+                    ) : null}
                 </div>
             );
         } else {

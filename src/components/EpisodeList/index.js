@@ -68,8 +68,10 @@ export default class EpisodeList extends Component {
             }
             if(currentSeason) {
                 currentSeason.episodes = currentSeason.episodes.map(episode => {
-                    const episodeDetail = seasons.find(s => s.number == currentSeason.number)
-                        .episodes.find(e => e.number == episode.number);
+                    let episodeDetail = seasons.find(s => s.number == currentSeason.number);
+                    if(episodeDetail && episodeDetail.episode_count > 0) {
+                        epsideDetail = epsideDetail.episodes.find(e => e.number == episode.number);
+                    }
 
                     episodeDetail.completed = episode.completed;
                     episodeDetail.last_watched_at = episode.last_watched_at;
@@ -142,7 +144,7 @@ export default class EpisodeList extends Component {
         }
 
         return (
-            <div className="episode-list">
+            <div className="episode-list loading">
                 <Spinner size="medium" />
             </div>
         );
