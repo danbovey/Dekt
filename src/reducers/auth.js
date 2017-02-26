@@ -4,7 +4,6 @@ import {
     AUTH_FAIL,
     AUTH_LOGOUT,
 
-    AUTH_OAUTH_START,
     AUTH_OAUTH_END
 } from 'actions/auth';
 
@@ -26,23 +25,10 @@ export default function auth(state = initialState, action = {}) {
                 ...state,
                 loaded: true,
                 loading: false,
-                oauthStarted: false,
                 ...action.payload
             };
-        case AUTH_LOGOUT:
+        case AUTH_LOGOUT: case AUTH_FAIL:
             return initialState;
-        case AUTH_OAUTH_START:
-            return {
-                ...state,
-                oauthStarted: true
-            };
-        case AUTH_OAUTH_END:
-            return {
-                ...state,
-                loaded: false,
-                loading: false,
-                oauthStarted: false
-            };
         default:
             return state;
     }
