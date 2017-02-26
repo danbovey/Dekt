@@ -46,7 +46,7 @@ export default class App extends Component {
                     </div>
                 );
             } else {
-                return <Home checkAuth={this.checkAuth} />
+                return <Home checkAuth={this.checkAuth.bind(this)} />
             }
         } else {
             return children;
