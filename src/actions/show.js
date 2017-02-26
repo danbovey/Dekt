@@ -82,7 +82,7 @@ export function loadSeasons(trakt_id) {
             })))
             .then(seasonEpisodes => {
                 return allSeasons.map((season, i) => {
-                    season.episodes = seasonEpisodes[i];
+                    season.episodes = seasonEpisodes.find(s => s.number == season.number).episodes;
                     return season;
                 });
             })

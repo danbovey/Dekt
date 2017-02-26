@@ -68,7 +68,7 @@ export default class Show extends Component {
                 <PageTopper item={item}>
                     <div className="container">
                         <h2>
-                            {item ? item.show.title : title}
+                            <span dangerouslySetInnerHTML={{__html: item ? item.show.title : title }} />
                             <span className="year">{item ? item.show.year : null}</span>
                         </h2>
                         <div className="show__meta">
