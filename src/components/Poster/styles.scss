@@ -148,6 +148,9 @@
             color: inherit;
         }
 
+        .titles__episode {
+            position: relative;
+        }
         .titles__number {
             display: inline-block;
             margin-right: 5px;
@@ -160,6 +163,26 @@
 
         .titles--single {
             margin-top: 1.9em;
+        }
+
+        .unseen {
+            display: inline-block;
+            position: absolute;
+            top: -1px;
+            z-index: 100;
+            right: -30px;
+            padding: 3px;
+            vertical-align: text-top;
+            background: #000;
+            font-size: 13px;
+            color: #AAA;
+            transition: transform 0.1s ease-in-out;
+        }
+    }
+
+    &:hover {
+        .unseen {
+            transform: translateX(-30px);
         }
     }
 }

@@ -236,7 +236,10 @@ export default class Poster extends Component {
                 {titles ? (
                     <div className="poster__titles">
                         {itemHasEpisode ? (
-                            <p>
+                            <p
+                                className="titles__episode"
+                                title={item.episode.season + 'x' + item.episode.number + ' ' + item.episode.title}
+                            >
                                 <Link to={episodeLink}>
                                     <span className="titles__number">
                                         {item.episode.season + 'x' + item.episode.number}
@@ -245,6 +248,9 @@ export default class Poster extends Component {
                                         className="titles__name"
                                         dangerouslySetInnerHTML={{__html: item.episode.title }}
                                     />
+                                    {item.progress && item.progress.unseen ? (
+                                        <span className="unseen">{` + ${item.progress.unseen - 1}`}</span>
+                                    ) : null}
                                 </Link>
                             </p>
                         ) : null}
@@ -252,6 +258,7 @@ export default class Poster extends Component {
                             className={classNames('titles__show', {
                                 'titles--single': !itemHasEpisode
                             })}
+                            title={itemTitle}
                         >
                             <Link to={mainLink} dangerouslySetInnerHTML={{__html: itemTitle }} />
                         </p>
