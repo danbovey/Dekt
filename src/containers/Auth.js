@@ -20,17 +20,19 @@ export default class App extends Component {
     componentWillMount() {
         this.checkAuth();
 
-        this.checkIsHome(null, this.props);
+        this.checkIsHome();
     }
 
     componentDidUpdate(prevProps) {
-        this.checkIsHome(prevProps, this.props);
+        this.checkIsHome();
     }
 
-    checkIsHome(prevProps, props) {
-        if((!prevProps || prevProps.auth.loading) && !props.auth.loading && !props.auth.user) {
-            console.log('Home loading');
-            // Because Home is not a route, we force the URL
+    checkIsHome() {
+        const {
+            auth
+        } = this.props;
+
+        if(auth.loaded && !auth.user) {
             browserHistory.push('/');
         }
     }
