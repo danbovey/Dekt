@@ -248,7 +248,7 @@ export default class Poster extends Component {
                                         className="titles__name"
                                         dangerouslySetInnerHTML={{__html: item.episode.title }}
                                     />
-                                    {item.progress && item.progress.unseen ? (
+                                    {item.progress && item.progress.unseen > 1 ? (
                                         <span className="unseen">{` + ${item.progress.unseen - 1}`}</span>
                                     ) : null}
                                 </Link>

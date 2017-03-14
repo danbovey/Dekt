@@ -9,6 +9,8 @@ export const SHOW_LOADING = 'show/show_loading';
 export const SHOW_SEASONS_LOADED = 'show/seasons';
 export const SHOW_SEASONS_LOADING = 'show/seasons_loading';
 
+export const SHOW_EPISODES_LOADED = 'show/episodes';
+
 export const SHOW_PROGRESS_LOADED = 'show/progress';
 export const SHOW_PROGRESS_LOADING = 'show/progress_loading';
 
@@ -60,33 +62,31 @@ export function loadSeasons(trakt_id) {
     return dispatch => {
         dispatch({ type: SHOW_SEASONS_LOADING });
 
-        let allSeasons = [];
-
         return api.client.seasons.summary({
                 id: trakt_id,
                 extended: 'episodes'
             })
-            .then(seasons => {
-                allSeasons = seasons;
-                return seasons;
-            })
-            .then(seasons => Promise.all(seasons.map(season => {
-                return Promise.all(season.episodes.map(episode => {
-                    return api.client.episodes.summary({
-                        id: trakt_id,
-                        season: episode.season,
-                        episode: episode.number,
-                        extended: 'full'
-                    });
-                }));
-            })))
-            .then(seasonEpisodes => {
-                return allSeasons.map((season, i) => {
-                    season.episodes = seasonEpisodes.find(s => s.number == season.number).episodes;
-                    return season;
-                });
-            })
             .then(payload => dispatch({ type: SHOW_SEASONS_LOADED, payload }));
+    };
+}
+
+export function loadSeasonEpisodes(trakt_id, season) {
+    return dispatch => {
+        return Promise.all(season.episodes.map(episode => {
+            return api.client.episodes.summary({
+                id: trakt_id,
+                season: episode.season,
+                episode: episode.number,
+                extended: 'full'
+            });
+        }))
+        .then(episodes => dispatch({
+            type: SHOW_EPISODES_LOADED,
+            payload: {
+                season_number: season.number,
+                episodes
+            }
+        }))
     };
 }
 
@@ -148,20 +148,31 @@ export function progress(show_trakt_id) {
             })
             .then(progress => {
                 if(progress.next_episode) {
-                    dispatch({
-                        type: SHOW_PROGRESS_WATCHED,
-                        payload: {
-                            trakt_id: show_trakt_id,
-                            episode: progress.next_episode,
-                            progress: {
-                                aired: progress.aired,
-                                completed: progress.completed,
-                                unseen: progress.aired - progress.completed,
-                                seasons: progress.seasons,
-                                last_watched_at: progress.last_watched_at
+                    // If the next episode has aired
+                    const aired = moment(progress.next_episode.first_aired);
+                    if(aired.isAfter()) {
+                        dispatch({
+                            type: SHOW_PROGRESS_WATCHED,
+                            payload: {
+                                trakt_id: show_trakt_id,
+                                episode: progress.next_episode,
+                                progress: {
+                                    aired: progress.aired,
+                                    completed: progress.completed,
+                                    unseen: progress.aired - progress.completed,
+                                    seasons: progress.seasons,
+                                    last_watched_at: progress.last_watched_at
+                                }
                             }
-                        }
-                    });
+                        });
+                    } else {
+                        dispatch({
+                            type: SHOW_REMOVE,
+                            payload: {
+                                trakt_id: show_trakt_id
+                            }
+                        });
+                    }
                 } else {
                     dispatch({
                         type: SHOW_REMOVE,

@@ -27,7 +27,14 @@ export default function auth(state = initialState, action = {}) {
                 loading: false,
                 ...action.payload
             };
-        case AUTH_LOGOUT: case AUTH_FAIL:
+        case AUTH_FAIL:
+            return {
+                ...state,
+                loaded: true,
+                loading: false,
+                user: null
+            }
+        case AUTH_LOGOUT:
             return initialState;
         default:
             return state;

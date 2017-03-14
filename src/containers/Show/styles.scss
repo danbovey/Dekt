@@ -133,7 +133,45 @@ main.show {
     }
 
     .overview {
-        font-size: 14px;
+        &:after {
+            display: table;
+            clear: both;
+            content: '';
+        }
+
+        .content {
+            padding-right: 30px;
+            font-size: 14px;
+
+            @media(min-width: 992px) {
+                float: left;
+                width: 66.6666%;
+            }
+        }
+        .actions {
+            .btn {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                height: 56px;
+                margin-bottom: 8px;
+                text-align: left;
+
+                .main {
+                    text-transform: uppercase;
+                }
+
+                .btb {
+                    margin-right: 10px;
+                    font-size: 24px;
+                }
+            }
+
+            @media(min-width: 992px) {
+                float: left;
+                width: 33.3333%
+            }
+        }
     }
     .additional-stats {
         margin-bottom: 20px;

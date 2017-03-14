@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import * as authActions from 'actions/auth';
 import Home from 'containers/Home';
@@ -18,6 +19,22 @@ import Spinner from 'components/Spinner';
 export default class App extends Component {
     componentWillMount() {
         this.checkAuth();
+
+        this.checkIsHome();
+    }
+
+    componentDidUpdate(prevProps) {
+        this.checkIsHome();
+    }
+
+    checkIsHome() {
+        const {
+            auth
+        } = this.props;
+
+        if(auth.loaded && !auth.user) {
+            browserHistory.push('/');
+        }
     }
 
     checkAuth() {

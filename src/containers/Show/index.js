@@ -19,8 +19,7 @@ import './styles';
 
 @connect(
     state => ({
-        show: state.show,
-        deck: state.deck
+        show: state.show
     }),
     dispatch => ({
         showActions: bindActionCreators(showActions, dispatch)
@@ -98,15 +97,71 @@ export default class Show extends Component {
                             </aside>
                             <div className="show-content">
                                 <section className="overview">
-                                    <ul className="additional-stats">
-                                        {additional.map((stat, i) => (
-                                            <li key={i}>
-                                                <label>{stat.label}</label>
-                                                <span>{stat.value}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <p>{item.show.overview}</p>
+                                    <div className="content">
+                                        <ul className="additional-stats">
+                                            {additional.map((stat, i) => (
+                                                <li key={i}>
+                                                    <label>{stat.label}</label>
+                                                    <span>{stat.value}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <p>{item.show.overview}</p>
+                                    </div>
+                                    <div className="actions">
+                                        <Button
+                                            type="primary"
+                                            size="large"
+                                            onClick={() => console.log('checkin')}
+                                        >
+                                            <Icon name="sign-in" fixed />
+                                            <div className="info">
+                                                <p className="main">Check in</p>
+                                            </div>
+                                        </Button>
+                                        <Button
+                                            type="history"
+                                            size="large"
+                                            className={classNames({
+                                                'btn--ghost': !show.progress || show.progress.completed == 0
+                                            })}
+                                            onClick={() => console.log('history')}
+                                        >
+                                            <Icon name="check" fixed />
+                                            {show.progress && show.progress.completed > 0 ? (
+                                                <div className="info">
+                                                    <p className="main">{Math.floor(show.progress.completed * 100 / show.progress.aired)}% watched</p>
+                                                    <p className="sub">{show.progress.completed}/{show.progress.aired} episodes</p>
+                                                </div>
+                                            ) : (
+                                                <div className="info">
+                                                    <p className="main">Add to History</p>
+                                                </div>
+                                            )}
+                                        </Button>
+                                        <Button
+                                            type="collect"
+                                            size="large"
+                                            className="btn--ghost"
+                                            onClick={() => console.log('collect')}
+                                        >
+                                            <Icon name="book" fixed />
+                                            <div className="info">
+                                                <p className="main">Add to Collection</p>
+                                            </div>
+                                        </Button>
+                                        <Button
+                                            type="list"
+                                            size="large"
+                                            className="btn--ghost"
+                                            onClick={() => console.log('watchlist')}
+                                        >
+                                            <Icon name="align-left" fixed />
+                                            <div className="info">
+                                                <p className="main">Add to Watchlist</p>
+                                            </div>
+                                        </Button>
+                                    </div>
                                 </section>
                                 <section className="watching-now">
                                     <UsersWatching show={show} />
