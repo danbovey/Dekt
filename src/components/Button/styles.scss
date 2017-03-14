@@ -22,9 +22,77 @@
         background: $primary;
         color: #FFF;
 
+        &.btn--ghost {
+            border-color: $primary;
+            color: $primary;
+
+            &:hover, &:focus {
+                color: #FFF;
+            }
+        }
+
         &:hover, &:focus {
             background: darken(desaturate($primary, 6%), 3%);
         }
+    }
+
+    &--history {
+        background: $history;
+        color: #FFF;
+
+        &.btn--ghost {
+            border-color: $history;
+            color: $history;
+
+            &:hover, &:focus {
+                color: #FFF;
+            }
+        }
+
+        &:hover, &:focus {
+            background: darken(desaturate($history, 6%), 3%);
+        }
+    }
+
+    &--collect {
+        background: $collect;
+        color: #FFF;
+
+        &.btn--ghost {
+            border-color: $collect;
+            color: $collect;
+
+            &:hover, &:focus {
+                color: #FFF;
+            }
+        }
+
+        &:hover, &:focus {
+            background: darken(desaturate($collect, 6%), 3%);
+        }
+    }
+
+    &--list {
+        background: $list;
+        color: #FFF;
+
+        &.btn--ghost {
+            border-color: $list;
+            color: $list;
+
+            &:hover, &:focus {
+                color: #FFF;
+            }
+        }
+
+        &:hover, &:focus {
+            background: darken(desaturate($list, 6%), 3%);
+        }
+    }
+
+    &--ghost {
+        background: transparent;
+        border: 1px solid #EEE;
     }
 
     &--clear {

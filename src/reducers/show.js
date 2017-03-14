@@ -4,6 +4,8 @@ import {
     
     SHOW_SEASONS_LOADED,
     SHOW_SEASONS_LOADING,
+
+    SHOW_EPISODES_LOADED,
     
     SHOW_PROGRESS_LOADING,
     SHOW_PROGRESS_LOADED,
@@ -46,6 +48,17 @@ export default function show(state = initialState, action = {}) {
                 seasons: action.payload,
                 seasons_loading: false
             };
+        case SHOW_EPISODES_LOADED:
+            return {
+                ...state,
+                seasons: state.seasons.map(season => {
+                    if(season.number == action.payload.season_number) {
+                        season.episodes = action.payload.episodes;
+                    }
+
+                    return season;
+                })
+            }
         case SHOW_PROGRESS_LOADING:
             return {
                 ...state,

@@ -23,6 +23,7 @@ const initialState = {
         watching: state.watching
     }),
     dispatch => ({
+        showActions: bindActionCreators(showActions, dispatch),
         watchingActions: bindActionCreators(watchingActions, dispatch)
     })
 )
