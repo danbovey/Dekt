@@ -1,0 +1,172 @@
+.poster {
+  display: inline-block;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+}
+@media (min-width: 768px) {
+  .poster {
+    width: 173px;
+  }
+}
+.poster--progressing {
+  transform: scale(0.95);
+}
+.poster .poster__image {
+  position: relative;
+}
+.poster .poster__image img {
+  display: block;
+  width: 100%;
+}
+.poster .poster__image .real {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+}
+.poster .poster__image .updating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+.poster .tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+}
+.poster .tag div {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-45deg);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+  line-height: 24px;
+  transition: all 0.2s;
+}
+.poster .tag.new-tag div {
+  background: gold;
+}
+.poster .tag.premiere-tag div {
+  background: #08A508;
+}
+.poster .poster__actions {
+  height: 35px;
+  background: #1D1D1D;
+  color: #FFF;
+}
+.poster .poster__actions .btn {
+  display: inline-block;
+  position: relative;
+  width: 28px;
+  height: 34px;
+  padding: 6px;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 16px;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.poster .poster__actions .btn:hover,
+.poster .poster__actions .btn.active {
+  background: none;
+  color: #FFF !important;
+}
+.poster .poster__actions .btn.history {
+  font-size: 14px;
+  color: #8E44AD;
+}
+.poster .poster__actions .btn.history:hover,
+.poster .poster__actions .btn.history.active {
+  background: #8E44AD;
+}
+.poster .poster__actions .btn.collect {
+  color: #16A085;
+}
+.poster .poster__actions .btn.collect:hover,
+.poster .poster__actions .btn.collect.active {
+  background: #16A085;
+}
+.poster .poster__actions .btn.list {
+  color: #2B678F;
+}
+.poster .poster__actions .btn.list:hover,
+.poster .poster__actions .btn.list.active {
+  background: #2B678F;
+}
+.poster .poster__actions .btn.watch-now {
+  color: #AAA;
+}
+.poster .poster__actions .btn.watch-now:hover,
+.poster .poster__actions .btn.watch-now.active {
+  background: #555;
+}
+.poster .poster__actions .menu {
+  float: right;
+  color: #666;
+}
+.poster .poster__actions .menu .dd-menu-items {
+  margin: 0;
+}
+.poster .poster__actions .menu .dd-menu-items ul li > *:not(.dd-item-ignore),
+.poster .poster__actions .menu .dd-menu-items ol li > *:not(.dd-item-ignore) {
+  padding: 0.5em 1em;
+  font-size: 14px;
+}
+.poster .poster__titles {
+  margin-top: 10px;
+  font-weight: 200;
+  text-align: center;
+}
+.poster .poster__titles p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.poster .poster__titles a {
+  color: inherit;
+}
+.poster .poster__titles .titles__episode {
+  position: relative;
+}
+.poster .poster__titles .titles__number {
+  display: inline-block;
+  margin-right: 5px;
+  font-weight: bold;
+}
+.poster .poster__titles .titles__show {
+  margin-top: 7px;
+  font-size: 12px;
+}
+.poster .poster__titles .titles--single {
+  margin-top: 1.9em;
+}
+.poster .poster__titles .unseen {
+  display: inline-block;
+  position: absolute;
+  top: -1px;
+  z-index: 100;
+  right: -30px;
+  padding: 3px;
+  vertical-align: text-top;
+  background: #000;
+  font-size: 13px;
+  color: #AAA;
+  transition: transform 0.1s ease-in-out;
+}
+.poster:hover .unseen {
+  transform: translateX(-30px);
+}

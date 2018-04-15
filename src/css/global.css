@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,300');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: #000;
+  color: #FFF;
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+  color: #ED1C24;
+}
+
+button {
+  cursor: pointer;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 10px;
+}
+@media(min-width: 768px) {
+  .container {
+    width: 740px;
+  }
+}
+@media(min-width: 992px) {
+  .container {
+    width: 960px;
+  }
+}
+@media(min-width: 1200px) {
+  .container {
+    width: 1160px;
+  }
+}
+
+.container--lg {
+  padding: 30px 0;
+  color: #FFF;
+}
+.container--lg .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 150px 0;
+}
+
+.container--lg .empty-state {
+  padding: 50px 0;
+  text-align: center;
+  line-height: 2;
+}
+
+@media(min-width: 320px) {
+  .container--lg {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+
+.container--poster {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.container--poster .poster {
+  padding: 20px;
+}
+
+@media(min-width: 320px) {
+  .container--poster .poster {
+    width: 50%;
+    margin: 0;
+  }
+}
+@media(min-width: 768px) {
+  .container--poster .poster {
+    width: 173px;
+    padding: 0;
+    margin: 20px;
+  }
+}
+
+.container--left {
+  justify-content: flex-start;
+}
+
+.container--app-load {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+.container--app-load svg {
+  margin-bottom: 30px;
+}
+@media(min-width: 480px) {
+  .container--app-load svg {
+    width: 320px;
+  }
+}
+
+.cinematic-lighting-bg {
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  transition: background 0.5s ease-in-out;
+}
+
+.cinematic-lighting .cinematic-lighting-bg {
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+}

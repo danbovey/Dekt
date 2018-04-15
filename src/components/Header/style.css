@@ -1,0 +1,229 @@
+.app-header {
+  position: fixed;
+  z-index: 1500;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.6);
+  transition: background 0.5s;
+}
+
+ .app-header .logo {
+  position: absolute;
+  left: 50%;
+  margin: 6px 0 0 -32.5px;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+.app-header .logo img {
+  height: 65px;
+}
+
+.bottom-wrapper {
+  position: absolute;
+  z-index: -1;
+  bottom: 3px;
+  overflow: hidden;
+  width: 65px;
+  height: 22px;
+}
+
+.bottom-wrapper .bottom {
+  position: absolute;
+  bottom: 1px;
+  left: 1px;
+  background: rgba(0, 0, 0, 0.6);
+  width: 63px;
+  height: 63px;
+  border-radius: 50%;
+}
+
+.app-header .search.active button {
+  background: #ED1C24;
+  color: #FFF !important;
+}
+.app-header .search.active .search__input {
+  pointer-events: auto;
+  opacity: 1;
+  transition-duration: 0.5s;
+}
+.app-header .search.active .search__input input {
+  transform: scale3d(1, 1, 1);
+  transition-duration: 0.5s;
+}
+.app-header .search button {
+  position: relative;
+  z-index: 2000;
+  float: left;
+}
+
+.app-header .search .search__input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.app-header .search .search__input input {
+  width: 75%;
+  padding: 10px;
+  border: none;
+  border-bottom: 5px solid;
+  outline: none;
+  background: transparent;
+  font-size: 10vw;
+  color: #ED1C24;
+  transform: scale3d(0, 1, 1);
+  transform-origin: 0% 50%;
+  transition: transform 0.3s;
+}
+
+.app-header .lights-toggle {
+  transition: opacity 0.3s;
+}
+
+/* A fix for the lights toggle being above the search area when open */
+.app-header .search.active + .lights-toggle {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.app-header .user {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+.app-header .user .btn {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0;
+  background: none;
+  font-size: 13px;
+  color: #FFF;
+}
+.app-header .avatar {
+  display: inline-block;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+.app-header .user .dropdown {
+  color: #333;
+}
+.app-header .dropdown__menu {
+  right: -20px;
+}
+
+.app-header .nav {
+  position: absolute;
+  padding-left: 0;
+  list-style: none;
+}
+.app-header .nav.nav--left {
+  display: none;
+}
+.app-header .nav.nav--right {
+  display: none
+}
+
+.app-header .nav.nav--first {
+  left: 0;
+}
+.app-header .nav.nav--last {
+  right: 0;
+}
+.app-header .nav .user span {
+  display: none;
+}
+.app-header .nav .user .dd-menu-items {
+  margin: 0;
+}
+
+.app-header .nav > li {
+  position: relative;
+  float: left;
+}
+.app-header .nav > a,
+.app-header .nav > button {
+  display: block;
+  padding: 15px 20px;
+  font-size: 13px;
+  font-weight: 200;
+  line-height: 20px;
+  text-decoration: none;
+  color: #FFF;
+  transition: opacity 0.5s ease-in-out;
+}
+.app-header .nav > a:hover,
+.app-header .nav > button:hover,
+.app-header .nav > a:focus,
+.app-header .nav > button:focus,
+.app-header .nav > a.active,
+.app-header .nav > button.active {
+  color: #ED1C24;
+}
+.app-header .nav > a, .app-header .nav > button.active {
+  font-weight: bold;
+}
+.app-header .nav > button {
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+}
+
+@media(min-width: 480px) {
+  .app-header .nav.nav--last {
+    margin-right: 20px;
+  }
+  .app-header .nav .user span {
+      display: block;
+  }
+}
+
+@media(min-width: 768px) {
+  .app-header .nav.nav--left, .app-header .nav.nav--right {
+      display: block;
+  }
+  .app-header .nav.nav--left {
+      right: 50%;
+      margin-right: 40px;
+  }
+  .app-header .nav.nav--right {
+      left: 50%;
+      margin-left: 40px;
+  }
+  .app-header .nav.nav--first {
+      margin-left: 10px;
+  }
+}
+
+.cinematic-lighting .app-header .nav li a,
+.cinematic-lighting .app-header .nav li button {
+  opacity: 0.5;
+}
+
+.cinematic-lighting .app-header .nav li a:hover,
+.cinematic-lighting .app-header .nav li button:hover,
+.cinematic-lighting .app-header .nav li a:focus,
+.cinematic-lighting .app-header .nav li button:focus {
+  opacity: 1;
+}
+
+.cinematic-lighting .app-header .logo,
+.cinematic-lighting .app-header .user {
+  opacity: 0.3;
+}
+
+.cinematic-lighting .app-header .logo:hover,
+.cinematic-lighting .app-header .user:hover {
+  opacity: 0.5;
+}

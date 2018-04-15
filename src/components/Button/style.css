@@ -1,0 +1,100 @@
+.btn {
+  display: inline-block;
+  padding: 8px 15px;
+  border: none;
+  outline: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+.btn--default {
+  background: #EEE;
+}
+.btn--default:hover, .btn--default:focus {
+  background: #DADADA;
+}
+
+.btn--primary {
+  background: #ED1C24;
+  color: #FFF;
+}
+.btn--primary.btn--ghost {
+  border-color: #ED1C24;
+  color: #ED1C24;
+}
+.btn--primary.btn--ghost:hover, .btn--primary.btn--ghost:focus {
+    color: #FFF;
+}
+.btn--primary:hover, .btn--primary:focus {
+    background: darken(desaturate(#ED1C24, 6%), 3%);
+}
+
+.btn--history {
+  background: #8E44AD;
+  color: #FFF;
+}
+.btn--history.btn--ghost {
+  border-color: #8E44AD;
+  color: #8E44AD;
+}
+.btn--history.btn--ghost:hover, .btn--history.btn--ghost:focus {
+  color: #FFF;
+}
+.btn--history:hover, .btn--history:focus {
+  background: darken(desaturate(#8E44AD, 6%), 3%);
+}
+
+.btn--collect {
+  background: #16A085;
+  color: #FFF;
+}
+.btn--collect.btn--ghost {
+  border-color: #16A085;
+  color: #16A085;
+}
+.btn--collect.btn--ghost:hover, .btn--collect.btn--ghost:focus {
+    color: #FFF;
+}
+.btn--collect:hover, .btn--collect:focus {
+  background: darken(desaturate(#16A085, 6%), 3%);
+}
+
+.btn--list {
+  background: #2B678F;
+  color: #FFF;
+}
+.btn--list.btn--ghost {
+    border-color: #2B678F;
+    color: #2B678F;
+}
+.btn--list.btn--ghost:hover, .btn--list.btn--ghost:focus {
+  color: #FFF;
+}
+.btn--list:hover, .btn--list:focus {
+    background: darken(desaturate(#2B678F, 6%), 3%);
+}
+
+.btn--ghost {
+  background: transparent;
+  border: 1px solid #EEE;
+}
+
+.btn--clear {
+  background: none;
+}
+
+.btn--small {
+  padding: 4px 8px;
+}
+
+.btn--large {
+  padding: 10px 18px;
+  font-size: 1.1em;
+}
+
+.btn--disabled, .btn--disabled:hover, .btn--disabled:focus {
+  background: #F7F7F7;
+  color: rgba(0, 0, 0, 0.25);
+  cursor: not-allowed;
+}

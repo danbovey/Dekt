@@ -1,0 +1,21 @@
+.dd-menu.dd-menu-inverse .dd-menu-items ul,
+.dd-menu.dd-menu-inverse .dd-menu-items ol {
+    background: #1C1F23;
+}
+
+.dd-menu.dd-menu-inverse .dd-menu-items ul li:hover:not([role="separator"]):not(.separator),
+.dd-menu.dd-menu-inverse .dd-menu-items ul li > *:focus,
+.dd-menu.dd-menu-inverse .dd-menu-items ol li:hover:not([role="separator"]):not(.separator),
+.dd-menu.dd-menu-inverse .dd-menu-items ol li > *:focus {
+    background: #222527;
+}
+
+.dd-menu .dd-menu-items ul li > *:not(.dd-item-ignore),
+.dd-menu .dd-menu-items ol li > *:not(.dd-item-ignore) {
+    font: inherit;
+}
+
+.dd-menu.dd-menu-inverse [role="separator"],
+.dd-menu.dd-menu-inverse .separator {
+    background: #282C2D;
+}
