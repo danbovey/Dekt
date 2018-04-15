@@ -159,15 +159,15 @@
   color: #FFF;
   transition: opacity 0.5s ease-in-out;
 }
-.app-header .nav > a:hover,
-.app-header .nav > button:hover,
-.app-header .nav > a:focus,
-.app-header .nav > button:focus,
-.app-header .nav > a.active,
-.app-header .nav > button.active {
+.app-header .nav a:hover,
+.app-header .nav button:hover,
+.app-header .nav a:focus,
+.app-header .nav button:focus,
+.app-header .nav a.active,
+.app-header .nav button.active {
   color: #ED1C24;
 }
-.app-header .nav > a, .app-header .nav > button.active {
+.app-header .nav a, .app-header .nav button.active {
   font-weight: bold;
 }
 .app-header button {
