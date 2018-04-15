@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import moment from 'moment';
 
 import * as deckActions from '../../actions/deck';
+import CurrentWatching from '../../components/CurrentWatching';
 import Poster from '../../components/Poster';
 import Spinner from '../../components/Spinner';
 import Auth from '../Auth';
@@ -55,47 +57,45 @@ class Deck extends Component {
           today_ids.push(item.show.ids.trakt);
         }
       }
-      if(item.show.ids.slug === 'the-joel-mchale-show-with-joel-mchale') {
-        console.log(item_progress);
-      }
     });
-    console.log(today);
 
     on_deck = on_deck.filter(item =>
       today_ids.indexOf(item.show.ids.trakt) === -1
     );
 
+    const loading = !deck.loaded || progress.loading;
+
     return (
       <Auth>
         <main className="deck">
-          {deck.watched_loaded
-            ? (
-              <div>
-                {today.length > 0 && (
-                  <div>
-                    <h2>Today</h2>
-                    <div className="container--lg container--poster container--left">
-                      {today.map((item, i) => <Poster item={item} key={i} />)}
-                    </div>
+          <CurrentWatching title="On Deck" />
+          <div className={classNames('deck__loading', { active: loading })}>
+            <Spinner size="medium" />
+          </div>
+          {deck.watched_loaded && (
+            <div>
+              {today.length > 0 && (
+                <div>
+                  <h2>Today</h2>
+                  <div className="container--lg container--poster container--left">
+                    {today.map((item, i) => <Poster item={item} key={i} />)}
                   </div>
-                )}
-                {on_deck.length > 0
-                  ? (
-                    <div className="container--lg container--poster">
-                      {on_deck.map((item, i) => <Poster item={item} key={i} />)}
-                    </div>
-                  )
-                  : (
-                    <div className="container empty-state">
-                      You don't have any shows?!
-                    </div>
-                  )
-                }
-              </div>
-            ) : (
-              <Spinner />
-            )
-          }
+                </div>
+              )}
+              {on_deck.length > 0
+                ? (
+                  <div className="container--lg container--poster">
+                    {on_deck.map((item, i) => <Poster item={item} key={i} />)}
+                  </div>
+                )
+                : (
+                  <div className="container empty-state">
+                    You don't have any shows?!
+                  </div>
+                )
+              }
+            </div>
+            )}
         </main>
       </Auth>
     );
@@ -109,5 +109,7 @@ export default connect(
     last_episode: state.show.last_episode,
     progress: state.show.progress
   }),
-  dispatch => ({ deckActions: bindActionCreators(deckActions, dispatch) })
+  dispatch => ({
+    deckActions: bindActionCreators(deckActions, dispatch)
+  })
 )(Deck);

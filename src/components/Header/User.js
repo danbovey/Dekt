@@ -40,7 +40,6 @@ class User extends Component {
           toggle={
             <Button onClick={this.toggle}>
               <img src={user.images.avatar.full} className="avatar" alt={user.name} />
-              <span>{user.name}</span>
             </Button>
           }
           align="right"

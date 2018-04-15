@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import DropdownMenu from 'react-dd-menu';
+import Alert from 'react-s-alert';
 
 import * as checkinActions from '../../actions/checkin';
 import * as userActions from '../../actions/user';
@@ -31,7 +32,14 @@ class Menu extends Component {
   }
 
   checkIn() {
-    this.props.checkinActions.checkin(this.props.item.episode.ids.trakt)
+    const progress = this.props.progress;
+    if(!progress || !progress.next_episode) {
+      console.log('no progress');
+      Alert.error('Episode not loaded yet');
+      return;
+    }
+
+    this.props.checkinActions.checkin(progress.next_episode.ids.trakt)
       .then(() => this.props.userActions.get_watching());
   }
 

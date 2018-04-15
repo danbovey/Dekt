@@ -3,7 +3,7 @@
   font-size: 10px;
   position: relative;
   text-indent: -9999em;
-  border: 10px solid rgba(#ED1C24, 0.2);
+  border: 10px solid rgba(237, 28, 36, 0.2);
   border-left: 10px solid #ED1C24;
   transform: translateZ(0);
   animation: spinner 1.1s infinite linear;

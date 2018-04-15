@@ -2,7 +2,11 @@ import moment from 'moment';
 
 import api from '../helpers/api';
 import { DECK_REMOVE } from '../constants/deck';
-import { SHOW_PROGRESS_WATCHED, SHOW_LAST_EPISODE } from '../constants/show';
+import {
+  SHOW_PROGRESS_WATCHED,
+  SHOW_PROGRESS_WATCHED_LOADING,
+  SHOW_LAST_EPISODE
+} from '../constants/show';
 
 /**
  * Get show watched progress
@@ -29,6 +33,8 @@ export const get_progress = (
       return;
     }
   }
+
+  dispatch({ type: SHOW_PROGRESS_WATCHED_LOADING });
 
   return api.client.shows.progress.watched({
     id: show_trakt_id,

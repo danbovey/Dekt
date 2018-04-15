@@ -37,7 +37,7 @@ export const get_watching = () => (dispatch, getState) =>
       if(result) {
         // The user is currently watching an item. If the item is the same
         // as the current state, don't bother changing the state.
-        const current = getState().watching.item;
+        const current = getState().user.watching;
         let isSame = false;
         if(current) {
           // If the new result is different from the current

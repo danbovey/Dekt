@@ -86,7 +86,7 @@ class Poster extends Component {
     let episodeLink = null;
     if (progress && progress.next_episode) {
       mainLink = route('shows.single', { title: item.show.ids.slug });
-      episodeLink = route('show.episode', {
+      episodeLink = route('episode.single', {
         title: item.show.ids.slug,
         season: progress.next_episode.season,
         episode: progress.next_episode.number

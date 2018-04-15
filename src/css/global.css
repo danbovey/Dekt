@@ -85,7 +85,7 @@ button {
 }
 @media(min-width: 768px) {
   .container--poster .poster {
-    width: 173px;
+    width: 140px;
     padding: 0;
     margin: 20px;
   }

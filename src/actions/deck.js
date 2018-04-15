@@ -1,5 +1,5 @@
 import api from '../helpers/api';
-import { DECK_WATCHED, DECK_REMOVE } from '../constants/deck';
+import { DECK_WATCHED, DECK_LOADED, DECK_REMOVE } from '../constants/deck';
 
 /**
  * Get watched shows
@@ -16,6 +16,7 @@ export const load = () => dispatch => {
     .then(watched => {
       localStorage.setItem('deck.watched', JSON.stringify(watched));
       dispatch({ type: DECK_WATCHED, payload: watched });
+      dispatch({ type: DECK_LOADED });
     })
     .catch(err => {
       console.log(err);

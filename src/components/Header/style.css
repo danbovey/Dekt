@@ -140,9 +140,6 @@
 .app-header .nav.nav--last {
   right: 0;
 }
-.app-header .nav .user span {
-  display: none;
-}
 .app-header .nav .user .dd-menu-items {
   margin: 0;
 }
@@ -151,8 +148,8 @@
   position: relative;
   float: left;
 }
-.app-header .nav > a,
-.app-header .nav > button {
+.app-header .nav a,
+.app-header .nav button {
   display: block;
   padding: 15px 20px;
   font-size: 13px;
@@ -173,7 +170,7 @@
 .app-header .nav > a, .app-header .nav > button.active {
   font-weight: bold;
 }
-.app-header .nav > button {
+.app-header button {
     border: none;
     outline: none;
     background: none;
@@ -183,9 +180,6 @@
 @media(min-width: 480px) {
   .app-header .nav.nav--last {
     margin-right: 20px;
-  }
-  .app-header .nav .user span {
-      display: block;
   }
 }
 

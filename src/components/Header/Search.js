@@ -11,6 +11,7 @@ class Search extends Component {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleKey = this.handleKey.bind(this);
     this.toggle = this.toggle.bind(this);
   }
 
