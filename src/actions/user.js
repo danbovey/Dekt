@@ -1,11 +1,38 @@
 import api from '../helpers/api';
 
 import {
+  USERS_HIDDEN_LOAD,
   USER_HIDDEN_ITEM_ADD,
   USER_HIDDEN_ITEM_REMOVE,
   USER_WATCHING_LOAD,
   USER_WATCHING_CLEAR
 } from '../constants/user';
+
+/**
+ * Get hidden items
+ * @see {@link https://trakt.docs.apiary.io/#reference/users/hidden-items/get-hidden-items}
+ */
+export const load_hidden = () => dispatch => {
+  const storageKey = 'user.hidden_items';
+  const hidden = localStorage.getItem(storageKey);
+  if(hidden) {
+    dispatch({ type: USERS_HIDDEN_LOAD, payload: JSON.parse(hidden) });
+  }
+
+  return api.client.users.hidden.get({
+      section: 'progress_watched',
+      type: 'shows',
+      limit: 100
+    })
+    .then(hidden => hidden.map(item => item.show.ids.trakt))
+    .then(hidden => {
+      localStorage.setItem(storageKey, JSON.stringify(hidden));
+      dispatch({ type: USERS_HIDDEN_LOAD, payload: hidden });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
 
 export const toggle_hidden_item = (
   item,
@@ -13,16 +40,21 @@ export const toggle_hidden_item = (
   section = 'progress_watched'
 ) => dispatch => {
   const ids = [{ ids: item[item.itemType].ids }];
-  const method = item.is_hidden
-    ? USER_HIDDEN_ITEM_REMOVE
-    : USER_HIDDEN_ITEM_ADD;
+  const method = item.is_hidden ? 'remove' : 'add';
+  const actions = {
+    add: USER_HIDDEN_ITEM_ADD,
+    remove: USER_HIDDEN_ITEM_REMOVE
+  };
+  const responseAttributes = { add: 'added', remove: 'deleted' };
+  const action = actions[method];
+  const responseAttribute = responseAttributes[method];
   
   return api.client.users.hidden[method]({ section, [`${item_type}`]: ids })
     .then(res => {
-      if(res.deleted[item_type] === 1) {
+      if(res[responseAttribute][item_type] === 1) {
         dispatch({
-          type: method,
-          payload: { trakt_id: ids.trakt, item_type }
+          type: action,
+          payload: item[item.itemType].ids.trakt
         });
       }
     })

@@ -1,13 +1,13 @@
 .dd-menu.dd-menu-inverse .dd-menu-items ul,
 .dd-menu.dd-menu-inverse .dd-menu-items ol {
-    background: #1C1F23;
+    background: rgba(0, 0, 0, 0.9);
 }
 
 .dd-menu.dd-menu-inverse .dd-menu-items ul li:hover:not([role="separator"]):not(.separator),
 .dd-menu.dd-menu-inverse .dd-menu-items ul li > *:focus,
 .dd-menu.dd-menu-inverse .dd-menu-items ol li:hover:not([role="separator"]):not(.separator),
 .dd-menu.dd-menu-inverse .dd-menu-items ol li > *:focus {
-    background: #222527;
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .dd-menu .dd-menu-items ul li > *:not(.dd-item-ignore),
@@ -17,5 +17,5 @@
 
 .dd-menu.dd-menu-inverse [role="separator"],
 .dd-menu.dd-menu-inverse .separator {
-    background: #282C2D;
+    background: #111;
 }

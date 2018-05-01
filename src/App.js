@@ -6,7 +6,6 @@ import Alert from 'react-s-alert';
 
 import store from './store';
 import Header from './components/Header';
-import './App.css';
 
 const Deck = loadable(() => import('./containers/Deck/index'));
 const OAuthCallback = loadable(() => import('./containers/OAuthCallback/index'));

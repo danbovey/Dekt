@@ -9,7 +9,7 @@
   transition: background 0.5s;
 }
 
- .app-header .logo {
+.app-header .logo {
   position: absolute;
   left: 50%;
   margin: 6px 0 0 -32.5px;

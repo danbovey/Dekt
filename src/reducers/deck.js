@@ -1,4 +1,9 @@
 import { DECK_WATCHED, DECK_LOADED, DECK_REMOVE } from '../constants/deck';
+import {
+  USERS_HIDDEN_LOAD,
+  USER_HIDDEN_ITEM_ADD,
+  USER_HIDDEN_ITEM_REMOVE
+} from '../constants/user';
 
 const initialState = {
   loaded: false,
@@ -21,12 +26,38 @@ export default (state = initialState, action = {}) => {
      */
     case DECK_LOADED:
       return { ...state, loaded: true };
-    case DECK_REMOVE:
-      if(Array.isArray(action.payload)) {
-        return { ...state, hidden_loaded: true, hidden: [...state.hidden, ...action.payload] };
+    /**
+     * The show is no longer on deck
+     * or a show has been added to hidden
+     * 
+     * @param {int} Trakt ID
+     */
+    case DECK_REMOVE: case USER_HIDDEN_ITEM_ADD:
+      return {
+        ...state,
+        hidden: [...state.hidden, action.payload]
+      };
+    /**
+     * A show has been removed from hidden
+     * 
+     * @param {int} Trakt ID
+     */
+    case USER_HIDDEN_ITEM_REMOVE:
+      return {
+        ...state,
+        hidden: state.hidden.filter(id => id !== action.payload)
       }
-
-      return { ...state, hidden_loaded: true, hidden: [...state.hidden, action.payload] };
+    /**
+     * Hidden items have been loaded from Trakt
+     * 
+     * @param {array} Hidden Trakt IDs
+     */
+    case USERS_HIDDEN_LOAD:
+      return {
+        ...state,
+        hidden_loaded: true,
+        hidden: [...state.hidden, ...action.payload]
+      };
     default:
       return state;
   }

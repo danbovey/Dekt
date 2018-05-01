@@ -1,3 +1,4 @@
+export const USERS_HIDDEN_LOAD = 'user/hidden_load';
 export const USER_HIDDEN_ITEM_ADD = 'user/hidden_item_add';
 export const USER_HIDDEN_ITEM_REMOVE = 'user/hidden_item_remove';
 

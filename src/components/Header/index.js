@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import * as authActions from '../../actions/auth';
 import * as lights from '../../actions/lights';
@@ -17,6 +17,12 @@ class Header extends Component {
 
     return (
       <header className="app-header">
+        <Link to="/" className="logo">
+          <img src="/img/logo.svg" alt="Dekt" />
+          <div className="bottom-wrapper">
+            <div className="bottom" />
+          </div>
+        </Link>
         <ul className="nav nav--first">
           <Search />
           <li className="lights-toggle">

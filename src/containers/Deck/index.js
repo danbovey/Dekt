@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import * as deckActions from '../../actions/deck';
+import * as userActions from '../../actions/user';
 import CurrentWatching from '../../components/CurrentWatching';
 import Poster from '../../components/Poster';
 import Spinner from '../../components/Spinner';
@@ -15,7 +16,7 @@ import './style.css';
 class Deck extends Component {
   componentWillMount() {
     this.props.deckActions.load();
-    this.props.deckActions.load_hidden();
+    this.props.userActions.load_hidden();
   }
 
   render() {
@@ -49,12 +50,16 @@ class Deck extends Component {
     const today_ids = [];
     const now = moment();
     on_deck.forEach(item => {
-      const item_progress = progress[item.show.ids.trakt];
+      const id = item.show.ids.trakt;
+      const item_progress = progress[id];
       if(item_progress && item_progress.next_episode) {
         const air_date = moment(item_progress.next_episode.first_aired);
         if(air_date <= now && air_date.diff(now, 'day') === 0) {
-          today.push(item);
-          today_ids.push(item.show.ids.trakt);
+          // If the show is not The Late Late Show with James Corden
+          if(id !== 96473) {
+            today.push(item);
+            today_ids.push(id);
+          }
         }
       }
     });
@@ -75,7 +80,7 @@ class Deck extends Component {
           {deck.watched_loaded && (
             <div>
               {today.length > 0 && (
-                <div>
+                <div className="today">
                   <h2>Today</h2>
                   <div className="container--lg container--poster container--left">
                     {today.map((item, i) => <Poster item={item} key={i} />)}
@@ -110,6 +115,7 @@ export default connect(
     progress: state.show.progress
   }),
   dispatch => ({
-    deckActions: bindActionCreators(deckActions, dispatch)
+    deckActions: bindActionCreators(deckActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch)
   })
 )(Deck);

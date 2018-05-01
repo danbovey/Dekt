@@ -17,3 +17,14 @@ main.deck .deck__loading .spinner {
   top: 20px;
   left: calc(50% - 16px);
 }
+main.deck .today {
+  padding-top: 25px;
+}
+main.deck .today h2 {
+  margin: 0 30px;
+  font-size: 1.4em;
+}
+main.deck .today .container--lg {
+  padding-top: 0;
+  padding-bottom: 0;
+}
