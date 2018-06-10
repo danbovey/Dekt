@@ -6,6 +6,8 @@ import classNames from 'classnames';
 
 import * as showActions from '../../actions/show';
 import * as userActions from '../../actions/user';
+import Button from '../../components/Button';
+import Icon from '../../components/Icon';
 import loadImages from '../../helpers/tmdb-images';
 import { toHHMM } from '../../helpers/time';
 
@@ -141,6 +143,7 @@ class CurrentWatching extends Component {
       background,
       children,
       item,
+      onRefresh,
       title,
       watching
     } = this.props;
@@ -204,9 +207,9 @@ class CurrentWatching extends Component {
                 <p className="duration">{toHHMM(this.state.duration)}</p>
               </div>
             ) : null}
-            {title ? (
+            {title && (
               <h2>{title}</h2>
-            ) : null}
+            )}
             {children}
           </div>
         ) : (
@@ -216,6 +219,15 @@ class CurrentWatching extends Component {
                 <h2>{title}</h2>
               ) : null}
               {children}
+              {onRefresh && (
+                <Button
+                  theme="clear"
+                  onClick={onRefresh}
+                  className="btn--refresh"
+                >
+                  <Icon name="sync" />
+                </Button>
+              )}
             </div>
           )}
       </div>

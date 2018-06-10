@@ -15,9 +15,17 @@ import './style.css';
 
 class Deck extends Component {
   componentWillMount() {
+    this.refresh();
+  }
+
+  refresh = () => {
     this.props.deckActions.load();
     this.props.userActions.load_hidden();
-  }
+
+    if(this._currentWatching) {
+      this._currentWatching.pollWatching();
+    }
+  };
 
   render() {
     const { deck, last_episode, progress } = this.props;
@@ -73,7 +81,11 @@ class Deck extends Component {
     return (
       <Auth>
         <main className="deck">
-          <CurrentWatching title="On Deck" />
+          <CurrentWatching
+            title="On Deck"
+            onRefresh={this.refresh}
+            ref={c => this._currentWatching = c}
+          />
           <div className={classNames('deck__loading', { active: loading })}>
             <Spinner size="medium" />
           </div>

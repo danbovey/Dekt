@@ -119,3 +119,8 @@
   line-height: 36px;
   color: rgba(255, 255, 255, 0.15);
 }
+
+.current-watching .btn--refresh {
+  margin-left: auto;
+  margin-right: 45px;
+}
